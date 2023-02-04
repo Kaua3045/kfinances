@@ -7,7 +7,6 @@ import com.kaua.finances.domain.validate.ValidateHandler;
 
 import java.time.Instant;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 public class Account implements ValidateHandler {
@@ -18,6 +17,8 @@ public class Account implements ValidateHandler {
     private String password;
     private Instant createdAt;
     private Instant updatedAt;
+
+    private final int PASSWORD_MIN_LENGTH = 8;
 
     public Account(
             final String anId,
@@ -60,6 +61,21 @@ public class Account implements ValidateHandler {
 
         if (name.isBlank()) {
             errors.add(new Error("'name' should not be empty"));
+            return errors;
+        }
+
+        if (password == null) {
+            errors.add(new Error("'password' should not be null"));
+            return errors;
+        }
+
+        if (password.isBlank()) {
+            errors.add(new Error("'password' should not be empty"));
+            return errors;
+        }
+
+        if (password.length() < PASSWORD_MIN_LENGTH) {
+            errors.add(new Error("'password' Password must contain 8 characters at least"));
             return errors;
         }
 

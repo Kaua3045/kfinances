@@ -35,4 +35,18 @@ public class AccountTest {
 
         Assertions.assertEquals(expectedErrorMessage, actualException.get(0).message());
     }
+
+    @Test
+    public void givenAnInvalidEmptyName_whenCallsNewAccount_thenShouldReceiveError() {
+        final var expectedName = " ";
+        final var expectedEmail = "kaua@mail.com";
+        final var expectedPassword = "123";
+        final var expectedErrorMessage = "'name' should not be empty";
+
+        final var aAccount = Account.newAccount(expectedName, expectedEmail, expectedPassword);
+
+        final var actualException = aAccount.validate();
+
+        Assertions.assertEquals(expectedErrorMessage, actualException.get(0).message());
+    }
 }
