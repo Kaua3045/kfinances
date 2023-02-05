@@ -68,7 +68,6 @@ public class Account implements ValidateHandler {
 
         if (email == null || email.isBlank()) {
             errors.add(new Error("'email' should not be empty or null"));
-            return errors;
         }
 
         return errors;
