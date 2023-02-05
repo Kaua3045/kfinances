@@ -1,7 +1,6 @@
 package com.kaua.finances.infrastructure.api.controllers;
 
 import com.kaua.finances.application.usecases.CreateAccountUseCase;
-import com.kaua.finances.domain.account.CreateAccountOutput;
 import com.kaua.finances.infrastructure.account.models.CreateAccountRequest;
 import com.kaua.finances.infrastructure.api.AccountAPI;
 import org.springframework.http.HttpStatus;
