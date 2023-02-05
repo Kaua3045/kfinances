@@ -2,11 +2,14 @@ package com.kaua.finances.infrastructure.account;
 
 import com.kaua.finances.domain.account.Account;
 import com.kaua.finances.domain.account.AccountGateway;
+import com.kaua.finances.infrastructure.account.persistence.AccountJpaFactory;
 import com.kaua.finances.infrastructure.account.persistence.AccountRepository;
+import org.springframework.stereotype.Component;
 
 import java.util.Objects;
 import java.util.Optional;
 
+@Component
 public class AccountMySQLGateway implements AccountGateway {
 
     private final AccountRepository accountRepository;
@@ -17,7 +20,8 @@ public class AccountMySQLGateway implements AccountGateway {
 
     @Override
     public Account create(Account aAccount) {
-        return null;
+        final var actualEntity = accountRepository.save(AccountJpaFactory.from(aAccount));
+        return AccountJpaFactory.toDomain(actualEntity);
     }
 
     @Override
