@@ -66,4 +66,27 @@ public class AccountTest {
         Assertions.assertEquals(aAccount.getCreatedAt(), actualAccount.getCreatedAt());
         Assertions.assertTrue(actualAccount.getUpdatedAt().isAfter(aAccountUpdatedAt));
     }
+
+    @Test
+    public void givenAnValidAccount_whenCallsUpdateWithInvalidParams_thenReturnAccountUpdated() {
+        final var expectedName = " ";
+        final var expectedEmail = "kaua@mail.com";
+        final var expectedPassword = " ";
+
+        final var expectedErrorMessageOne = "'name' should not be empty or null";
+        final var expectedErrorMessageTwo = "'password' should not be empty or null";
+        final var expectedErrorMessageThree = "'password' must contain 8 characters at least";
+
+        final var aAccount = Account.newAccount("kau", expectedEmail, "456");
+
+        Assertions.assertDoesNotThrow(aAccount::validate);
+
+        final var actualAccount = aAccount.update(expectedName, expectedPassword);
+
+        final var actualException = actualAccount.validate();
+
+        Assertions.assertEquals(expectedErrorMessageOne, actualException.get(0).message());
+        Assertions.assertEquals(expectedErrorMessageTwo, actualException.get(1).message());
+        Assertions.assertEquals(expectedErrorMessageThree, actualException.get(2).message());
+    }
 }
