@@ -48,4 +48,25 @@ public class CreateAccountUseCaseTest {
                 && Objects.nonNull(aAccount.getUpdatedAt())
         ));
     }
+
+    @Test
+    public void givenAnInvalidParams_whenCallsCreateAccount_thenShouldReturnDomainException() {
+        final var expectedName = " ";
+        final String expectedEmail = null;
+        final var expectedPassword = " ";
+
+        final var expectedErrorMessageOne = "'name' should not be empty or null";
+        final var expectedErrorMessageTwo = "'password' should not be empty or null";
+        final var expectedErrorMessageThree = "'password' must contain 8 characters at least";
+        final var expectedErrorMessageFour = "'email' should not be empty or null";
+
+        final var actualException = useCase.execute(expectedName, expectedEmail, expectedPassword).getLeft();
+
+        Assertions.assertEquals(expectedErrorMessageOne, actualException.getErrors().get(0).message());
+        Assertions.assertEquals(expectedErrorMessageTwo, actualException.getErrors().get(1).message());
+        Assertions.assertEquals(expectedErrorMessageThree, actualException.getErrors().get(2).message());
+        Assertions.assertEquals(expectedErrorMessageFour, actualException.getErrors().get(3).message());
+
+        Mockito.verify(accountGateway, times(0)).create(any());
+    }
 }
