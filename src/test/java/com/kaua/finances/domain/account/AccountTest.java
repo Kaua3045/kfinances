@@ -42,4 +42,28 @@ public class AccountTest {
         Assertions.assertEquals(expectedErrorMessageThree, actualException.get(2).message());
         Assertions.assertEquals(expectedErrorMessageFour, actualException.get(3).message());
     }
+
+    @Test
+    public void givenAnValidAccount_whenCallsUpdate_thenReturnAccountUpdated() {
+        final var expectedName = "Kauã";
+        final var expectedEmail = "kaua@mail.com";
+        final var expectedPassword = "123";
+
+        final var aAccount = Account.newAccount("kau", expectedEmail, "456");
+
+        Assertions.assertDoesNotThrow(aAccount::validate);
+
+        final var aAccountUpdatedAt = aAccount.getUpdatedAt();
+
+        final var actualAccount = aAccount.update(expectedName, expectedPassword);
+
+        Assertions.assertDoesNotThrow(actualAccount::validate);
+
+        Assertions.assertEquals(aAccount.getId(), actualAccount.getId());
+        Assertions.assertEquals(expectedName, actualAccount.getName());
+        Assertions.assertEquals(expectedEmail, actualAccount.getEmail());
+        Assertions.assertEquals(expectedPassword, actualAccount.getPassword());
+        Assertions.assertEquals(aAccount.getCreatedAt(), actualAccount.getCreatedAt());
+        Assertions.assertTrue(actualAccount.getUpdatedAt().isAfter(aAccountUpdatedAt));
+    }
 }

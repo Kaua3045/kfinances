@@ -50,6 +50,13 @@ public class Account implements ValidateHandler {
         );
     }
 
+    public Account update(final String aName, final String aPassword) {
+        this.name = aName;
+        this.password = aPassword;
+        this.updatedAt = InstantUtils.now();
+        return this;
+    }
+
     @Override
     public List<Error> validate() {
         final var errors = new ArrayList<Error>();
