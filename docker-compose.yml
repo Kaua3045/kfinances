@@ -1,0 +1,18 @@
+version: '3.7'
+
+services:
+  mysql:
+    container_name: kaua_finances_mysql
+    image: mysql:latest
+    environment:
+      - MYSQL_ROOT_PASSWORD=123456
+      - MYSQL_DATABASE=kaua_finances
+    security_opt:
+      - seccomp:unconfined
+    ports:
+      - 3306:3306
+    networks:
+      - kaua_finances_network
+
+networks:
+  kaua_finances_network:
