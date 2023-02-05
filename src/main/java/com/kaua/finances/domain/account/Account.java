@@ -55,6 +55,38 @@ public class Account implements ValidateHandler {
         );
     }
 
+    public static Account with(
+            final String anId,
+            final String aName,
+            final String aEmail,
+            final String aPassword,
+            final List<String> aBills,
+            final Instant createdAt,
+            final Instant updatedAt
+    ) {
+        return new Account(
+                anId,
+                aName,
+                aEmail,
+                aPassword,
+                new ArrayList<>(aBills),
+                createdAt,
+                updatedAt
+        );
+    }
+
+    public static Account with(final Account aAccount) {
+        return with(
+                aAccount.id,
+                aAccount.name,
+                aAccount.email,
+                aAccount.password,
+                aAccount.bills,
+                aAccount.createdAt,
+                aAccount.updatedAt
+        );
+    }
+
     public Account addBill(final String aBillId) {
         if (aBillId == null) {
             return this;
