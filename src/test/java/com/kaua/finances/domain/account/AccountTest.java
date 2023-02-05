@@ -23,30 +23,23 @@ public class AccountTest {
     }
 
     @Test
-    public void givenAnInvalidNullName_whenCallsNewAccount_thenShouldReceiveError() {
-        final String expectedName = null;
-        final var expectedEmail = "kaua@mail.com";
-        final var expectedPassword = "123";
-        final var expectedErrorMessage = "'name' should not be null";
-
-        final var aAccount = Account.newAccount(expectedName, expectedEmail, expectedPassword);
-
-        final var actualException = aAccount.validate();
-
-        Assertions.assertEquals(expectedErrorMessage, actualException.get(0).message());
-    }
-
-    @Test
-    public void givenAnInvalidEmptyName_whenCallsNewAccount_thenShouldReceiveError() {
+    public void givenAnEmptyStringsInParams_whenCallsNewAccount_thenInstantiateAccount() {
         final var expectedName = " ";
-        final var expectedEmail = "kaua@mail.com";
-        final var expectedPassword = "123";
-        final var expectedErrorMessage = "'name' should not be empty";
+        final var expectedEmail = " ";
+        final var expectedPassword = " ";
+
+        final var expectedErrorMessageOne = "'name' should not be empty or null";
+        final var expectedErrorMessageTwo = "'password' should not be empty or null";
+        final var expectedErrorMessageThree = "'password' must contain 8 characters at least";
+        final var expectedErrorMessageFour = "'email' should not be empty or null";
 
         final var aAccount = Account.newAccount(expectedName, expectedEmail, expectedPassword);
 
         final var actualException = aAccount.validate();
 
-        Assertions.assertEquals(expectedErrorMessage, actualException.get(0).message());
+        Assertions.assertEquals(expectedErrorMessageOne, actualException.get(0).message());
+        Assertions.assertEquals(expectedErrorMessageTwo, actualException.get(1).message());
+        Assertions.assertEquals(expectedErrorMessageThree, actualException.get(2).message());
+        Assertions.assertEquals(expectedErrorMessageFour, actualException.get(3).message());
     }
 }

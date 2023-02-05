@@ -54,28 +54,20 @@ public class Account implements ValidateHandler {
     public List<Error> validate() {
         final var errors = new ArrayList<Error>();
 
-        if (name == null) {
-            errors.add(new Error("'name' should not be null"));
-            return errors;
+        if (name == null || name.isBlank()) {
+            errors.add(new Error("'name' should not be empty or null"));
         }
 
-        if (name.isBlank()) {
-            errors.add(new Error("'name' should not be empty"));
-            return errors;
-        }
-
-        if (password == null) {
-            errors.add(new Error("'password' should not be null"));
-            return errors;
-        }
-
-        if (password.isBlank()) {
-            errors.add(new Error("'password' should not be empty"));
-            return errors;
+        if (password == null || password.isBlank()) {
+            errors.add(new Error("'password' should not be empty or null"));
         }
 
         if (password.length() < PASSWORD_MIN_LENGTH) {
-            errors.add(new Error("'password' Password must contain 8 characters at least"));
+            errors.add(new Error("'password' must contain 8 characters at least"));
+        }
+
+        if (email == null || email.isBlank()) {
+            errors.add(new Error("'email' should not be empty or null"));
             return errors;
         }
 
