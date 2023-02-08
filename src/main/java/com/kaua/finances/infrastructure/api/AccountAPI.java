@@ -22,6 +22,7 @@ public interface AccountAPI {
     @ApiResponses(value = {
             @ApiResponse(responseCode = "201", description = "Created successfully"),
             @ApiResponse(responseCode = "422", description = "A validation error was thrown"),
+            @ApiResponse(responseCode = "400", description = "Email already exists"),
             @ApiResponse(responseCode = "500", description = "An internal server error was thrown")
     })
     ResponseEntity<?> createAccount(@RequestBody CreateAccountRequest input);

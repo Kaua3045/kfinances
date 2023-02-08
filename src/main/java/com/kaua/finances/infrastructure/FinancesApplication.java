@@ -11,5 +11,4 @@ public class FinancesApplication {
 		System.setProperty(AbstractEnvironment.DEFAULT_PROFILES_PROPERTY_NAME, "development");
 		SpringApplication.run(FinancesApplication.class, args);
 	}
-
 }
