@@ -31,11 +31,13 @@ public class AccountMySQLGateway implements AccountGateway {
 
     @Override
     public Optional<Account> findById(String anId) {
-        return Optional.empty();
+        return accountRepository.findById(anId)
+                .map(AccountJpaFactory::toDomain);
     }
 
     @Override
     public Account update(Account aAccount) {
-        return null;
+        final var actualEntity = accountRepository.save(AccountJpaFactory.from(aAccount));
+        return AccountJpaFactory.toDomain(actualEntity);
     }
 }

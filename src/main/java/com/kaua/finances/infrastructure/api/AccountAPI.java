@@ -26,6 +26,18 @@ public interface AccountAPI {
     })
     ResponseEntity<?> createAccount(@RequestBody CreateAccountRequest input);
 
+    @GetMapping(
+            value = "{id}",
+            produces = MediaType.APPLICATION_JSON_VALUE
+    )
+    @Operation(summary = "Get a account by it's identifier")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Account find successfully"),
+            @ApiResponse(responseCode = "404", description = "Account was not found"),
+            @ApiResponse(responseCode = "500", description = "An internal server error was thrown")
+    })
+    ResponseEntity<?> getById(@PathVariable String id);
+
     @PutMapping(
             value = "{id}",
             consumes = MediaType.APPLICATION_JSON_VALUE,

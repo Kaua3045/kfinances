@@ -1,9 +1,6 @@
 package com.kaua.finances.infrastructure.configuration.usecases;
 
-import com.kaua.finances.application.usecases.CreateAccountUseCase;
-import com.kaua.finances.application.usecases.DefaultCreateAccountUseCase;
-import com.kaua.finances.application.usecases.DefaultUpdateAccountUseCase;
-import com.kaua.finances.application.usecases.UpdateAccountUseCase;
+import com.kaua.finances.application.usecases.*;
 import com.kaua.finances.domain.account.AccountGateway;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -25,5 +22,10 @@ public class AccountUseCaseConfiguration {
     @Bean
     public UpdateAccountUseCase updateAccountUseCase() {
         return new DefaultUpdateAccountUseCase(accountGateway);
+    }
+
+    @Bean
+    public GetAccountByIdUseCase getAccountByIdUseCase() {
+        return new DefaultGetAccountByIdUseCase(accountGateway);
     }
 }
