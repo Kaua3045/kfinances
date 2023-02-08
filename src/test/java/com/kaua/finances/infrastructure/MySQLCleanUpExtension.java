@@ -1,5 +1,6 @@
 package com.kaua.finances.infrastructure;
 
+import com.kaua.finances.infrastructure.account.persistence.AccountRepository;
 import org.junit.jupiter.api.extension.BeforeEachCallback;
 import org.junit.jupiter.api.extension.ExtensionContext;
 import org.springframework.data.repository.CrudRepository;
@@ -15,7 +16,7 @@ public class MySQLCleanUpExtension implements BeforeEachCallback {
         final var appContext = SpringExtension.getApplicationContext(context);
 
         cleanUp(List.of(
-//                appContext.getBean(AccountRepository.class),
+                appContext.getBean(AccountRepository.class)
         ));
     }
 
