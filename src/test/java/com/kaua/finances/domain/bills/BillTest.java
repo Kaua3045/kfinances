@@ -4,7 +4,7 @@ import com.kaua.finances.domain.utils.GenerateRandomTextsUtils;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
-public class BillsTest {
+public class BillTest {
 
     @Test
     public void givenAValidParams_whenCallsNewBill_thenInstantiateBill() {
@@ -12,7 +12,7 @@ public class BillsTest {
         final var expectedDescription = "fatura do cartão de credito";
         final var expectedPending = true;
 
-        final var aBill = Bills.newBill(expectedTitle, expectedDescription, expectedPending);
+        final var aBill = Bill.newBill(expectedTitle, expectedDescription, expectedPending);
 
         Assertions.assertNotNull(aBill);
         Assertions.assertNotNull(aBill.getId());
@@ -31,7 +31,7 @@ public class BillsTest {
         final var expectedPending = true;
         final var expectedErrorMessage = "'title' should not be empty or null";
 
-        final var aBill = Bills.newBill(expectedTitle, expectedDescription, expectedPending);
+        final var aBill = Bill.newBill(expectedTitle, expectedDescription, expectedPending);
 
         final var actualException = aBill.validate();
 
@@ -45,7 +45,7 @@ public class BillsTest {
         final var expectedPending = true;
         final var expectedErrorMessage = "'description' must be between 3000 characters";
 
-        final var aBill = Bills.newBill(expectedTitle, expectedDescription, expectedPending);
+        final var aBill = Bill.newBill(expectedTitle, expectedDescription, expectedPending);
 
         final var actualException = aBill.validate();
 
@@ -58,7 +58,7 @@ public class BillsTest {
         final String expectedDescription = "fatura do cartão de credito";
         final var expectedPending = true;
 
-        final var aBill = Bills.newBill("fa01", null, true);
+        final var aBill = Bill.newBill("fa01", null, true);
 
         Assertions.assertDoesNotThrow(aBill::validate);
 
@@ -83,7 +83,7 @@ public class BillsTest {
         final String expectedDescription = "fatura do cartão de credito";
         final var expectedPending = true;
 
-        final var aBill = Bills.newBill("fa01", null, false);
+        final var aBill = Bill.newBill("fa01", null, false);
 
         Assertions.assertDoesNotThrow(aBill::validate);
 
@@ -109,7 +109,7 @@ public class BillsTest {
         final String expectedDescription = "fatura do cartão de credito";
         final var expectedPending = false;
 
-        final var aBill = Bills.newBill("fa01", null, true);
+        final var aBill = Bill.newBill("fa01", null, true);
 
         Assertions.assertDoesNotThrow(aBill::validate);
 
@@ -135,7 +135,7 @@ public class BillsTest {
         final String expectedDescription = "fatura do cartão de credito";
         final var expectedPending = true;
 
-        final var aBill = Bills.newBill(expectedTitle, expectedDescription, false);
+        final var aBill = Bill.newBill(expectedTitle, expectedDescription, false);
 
         Assertions.assertDoesNotThrow(aBill::validate);
 
@@ -159,7 +159,7 @@ public class BillsTest {
         final String expectedDescription = "fatura do cartão de credito";
         final var expectedPending = false;
 
-        final var aBill = Bills.newBill(expectedTitle, expectedDescription, true);
+        final var aBill = Bill.newBill(expectedTitle, expectedDescription, true);
 
         Assertions.assertDoesNotThrow(aBill::validate);
 

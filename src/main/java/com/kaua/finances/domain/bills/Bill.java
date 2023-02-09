@@ -9,7 +9,7 @@ import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Bills implements ValidateHandler {
+public class Bill implements ValidateHandler {
 
     private String id;
     private String title;
@@ -21,7 +21,7 @@ public class Bills implements ValidateHandler {
 
     private static final int DESCRIPTION_MAX_LENGTH = 3000;
 
-    public Bills(
+    public Bill(
             final String id,
             final String title,
             final String description,
@@ -39,12 +39,12 @@ public class Bills implements ValidateHandler {
         this.finishedDate = finishedDate;
     }
 
-    public static Bills newBill(final String title, final String description, final boolean pending) {
+    public static Bill newBill(final String title, final String description, final boolean pending) {
         final var billId = UuidUtils.unique();
         final var now = InstantUtils.now();
         final var finishedDate = pending ? null : now;
 
-        return new Bills(
+        return new Bill(
                 billId,
                 title,
                 description,
@@ -55,7 +55,39 @@ public class Bills implements ValidateHandler {
         );
     }
 
-    public Bills update(final String title, final String description, final boolean pending) {
+    public static Bill with(
+            final String id,
+            final String title,
+            final String description,
+            final boolean pending,
+            final Instant createdAt,
+            final Instant updatedAt,
+            final Instant finishedDate
+    ) {
+        return new Bill(
+                id,
+                title,
+                description,
+                pending,
+                createdAt,
+                updatedAt,
+                finishedDate
+        );
+    }
+
+    public static Bill with(final Bill aBill) {
+        return new Bill(
+                aBill.id,
+                aBill.title,
+                aBill.description,
+                aBill.pending,
+                aBill.createdAt,
+                aBill.updatedAt,
+                aBill.finishedDate
+        );
+    }
+
+    public Bill update(final String title, final String description, final boolean pending) {
         if (pending) {
             enableBill();
         } else {
@@ -68,14 +100,14 @@ public class Bills implements ValidateHandler {
         return this;
     }
 
-    public Bills enableBill() {
+    public Bill enableBill() {
         this.pending = true;
         this.updatedAt = InstantUtils.now();
         this.finishedDate = null;
         return this;
     }
 
-    public Bills disableBill() {
+    public Bill disableBill() {
         if (getFinishedDate() == null) {
             this.finishedDate = InstantUtils.now();
         }
