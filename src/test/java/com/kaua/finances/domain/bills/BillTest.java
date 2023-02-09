@@ -8,11 +8,12 @@ public class BillTest {
 
     @Test
     public void givenAValidParams_whenCallsNewBill_thenInstantiateBill() {
+        final var expectedAccountId = "123";
         final var expectedTitle = "fatura 01";
         final var expectedDescription = "fatura do cartão de credito";
         final var expectedPending = true;
 
-        final var aBill = Bill.newBill(expectedTitle, expectedDescription, expectedPending);
+        final var aBill = Bill.newBill(expectedAccountId, expectedTitle, expectedDescription, expectedPending);
 
         Assertions.assertNotNull(aBill);
         Assertions.assertNotNull(aBill.getId());
@@ -26,12 +27,28 @@ public class BillTest {
 
     @Test
     public void givenAnInvalidTitle_whenCallsNewBill_thenInstantiateBill() {
+        final var expectedAccountId = "123";
         final var expectedTitle = " ";
         final String expectedDescription = null;
         final var expectedPending = true;
         final var expectedErrorMessage = "'title' should not be empty or null";
 
-        final var aBill = Bill.newBill(expectedTitle, expectedDescription, expectedPending);
+        final var aBill = Bill.newBill(expectedAccountId, expectedTitle, expectedDescription, expectedPending);
+
+        final var actualException = aBill.validate();
+
+        Assertions.assertEquals(expectedErrorMessage, actualException.get(0).message());
+    }
+
+    @Test
+    public void givenAnInvalidAccountId_whenCallsNewBill_thenInstantiateBill() {
+        final var expectedAccountId = " ";
+        final var expectedTitle = "title";
+        final String expectedDescription = null;
+        final var expectedPending = true;
+        final var expectedErrorMessage = "'accountId' should not be empty or null";
+
+        final var aBill = Bill.newBill(expectedAccountId, expectedTitle, expectedDescription, expectedPending);
 
         final var actualException = aBill.validate();
 
@@ -40,12 +57,13 @@ public class BillTest {
 
     @Test
     public void givenAnInvalidDescriptionLengthMoreThan3000_whenCallsNewBill_thenInstantiateBill() {
+        final var expectedAccountId = "123";
         final var expectedTitle = "fatura 01";
         final String expectedDescription = GenerateRandomTextsUtils.generate3000Characters();
         final var expectedPending = true;
         final var expectedErrorMessage = "'description' must be between 3000 characters";
 
-        final var aBill = Bill.newBill(expectedTitle, expectedDescription, expectedPending);
+        final var aBill = Bill.newBill(expectedAccountId, expectedTitle, expectedDescription, expectedPending);
 
         final var actualException = aBill.validate();
 
@@ -54,11 +72,12 @@ public class BillTest {
 
     @Test
     public void givenAValidBill_whenCallsUpdate_thenReturnBillUpdated() {
+        final var expectedAccountId = "123";
         final var expectedTitle = "fatura 01";
         final String expectedDescription = "fatura do cartão de credito";
         final var expectedPending = true;
 
-        final var aBill = Bill.newBill("fa01", null, true);
+        final var aBill = Bill.newBill(expectedAccountId, "fa01", null, true);
 
         Assertions.assertDoesNotThrow(aBill::validate);
 
@@ -79,11 +98,12 @@ public class BillTest {
 
     @Test
     public void givenAValidDisableBill_whenCallsUpdateAndEnable_thenReturnBillUpdated() {
+        final var expectedAccountId = "123";
         final var expectedTitle = "fatura 01";
         final String expectedDescription = "fatura do cartão de credito";
         final var expectedPending = true;
 
-        final var aBill = Bill.newBill("fa01", null, false);
+        final var aBill = Bill.newBill(expectedAccountId, "fa01", null, false);
 
         Assertions.assertDoesNotThrow(aBill::validate);
 
@@ -105,11 +125,12 @@ public class BillTest {
 
     @Test
     public void givenAValidEnableBill_whenCallsUpdateAndDisable_thenReturnBillUpdated() {
+        final var expectedAccountId = "123";
         final var expectedTitle = "fatura 01";
         final String expectedDescription = "fatura do cartão de credito";
         final var expectedPending = false;
 
-        final var aBill = Bill.newBill("fa01", null, true);
+        final var aBill = Bill.newBill(expectedAccountId, "fa01", null, true);
 
         Assertions.assertDoesNotThrow(aBill::validate);
 
@@ -131,11 +152,12 @@ public class BillTest {
 
     @Test
     public void givenADisableBill_whenCallsEnableBill_shouldReturnEnabledBill() {
+        final var expectedAccountId = "123";
         final var expectedTitle = "fatura 01";
         final String expectedDescription = "fatura do cartão de credito";
         final var expectedPending = true;
 
-        final var aBill = Bill.newBill(expectedTitle, expectedDescription, false);
+        final var aBill = Bill.newBill(expectedAccountId, expectedTitle, expectedDescription, false);
 
         Assertions.assertDoesNotThrow(aBill::validate);
 
@@ -155,11 +177,12 @@ public class BillTest {
 
     @Test
     public void givenAEnableBill_whenCallsDisableBill_shouldReturnDisabledBill() {
+        final var expectedAccountId = "123";
         final var expectedTitle = "fatura 01";
         final String expectedDescription = "fatura do cartão de credito";
         final var expectedPending = false;
 
-        final var aBill = Bill.newBill(expectedTitle, expectedDescription, true);
+        final var aBill = Bill.newBill(expectedAccountId, expectedTitle, expectedDescription, true);
 
         Assertions.assertDoesNotThrow(aBill::validate);
 

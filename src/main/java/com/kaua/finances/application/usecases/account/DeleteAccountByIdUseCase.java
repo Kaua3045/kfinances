@@ -1,4 +1,4 @@
-package com.kaua.finances.application.usecases;
+package com.kaua.finances.application.usecases.account;
 
 public interface DeleteAccountByIdUseCase {
 

@@ -1,6 +1,6 @@
 package com.kaua.finances.infrastructure.configuration.usecases;
 
-import com.kaua.finances.application.usecases.*;
+import com.kaua.finances.application.usecases.account.*;
 import com.kaua.finances.domain.account.AccountGateway;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

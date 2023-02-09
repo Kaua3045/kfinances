@@ -1,6 +1,6 @@
 package com.kaua.finances.application.usecases.account.delete;
 
-import com.kaua.finances.application.usecases.DefaultDeleteAccountByIdUseCase;
+import com.kaua.finances.application.usecases.account.DefaultDeleteAccountByIdUseCase;
 import com.kaua.finances.domain.account.Account;
 import com.kaua.finances.domain.account.AccountGateway;
 import org.junit.jupiter.api.Assertions;
@@ -10,8 +10,6 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
-
-import java.util.Optional;
 
 import static org.mockito.Mockito.*;
 

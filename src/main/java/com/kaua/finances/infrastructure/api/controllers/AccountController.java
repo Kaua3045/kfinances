@@ -1,9 +1,9 @@
 package com.kaua.finances.infrastructure.api.controllers;
 
-import com.kaua.finances.application.usecases.CreateAccountUseCase;
-import com.kaua.finances.application.usecases.DeleteAccountByIdUseCase;
-import com.kaua.finances.application.usecases.GetAccountByIdUseCase;
-import com.kaua.finances.application.usecases.UpdateAccountUseCase;
+import com.kaua.finances.application.usecases.account.CreateAccountUseCase;
+import com.kaua.finances.application.usecases.account.DeleteAccountByIdUseCase;
+import com.kaua.finances.application.usecases.account.GetAccountByIdUseCase;
+import com.kaua.finances.application.usecases.account.UpdateAccountUseCase;
 import com.kaua.finances.infrastructure.account.models.CreateAccountRequest;
 import com.kaua.finances.infrastructure.account.models.UpdateAccountRequest;
 import com.kaua.finances.infrastructure.api.AccountAPI;

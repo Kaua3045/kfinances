@@ -12,6 +12,7 @@ import java.util.List;
 public class Bill implements ValidateHandler {
 
     private String id;
+    private String accountId;
     private String title;
     private String description;
     private boolean pending;
@@ -23,6 +24,7 @@ public class Bill implements ValidateHandler {
 
     public Bill(
             final String id,
+            final String accountId,
             final String title,
             final String description,
             final boolean pending,
@@ -31,6 +33,7 @@ public class Bill implements ValidateHandler {
             final Instant finishedDate
     ) {
         this.id = id;
+        this.accountId = accountId;
         this.title = title;
         this.description = description;
         this.pending = pending;
@@ -39,13 +42,19 @@ public class Bill implements ValidateHandler {
         this.finishedDate = finishedDate;
     }
 
-    public static Bill newBill(final String title, final String description, final boolean pending) {
+    public static Bill newBill(
+            final String accountId,
+            final String title,
+            final String description,
+            final boolean pending
+    ) {
         final var billId = UuidUtils.unique();
         final var now = InstantUtils.now();
         final var finishedDate = pending ? null : now;
 
         return new Bill(
                 billId,
+                accountId,
                 title,
                 description,
                 pending,
@@ -57,6 +66,7 @@ public class Bill implements ValidateHandler {
 
     public static Bill with(
             final String id,
+            final String accountId,
             final String title,
             final String description,
             final boolean pending,
@@ -66,6 +76,7 @@ public class Bill implements ValidateHandler {
     ) {
         return new Bill(
                 id,
+                accountId,
                 title,
                 description,
                 pending,
@@ -78,6 +89,7 @@ public class Bill implements ValidateHandler {
     public static Bill with(final Bill aBill) {
         return new Bill(
                 aBill.id,
+                aBill.accountId,
                 aBill.title,
                 aBill.description,
                 aBill.pending,
@@ -121,6 +133,10 @@ public class Bill implements ValidateHandler {
     public List<Error> validate() {
         List<Error> errors = new ArrayList<>();
 
+        if (accountId == null || accountId.isBlank()) {
+            errors.add(new Error("'accountId' should not be empty or null"));
+        }
+
         if (title == null || title.isBlank()) {
             errors.add(new Error("'title' should not be empty or null"));
         }
@@ -134,6 +150,10 @@ public class Bill implements ValidateHandler {
 
     public String getId() {
         return id;
+    }
+
+    public String getAccountId() {
+        return accountId;
     }
 
     public String getTitle() {

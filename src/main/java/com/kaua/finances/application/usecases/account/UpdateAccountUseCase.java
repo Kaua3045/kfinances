@@ -1,4 +1,4 @@
-package com.kaua.finances.application.usecases;
+package com.kaua.finances.application.usecases.account;
 
 import com.kaua.finances.application.either.Either;
 import com.kaua.finances.application.exceptions.DomainException;
