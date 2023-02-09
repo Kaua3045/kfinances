@@ -120,4 +120,19 @@ public class AccountMySQLGatewayTest {
         Assertions.assertEquals(aAccount.getCreatedAt(), actualAccount.getCreatedAt());
         Assertions.assertEquals(aAccount.getUpdatedAt(), actualAccount.getUpdatedAt());
     }
+
+    @Test
+    public void givenAValidId_whenCallsDeleteById_shouldBeOk() {
+        final var aAccount = Account.newAccount("kauã", "kaua@mail.com", "12345678");
+
+        Assertions.assertEquals(0, accountRepository.count());
+
+        accountRepository.saveAndFlush(AccountJpaFactory.from(aAccount));
+
+        Assertions.assertEquals(1, accountRepository.count());
+
+        accountGateway.deleteById(aAccount.getId());
+
+        Assertions.assertEquals(0, accountRepository.count());
+    }
 }

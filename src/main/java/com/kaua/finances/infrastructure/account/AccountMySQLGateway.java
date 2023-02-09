@@ -26,7 +26,9 @@ public class AccountMySQLGateway implements AccountGateway {
 
     @Override
     public void deleteById(String anId) {
-
+        if (accountRepository.findById(anId).isPresent()) {
+            accountRepository.deleteById(anId);
+        }
     }
 
     @Override

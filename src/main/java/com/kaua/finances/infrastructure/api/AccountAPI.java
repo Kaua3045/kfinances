@@ -6,6 +6,7 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -51,4 +52,13 @@ public interface AccountAPI {
             @ApiResponse(responseCode = "500", description = "An internal server error was thrown")
     })
     ResponseEntity<?> updateById(@PathVariable String id, @RequestBody UpdateAccountRequest input);
+
+    @DeleteMapping(value = "{id}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    @Operation(summary = "Delete a account by it's identifier")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "204", description = "Account deleted successfully"),
+            @ApiResponse(responseCode = "500", description = "An internal server error was thrown")
+    })
+    void deleteById(@PathVariable String id);
 }

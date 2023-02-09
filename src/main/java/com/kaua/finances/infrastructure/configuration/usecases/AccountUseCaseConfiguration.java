@@ -28,4 +28,9 @@ public class AccountUseCaseConfiguration {
     public GetAccountByIdUseCase getAccountByIdUseCase() {
         return new DefaultGetAccountByIdUseCase(accountGateway);
     }
+
+    @Bean
+    public DeleteAccountByIdUseCase deleteAccountByIdUseCase() {
+        return new DefaultDeleteAccountByIdUseCase(accountGateway);
+    }
 }

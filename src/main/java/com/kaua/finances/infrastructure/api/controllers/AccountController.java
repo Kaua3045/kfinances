@@ -1,6 +1,7 @@
 package com.kaua.finances.infrastructure.api.controllers;
 
 import com.kaua.finances.application.usecases.CreateAccountUseCase;
+import com.kaua.finances.application.usecases.DeleteAccountByIdUseCase;
 import com.kaua.finances.application.usecases.GetAccountByIdUseCase;
 import com.kaua.finances.application.usecases.UpdateAccountUseCase;
 import com.kaua.finances.infrastructure.account.models.CreateAccountRequest;
@@ -18,14 +19,17 @@ public class AccountController implements AccountAPI {
     private final CreateAccountUseCase createAccountUseCase;
     private final UpdateAccountUseCase updateAccountUseCase;
     private final GetAccountByIdUseCase getAccountByIdUseCase;
+    private final DeleteAccountByIdUseCase deleteAccountByIdUseCase;
 
     public AccountController(
             final CreateAccountUseCase createAccountUseCase,
             final UpdateAccountUseCase updateAccountUseCase,
-            final GetAccountByIdUseCase getAccountByIdUseCase) {
+            final GetAccountByIdUseCase getAccountByIdUseCase,
+            final DeleteAccountByIdUseCase deleteAccountByIdUseCase) {
         this.createAccountUseCase = Objects.requireNonNull(createAccountUseCase);
         this.updateAccountUseCase = Objects.requireNonNull(updateAccountUseCase);
         this.getAccountByIdUseCase = Objects.requireNonNull(getAccountByIdUseCase);
+        this.deleteAccountByIdUseCase = Objects.requireNonNull(deleteAccountByIdUseCase);
     }
 
     @Override
@@ -64,5 +68,10 @@ public class AccountController implements AccountAPI {
         }
 
         return ResponseEntity.ok().body(aAccount.getRight());
+    }
+
+    @Override
+    public void deleteById(String id) {
+        this.deleteAccountByIdUseCase.execute(id);
     }
 }
