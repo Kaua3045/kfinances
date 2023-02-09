@@ -2,7 +2,7 @@ package com.kaua.finances.domain.account;
 
 public record CreateAccountOutput(String id) {
 
-    public static CreateAccountOutput from(final Account aAccount) {
-        return new CreateAccountOutput(aAccount.getId());
+    public static CreateAccountOutput from(final String id) {
+        return new CreateAccountOutput(id);
     }
 }

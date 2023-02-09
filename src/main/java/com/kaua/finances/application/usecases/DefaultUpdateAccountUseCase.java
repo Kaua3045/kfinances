@@ -39,7 +39,7 @@ public class DefaultUpdateAccountUseCase implements UpdateAccountUseCase {
             return Either.left(DomainException.with(aAccountValidate));
         }
 
-        return Either.right(UpdateAccountOutput.from(this.accountGateway.update(aAccount)));
+        return Either.right(UpdateAccountOutput.from(this.accountGateway.update(aAccount).getId()));
     }
 
     private static Supplier<NoStackTraceException> notFound(final String id) {
