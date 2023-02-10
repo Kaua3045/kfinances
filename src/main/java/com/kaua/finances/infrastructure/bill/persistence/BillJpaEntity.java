@@ -1,5 +1,6 @@
 package com.kaua.finances.infrastructure.bill.persistence;
 
+import com.kaua.finances.infrastructure.account.persistence.AccountJpaEntity;
 import jakarta.persistence.*;
 
 import java.time.Instant;
@@ -29,6 +30,13 @@ public class BillJpaEntity {
     @Column(name = "finishedDate", nullable = false, columnDefinition = "DATETIME(6)")
     private Instant finishedDate;
 
+    @ManyToOne
+    @JoinColumn(name = "account_id", nullable = false)
+    private AccountJpaEntity account;
+
+    public BillJpaEntity() {
+    }
+
     public BillJpaEntity(
             final String id,
             final String title,
@@ -36,7 +44,8 @@ public class BillJpaEntity {
             final boolean pending,
             final Instant createdAt,
             final Instant updatedAt,
-            final Instant finishedDate
+            final Instant finishedDate,
+            final AccountJpaEntity account
     ) {
         this.id = id;
         this.title = title;
@@ -45,6 +54,7 @@ public class BillJpaEntity {
         this.createdAt = createdAt;
         this.updatedAt = updatedAt;
         this.finishedDate = finishedDate;
+        this.account = account;
     }
 
     public String getId() {
@@ -73,5 +83,9 @@ public class BillJpaEntity {
 
     public Instant getFinishedDate() {
         return finishedDate;
+    }
+
+    public AccountJpaEntity getAccount() {
+        return account;
     }
 }
