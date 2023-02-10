@@ -1,5 +1,6 @@
 package com.kaua.finances.domain.bills;
 
+import com.kaua.finances.domain.account.Account;
 import com.kaua.finances.domain.utils.InstantUtils;
 import com.kaua.finances.domain.utils.UuidUtils;
 import com.kaua.finances.domain.validate.Error;
@@ -12,7 +13,7 @@ import java.util.List;
 public class Bill implements ValidateHandler {
 
     private String id;
-    private String accountId;
+    private Account accountId;
     private String title;
     private String description;
     private boolean pending;
@@ -24,7 +25,7 @@ public class Bill implements ValidateHandler {
 
     public Bill(
             final String id,
-            final String accountId,
+            final Account accountId,
             final String title,
             final String description,
             final boolean pending,
@@ -43,7 +44,7 @@ public class Bill implements ValidateHandler {
     }
 
     public static Bill newBill(
-            final String accountId,
+            final Account accountId,
             final String title,
             final String description,
             final boolean pending
@@ -66,7 +67,7 @@ public class Bill implements ValidateHandler {
 
     public static Bill with(
             final String id,
-            final String accountId,
+            final Account accountId,
             final String title,
             final String description,
             final boolean pending,
@@ -133,7 +134,7 @@ public class Bill implements ValidateHandler {
     public List<Error> validate() {
         List<Error> errors = new ArrayList<>();
 
-        if (accountId == null || accountId.isBlank()) {
+        if (accountId == null || accountId.getId() == null) {
             errors.add(new Error("'accountId' should not be empty or null"));
         }
 
@@ -152,7 +153,7 @@ public class Bill implements ValidateHandler {
         return id;
     }
 
-    public String getAccountId() {
+    public Account getAccountId() {
         return accountId;
     }
 
