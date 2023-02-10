@@ -59,8 +59,7 @@ public class AccountController implements AccountAPI {
         final var aAccount = this.updateAccountUseCase.execute(
                 id,
                 input.name(),
-                input.password(),
-                input.bills()
+                input.password()
         );
 
         if (aAccount.isLeft()) {

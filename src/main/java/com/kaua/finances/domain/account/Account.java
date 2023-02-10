@@ -7,7 +7,6 @@ import com.kaua.finances.domain.validate.ValidateHandler;
 
 import java.time.Instant;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 public class Account implements ValidateHandler {
@@ -16,7 +15,6 @@ public class Account implements ValidateHandler {
     private String name;
     private String email;
     private String password;
-    private List<String> bills;
     private Instant createdAt;
     private Instant updatedAt;
 
@@ -27,7 +25,6 @@ public class Account implements ValidateHandler {
             final String aName,
             final String aEmail,
             final String aPassword,
-            final List<String> aBills,
             final Instant createdAt,
             final Instant updatedAt
     ) {
@@ -35,7 +32,6 @@ public class Account implements ValidateHandler {
         this.name = aName;
         this.email = aEmail;
         this.password = aPassword;
-        this.bills = aBills;
         this.createdAt = createdAt;
         this.updatedAt = updatedAt;
     }
@@ -49,7 +45,6 @@ public class Account implements ValidateHandler {
                 aName,
                 aEmail,
                 aPassword,
-                new ArrayList<>(),
                 now,
                 now
         );
@@ -60,7 +55,6 @@ public class Account implements ValidateHandler {
             final String aName,
             final String aEmail,
             final String aPassword,
-            final List<String> aBills,
             final Instant createdAt,
             final Instant updatedAt
     ) {
@@ -69,7 +63,6 @@ public class Account implements ValidateHandler {
                 aName,
                 aEmail,
                 aPassword,
-                new ArrayList<>(aBills),
                 createdAt,
                 updatedAt
         );
@@ -81,46 +74,14 @@ public class Account implements ValidateHandler {
                 aAccount.name,
                 aAccount.email,
                 aAccount.password,
-                aAccount.bills,
                 aAccount.createdAt,
                 aAccount.updatedAt
         );
     }
 
-    public Account addBill(final String aBillId) {
-        if (aBillId == null) {
-            return this;
-        }
-
-        this.bills.add(aBillId);
-        this.updatedAt = InstantUtils.now();
-        return this;
-    }
-
-    public Account addBills(final List<String> aBillId) {
-        if (aBillId == null || aBillId.isEmpty()) {
-            return this;
-        }
-
-        this.bills.addAll(aBillId);
-        this.updatedAt = InstantUtils.now();
-        return this;
-    }
-
-    public Account removeBill(final String aBillId) {
-        if (aBillId == null) {
-            return this;
-        }
-
-        this.bills.remove(aBillId);
-        this.updatedAt = InstantUtils.now();
-        return this;
-    }
-
-    public Account update(final String aName, final String aPassword, final List<String> aBills) {
+    public Account update(final String aName, final String aPassword) {
         this.name = aName;
         this.password = aPassword;
-        this.bills = new ArrayList<>(aBills != null ? aBills : Collections.emptyList());
         this.updatedAt = InstantUtils.now();
         return this;
     }
@@ -162,10 +123,6 @@ public class Account implements ValidateHandler {
 
     public String getPassword() {
         return password;
-    }
-
-    public List<String> getBills() {
-        return bills;
     }
 
     public Instant getCreatedAt() {

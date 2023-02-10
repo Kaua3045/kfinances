@@ -8,5 +8,5 @@ import java.util.List;
 
 public interface UpdateAccountUseCase {
 
-    Either<DomainException, UpdateAccountOutput> execute(String anId, String aName, String aPassword, List<String> bills);
+    Either<DomainException, UpdateAccountOutput> execute(String anId, String aName, String aPassword);
 }

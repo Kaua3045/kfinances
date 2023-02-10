@@ -45,7 +45,6 @@ public class GetAccountByIdUseCaseTest {
         Assertions.assertNotNull(actualOutput.id());
         Assertions.assertEquals(expectedName, actualOutput.name());
         Assertions.assertEquals(expectedEmail, actualOutput.email());
-        Assertions.assertEquals(expectedBills, actualOutput.bills());
     }
 
     @Test

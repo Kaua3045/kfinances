@@ -8,8 +8,6 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import java.util.Collections;
-
 @MySQLGatewayTest
 public class AccountMySQLGatewayTest {
 
@@ -72,8 +70,7 @@ public class AccountMySQLGatewayTest {
 
         final var aUpdatedAccount = Account.with(aAccount).update(
                 expectedName,
-                expectedPassword,
-                Collections.emptyList()
+                expectedPassword
         );
 
         final var actualAccount = accountGateway.update(aUpdatedAccount);

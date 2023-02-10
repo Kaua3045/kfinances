@@ -47,8 +47,7 @@ public class UpdateAccountUseCaseTest {
         final var actualOutput = useCase.execute(
                 expectedId,
                 expectedName,
-                expectedPassword,
-                expectedBills
+                expectedPassword
         ).getRight();
 
         Assertions.assertNotNull(actualOutput);
@@ -57,7 +56,6 @@ public class UpdateAccountUseCaseTest {
         Mockito.verify(accountGateway, times(1)).update(argThat(accountUpdated ->
                 Objects.equals(expectedName, accountUpdated.getName())
                         && Objects.equals(expectedPassword, accountUpdated.getPassword())
-                        && Objects.equals(expectedBills, accountUpdated.getBills())
                         && Objects.equals(expectedId, accountUpdated.getId())
                         && Objects.nonNull(accountUpdated.getCreatedAt())
                         && accountUpdated.getUpdatedAt().isAfter(aAccount.getUpdatedAt())
@@ -80,7 +78,7 @@ public class UpdateAccountUseCaseTest {
         when(accountGateway.findById(any()))
                 .thenReturn(Optional.of(Account.with(aAccount)));
 
-        final var actualException = useCase.execute(expectedId, expectedName, expectedPassword, expectedBills).getLeft();
+        final var actualException = useCase.execute(expectedId, expectedName, expectedPassword).getLeft();
 
         Assertions.assertEquals(expectedErrorMessageOne, actualException.getErrors().get(0).message());
         Assertions.assertEquals(expectedErrorMessageTwo, actualException.getErrors().get(1).message());

@@ -8,8 +8,6 @@ import com.kaua.finances.domain.account.Account;
 import com.kaua.finances.domain.account.AccountGateway;
 import com.kaua.finances.domain.account.UpdateAccountOutput;
 
-import java.util.Collections;
-import java.util.List;
 import java.util.Objects;
 import java.util.function.Supplier;
 
@@ -25,14 +23,11 @@ public class DefaultUpdateAccountUseCase implements UpdateAccountUseCase {
     public Either<DomainException, UpdateAccountOutput> execute(
             String anId,
             String aName,
-            String aPassword,
-            List<String> aBills
+            String aPassword
     ) {
         final var aAccount = this.accountGateway.findById(anId)
                 .orElseThrow(notFound(anId));
 
-        // TODO: implementar essa parte dos bills, o update vai precisar verificar se existe todos os ids
-        aAccount.update(aName, aPassword, Collections.emptyList());
         final var aAccountValidate = aAccount.validate();
 
         if (!aAccountValidate.isEmpty()) {

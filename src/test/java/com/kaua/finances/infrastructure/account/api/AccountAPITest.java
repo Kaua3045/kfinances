@@ -120,7 +120,7 @@ public class AccountAPITest {
         final var expectedPassword = "12345678";
         final var expectedId = "123";
 
-        when(updateAccountUseCase.execute(any(), any(), any(), any()))
+        when(updateAccountUseCase.execute(any(), any(), any()))
                 .thenReturn(Either.right(UpdateAccountOutput.from(expectedId)));
 
         final var input = new CreateAccountRequest(expectedName, expectedEmail, expectedPassword);
@@ -155,7 +155,7 @@ public class AccountAPITest {
 
         final var input = new CreateAccountRequest(expectedName, expectedEmail, expectedPassword);
 
-        when(updateAccountUseCase.execute(any(), any(), any(), any()))
+        when(updateAccountUseCase.execute(any(), any(), any()))
                 .thenReturn(Either.left(DomainException.with(expectedErrorsMessage)));
 
         final var request = MockMvcRequestBuilders.put("/accounts/{id}", expectedId)
@@ -193,8 +193,7 @@ public class AccountAPITest {
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.id", equalTo(expectedId)))
                 .andExpect(jsonPath("$.name", equalTo(expectedName)))
-                .andExpect(jsonPath("$.email", equalTo(expectedEmail)))
-                .andExpect(jsonPath("$.bills", equalTo(Collections.emptyList())));
+                .andExpect(jsonPath("$.email", equalTo(expectedEmail)));
     }
 
     @Test
