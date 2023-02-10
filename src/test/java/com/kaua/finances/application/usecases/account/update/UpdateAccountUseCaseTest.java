@@ -11,7 +11,6 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 
@@ -36,9 +35,8 @@ public class UpdateAccountUseCaseTest {
 
         final var expectedName = "kauã";
         final var expectedPassword = "12345678";
-        final var expectedBills = List.<String>of();
 
-        when(accountGateway.findById(any()))
+        when(accountGateway.findById(eq(expectedId)))
                 .thenReturn(Optional.of(Account.with(aAccount)));
 
         when(accountGateway.update(any()))
@@ -52,6 +50,8 @@ public class UpdateAccountUseCaseTest {
 
         Assertions.assertNotNull(actualOutput);
         Assertions.assertNotNull(actualOutput.id());
+
+        Mockito.verify(accountGateway, times(1)).findById(eq(expectedId));
 
         Mockito.verify(accountGateway, times(1)).update(argThat(accountUpdated ->
                 Objects.equals(expectedName, accountUpdated.getName())
@@ -69,7 +69,6 @@ public class UpdateAccountUseCaseTest {
 
         final String expectedName = null;
         final var expectedPassword = " ";
-        final var expectedBills = List.<String>of();
 
         final var expectedErrorMessageOne = "'name' should not be empty or null";
         final var expectedErrorMessageTwo = "'password' should not be empty or null";

@@ -1,5 +1,6 @@
 package com.kaua.finances.domain.bills;
 
+import com.kaua.finances.domain.account.Account;
 import com.kaua.finances.domain.utils.GenerateRandomTextsUtils;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -8,7 +9,7 @@ public class BillTest {
 
     @Test
     public void givenAValidParams_whenCallsNewBill_thenInstantiateBill() {
-        final var expectedAccountId = "123";
+        final var expectedAccountId = Account.newAccount("kaua", "kaua@mail.com", "12345678");
         final var expectedTitle = "fatura 01";
         final var expectedDescription = "fatura do cartão de credito";
         final var expectedPending = true;
@@ -27,7 +28,7 @@ public class BillTest {
 
     @Test
     public void givenAnInvalidTitle_whenCallsNewBill_thenInstantiateBill() {
-        final var expectedAccountId = "123";
+        final var expectedAccountId = Account.newAccount("kaua", "kaua@mail.com", "12345678");
         final var expectedTitle = " ";
         final String expectedDescription = null;
         final var expectedPending = true;
@@ -42,7 +43,14 @@ public class BillTest {
 
     @Test
     public void givenAnInvalidAccountId_whenCallsNewBill_thenInstantiateBill() {
-        final var expectedAccountId = " ";
+        final var expectedAccountId = new Account(
+                null,
+                "a",
+                "a",
+                "12345678",
+                null,
+                null
+        );
         final var expectedTitle = "title";
         final String expectedDescription = null;
         final var expectedPending = true;
@@ -57,7 +65,7 @@ public class BillTest {
 
     @Test
     public void givenAnInvalidDescriptionLengthMoreThan3000_whenCallsNewBill_thenInstantiateBill() {
-        final var expectedAccountId = "123";
+        final var expectedAccountId = Account.newAccount("kaua", "kaua@mail.com", "12345678");
         final var expectedTitle = "fatura 01";
         final String expectedDescription = GenerateRandomTextsUtils.generate3000Characters();
         final var expectedPending = true;
@@ -72,7 +80,7 @@ public class BillTest {
 
     @Test
     public void givenAValidBill_whenCallsUpdate_thenReturnBillUpdated() {
-        final var expectedAccountId = "123";
+        final var expectedAccountId = Account.newAccount("kaua", "kaua@mail.com", "12345678");
         final var expectedTitle = "fatura 01";
         final String expectedDescription = "fatura do cartão de credito";
         final var expectedPending = true;
@@ -98,7 +106,7 @@ public class BillTest {
 
     @Test
     public void givenAValidDisableBill_whenCallsUpdateAndEnable_thenReturnBillUpdated() {
-        final var expectedAccountId = "123";
+        final var expectedAccountId = Account.newAccount("kaua", "kaua@mail.com", "12345678");
         final var expectedTitle = "fatura 01";
         final String expectedDescription = "fatura do cartão de credito";
         final var expectedPending = true;
@@ -125,7 +133,7 @@ public class BillTest {
 
     @Test
     public void givenAValidEnableBill_whenCallsUpdateAndDisable_thenReturnBillUpdated() {
-        final var expectedAccountId = "123";
+        final var expectedAccountId = Account.newAccount("kaua", "kaua@mail.com", "12345678");
         final var expectedTitle = "fatura 01";
         final String expectedDescription = "fatura do cartão de credito";
         final var expectedPending = false;
@@ -152,7 +160,7 @@ public class BillTest {
 
     @Test
     public void givenADisableBill_whenCallsEnableBill_shouldReturnEnabledBill() {
-        final var expectedAccountId = "123";
+        final var expectedAccountId = Account.newAccount("kaua", "kaua@mail.com", "12345678");
         final var expectedTitle = "fatura 01";
         final String expectedDescription = "fatura do cartão de credito";
         final var expectedPending = true;
@@ -177,7 +185,7 @@ public class BillTest {
 
     @Test
     public void givenAEnableBill_whenCallsDisableBill_shouldReturnDisabledBill() {
-        final var expectedAccountId = "123";
+        final var expectedAccountId = Account.newAccount("kaua", "kaua@mail.com", "12345678");
         final var expectedTitle = "fatura 01";
         final String expectedDescription = "fatura do cartão de credito";
         final var expectedPending = false;

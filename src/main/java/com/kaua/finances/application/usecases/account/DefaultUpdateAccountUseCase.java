@@ -28,6 +28,8 @@ public class DefaultUpdateAccountUseCase implements UpdateAccountUseCase {
         final var aAccount = this.accountGateway.findById(anId)
                 .orElseThrow(notFound(anId));
 
+        aAccount.update(aName, aPassword);
+
         final var aAccountValidate = aAccount.validate();
 
         if (!aAccountValidate.isEmpty()) {
