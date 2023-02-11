@@ -5,6 +5,7 @@ import com.kaua.finances.application.either.Either;
 import com.kaua.finances.application.exceptions.DomainException;
 import com.kaua.finances.application.exceptions.NotFoundException;
 import com.kaua.finances.application.usecases.bill.CreateBillUseCase;
+import com.kaua.finances.application.usecases.bill.DeleteBillByIdUseCase;
 import com.kaua.finances.application.usecases.bill.GetBillByIdUseCase;
 import com.kaua.finances.application.usecases.bill.UpdateBillUseCase;
 import com.kaua.finances.domain.account.Account;
@@ -32,6 +33,7 @@ import java.util.List;
 
 import static org.hamcrest.Matchers.*;
 import static org.mockito.ArgumentMatchers.eq;
+import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -55,6 +57,9 @@ public class BillAPITest {
 
     @MockBean
     private UpdateBillUseCase updateBillUseCase;
+
+    @MockBean
+    private DeleteBillByIdUseCase deleteBillByIdUseCase;
 
     @Test
     public void givenAValidParams_whenCallsCreateBill_shouldReturnBillId() throws Exception {
@@ -261,5 +266,21 @@ public class BillAPITest {
                 .andExpect(jsonPath("$.errors", hasSize(2)))
                 .andExpect(jsonPath("$.errors[0].message").value(expectedErrorOne))
                 .andExpect(jsonPath("$.errors[1].message").value(expectedErrorTwo));
+    }
+
+    @Test
+    public void givenAValidId_whenCallsDeleteBill_shouldReturnOk() throws Exception {
+        final var expectedId = "123";
+
+        doNothing()
+                .when(deleteBillByIdUseCase).execute(expectedId);
+
+        final var request = MockMvcRequestBuilders.delete("/bills/{id}", expectedId)
+                .accept(MediaType.APPLICATION_JSON)
+                .contentType(MediaType.APPLICATION_JSON);
+
+        this.mvc.perform(request)
+                .andDo(MockMvcResultHandlers.print())
+                .andExpect(status().isNoContent());
     }
 }

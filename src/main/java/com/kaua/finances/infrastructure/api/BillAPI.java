@@ -6,6 +6,7 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -56,8 +57,9 @@ public interface BillAPI {
     @DeleteMapping(value = "{id}")
     @Operation(summary = "Delete bill by it's identifier")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Bill deleted successfully"),
+            @ApiResponse(responseCode = "204", description = "Bill deleted successfully"),
             @ApiResponse(responseCode = "500", description = "An internal server error was thrown")
     })
+    @ResponseStatus(HttpStatus.NO_CONTENT)
     void deleteById(@PathVariable String id);
 }
