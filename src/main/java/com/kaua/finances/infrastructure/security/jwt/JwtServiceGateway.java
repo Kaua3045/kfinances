@@ -1,5 +1,6 @@
 package com.kaua.finances.infrastructure.security.jwt;
 
+import com.kaua.finances.domain.utils.InstantUtils;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
@@ -7,12 +8,14 @@ import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
 
 import java.security.Key;
+import java.time.temporal.ChronoUnit;
 import java.util.Date;
 
 public class JwtServiceGateway implements JwtGateway {
 
     private final String SECRET_KEY_JWT;
     private int JWT_EXPIRATION_TIME = 24;
+    private ChronoUnit JWT_EXPIRATION_UNIT_SPECIFIC = ChronoUnit.HOURS;
 
     public JwtServiceGateway(String SECRET_KEY_JWT) {
         this.SECRET_KEY_JWT = SECRET_KEY_JWT;
@@ -28,8 +31,8 @@ public class JwtServiceGateway implements JwtGateway {
         return Jwts
                 .builder()
                 .setSubject(id)
-                .setIssuedAt(new Date(System.currentTimeMillis()))
-                .setExpiration(new Date(System.currentTimeMillis() * 60 * JWT_EXPIRATION_TIME))
+                .setIssuedAt(Date.from(InstantUtils.now()))
+                .setExpiration(Date.from(InstantUtils.now().plus(JWT_EXPIRATION_TIME, JWT_EXPIRATION_UNIT_SPECIFIC)))
                 .signWith(getSignKey(), SignatureAlgorithm.HS256)
                 .compact();
     }
