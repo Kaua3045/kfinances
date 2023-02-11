@@ -26,7 +26,9 @@ public class BillMySQLGateway implements BillGateway {
 
     @Override
     public void deleteById(String id) {
-
+        if (this.billRepository.findById(id).isPresent()) {
+            this.billRepository.deleteById(id);
+        }
     }
 
     @Override

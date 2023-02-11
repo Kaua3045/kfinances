@@ -157,7 +157,7 @@ public class BillMySQLGatewayTest {
 
     @Test
     public void givenAValidDisableBill_whenCallsUpdateAndEnableBill_shouldReturnBillId() {
-        final var aAccount = Account.newAccount("kaua", "kaua3@mail.com", "12345678");
+        final var aAccount = Account.newAccount("kaua", "kaua5@mail.com", "12345678");
         accountGateway.create(aAccount);
 
         final var expectedTitle = "fatura 01";
@@ -275,5 +275,24 @@ public class BillMySQLGatewayTest {
         Assertions.assertEquals(aBill.getCreatedAt(), actualEntity.getCreatedAt());
         Assertions.assertTrue(actualEntity.getUpdatedAt().isAfter(aBill.getUpdatedAt()));
         Assertions.assertNotNull(actualEntity.getFinishedDate());
+    }
+
+    @Test
+    public void givenAValidId_whenCallsDeleteBill_shouldReturnOk() {
+        final var aAccount = Account.newAccount("kaua", "kaua3@mail.com", "12345678");
+        accountGateway.create(aAccount);
+
+        final var aBill = Bill.newBill(aAccount, "fatura", null, true);
+
+        Assertions.assertDoesNotThrow(aBill::validate);
+        Assertions.assertEquals(0, billRepository.count());
+
+        billRepository.saveAndFlush(BillJpaFactory.from(aBill));
+
+        Assertions.assertEquals(1, billRepository.count());
+
+        billGateway.deleteById(aBill.getId());
+
+        Assertions.assertEquals(0, billRepository.count());
     }
 }

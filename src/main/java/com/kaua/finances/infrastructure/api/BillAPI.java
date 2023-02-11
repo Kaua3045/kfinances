@@ -52,4 +52,12 @@ public interface BillAPI {
             @ApiResponse(responseCode = "500", description = "An internal server error was thrown")
     })
     ResponseEntity<?> updateById(@PathVariable String id, @RequestBody UpdateBillRequest input);
+
+    @DeleteMapping(value = "{id}")
+    @Operation(summary = "Delete bill by it's identifier")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Bill deleted successfully"),
+            @ApiResponse(responseCode = "500", description = "An internal server error was thrown")
+    })
+    void deleteById(@PathVariable String id);
 }
