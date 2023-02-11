@@ -31,7 +31,8 @@ public class BillMySQLGateway implements BillGateway {
 
     @Override
     public Optional<Bill> findById(String id) {
-        return Optional.empty();
+        return this.billRepository.findById(id)
+                .map(BillJpaFactory::toDomain);
     }
 
     @Override

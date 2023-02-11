@@ -1,6 +1,7 @@
 package com.kaua.finances.infrastructure.api.controllers;
 
 import com.kaua.finances.application.usecases.bill.CreateBillUseCase;
+import com.kaua.finances.application.usecases.bill.GetBillByIdUseCase;
 import com.kaua.finances.infrastructure.api.BillAPI;
 import com.kaua.finances.infrastructure.bill.models.CreateBillRequest;
 import org.springframework.http.HttpStatus;
@@ -13,9 +14,14 @@ import java.util.Objects;
 public class BillController implements BillAPI {
 
     private final CreateBillUseCase createBillUseCase;
+    private final GetBillByIdUseCase getBillByIdUseCase;
 
-    public BillController(final CreateBillUseCase createBillUseCase) {
+    public BillController(
+            final CreateBillUseCase createBillUseCase,
+            final GetBillByIdUseCase getBillByIdUseCase
+    ) {
         this.createBillUseCase = Objects.requireNonNull(createBillUseCase);
+        this.getBillByIdUseCase = Objects.requireNonNull(getBillByIdUseCase);
     }
 
     @Override
@@ -32,5 +38,12 @@ public class BillController implements BillAPI {
         }
 
         return ResponseEntity.status(HttpStatus.CREATED).body(aBill.getRight());
+    }
+
+    @Override
+    public ResponseEntity<?> getById(String id) {
+        final var aBill = this.getBillByIdUseCase.execute(id);
+
+        return ResponseEntity.ok().body(aBill);
     }
 }

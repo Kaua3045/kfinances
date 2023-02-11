@@ -7,9 +7,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 @RequestMapping(value = "bills")
 @Tag(name = "Bills")
@@ -27,4 +25,16 @@ public interface BillAPI {
             @ApiResponse(responseCode = "500", description = "An internal server error was thrown")
     })
     ResponseEntity<?> createBill(@RequestBody CreateBillRequest input);
+
+    @GetMapping(
+            value = "{id}",
+            produces = MediaType.APPLICATION_JSON_VALUE
+    )
+    @Operation(summary = "Get bill by it's identifier")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Bill find successfully"),
+            @ApiResponse(responseCode = "404", description = "Bill was not found"),
+            @ApiResponse(responseCode = "500", description = "An internal server error was thrown")
+    })
+    ResponseEntity<?> getById(@PathVariable String id);
 }

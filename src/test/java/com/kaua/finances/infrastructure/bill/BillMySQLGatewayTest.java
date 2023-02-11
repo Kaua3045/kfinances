@@ -4,6 +4,7 @@ import com.kaua.finances.domain.account.Account;
 import com.kaua.finances.domain.bills.Bill;
 import com.kaua.finances.infrastructure.MySQLGatewayTest;
 import com.kaua.finances.infrastructure.account.AccountMySQLGateway;
+import com.kaua.finances.infrastructure.bill.persistence.BillJpaFactory;
 import com.kaua.finances.infrastructure.bill.persistence.BillRepository;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -58,5 +59,39 @@ public class BillMySQLGatewayTest {
         Assertions.assertEquals(aBill.getCreatedAt(), actualEntity.getCreatedAt());
         Assertions.assertEquals(aBill.getUpdatedAt(), actualEntity.getUpdatedAt());
         Assertions.assertEquals(aBill.getFinishedDate(), actualEntity.getFinishedDate());
+    }
+
+    @Test
+    public void givenAValidId_whenCallsGetById_shouldReturnBill() {
+        final var aAccount = Account.newAccount("kaua", "kaua2@mail.com", "12345678");
+        accountGateway.create(aAccount);
+
+        final var expectedTitle = "fatura 01";
+        final var expectedDescription = "fatura do cartao";
+        final var expectedPending = true;
+
+        final var aBill = Bill.newBill(
+                aAccount,
+                expectedTitle,
+                expectedDescription,
+                expectedPending
+        );
+
+        Assertions.assertEquals(0, billRepository.count());
+
+        billRepository.saveAndFlush(BillJpaFactory.from(aBill));
+
+        Assertions.assertEquals(1, billRepository.count());
+
+        final var actualBill = billGateway.findById(aBill.getId()).get();
+
+        Assertions.assertEquals(aBill.getId(), actualBill.getId());
+        Assertions.assertEquals(expectedTitle, actualBill.getTitle());
+        Assertions.assertEquals(expectedDescription, actualBill.getDescription());
+        Assertions.assertEquals(expectedPending, actualBill.isPending());
+        Assertions.assertEquals(aAccount.getId(), actualBill.getAccountId().getId());
+        Assertions.assertEquals(aBill.getCreatedAt(), actualBill.getCreatedAt());
+        Assertions.assertEquals(aBill.getUpdatedAt(), actualBill.getUpdatedAt());
+        Assertions.assertNull(actualBill.getFinishedDate());
     }
 }
