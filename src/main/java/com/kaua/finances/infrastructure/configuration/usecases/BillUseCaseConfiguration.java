@@ -1,9 +1,6 @@
 package com.kaua.finances.infrastructure.configuration.usecases;
 
-import com.kaua.finances.application.usecases.bill.CreateBillUseCase;
-import com.kaua.finances.application.usecases.bill.DefaultCreateBillUseCase;
-import com.kaua.finances.application.usecases.bill.DefaultGetBillByIdUseCase;
-import com.kaua.finances.application.usecases.bill.GetBillByIdUseCase;
+import com.kaua.finances.application.usecases.bill.*;
 import com.kaua.finances.domain.account.AccountGateway;
 import com.kaua.finances.domain.bills.BillGateway;
 import org.springframework.context.annotation.Bean;
@@ -30,5 +27,10 @@ public class BillUseCaseConfiguration {
     @Bean
     public GetBillByIdUseCase getBillByIdUseCase() {
         return new DefaultGetBillByIdUseCase(billGateway);
+    }
+
+    @Bean
+    public UpdateBillUseCase updateBillUseCase() {
+        return new DefaultUpdateBillUseCase(billGateway);
     }
 }

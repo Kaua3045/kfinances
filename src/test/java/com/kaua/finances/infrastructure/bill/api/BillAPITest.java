@@ -6,18 +6,17 @@ import com.kaua.finances.application.exceptions.DomainException;
 import com.kaua.finances.application.exceptions.NotFoundException;
 import com.kaua.finances.application.usecases.bill.CreateBillUseCase;
 import com.kaua.finances.application.usecases.bill.GetBillByIdUseCase;
+import com.kaua.finances.application.usecases.bill.UpdateBillUseCase;
 import com.kaua.finances.domain.account.Account;
-import com.kaua.finances.domain.account.AccountOutput;
 import com.kaua.finances.domain.bills.Bill;
 import com.kaua.finances.domain.bills.BillOutput;
 import com.kaua.finances.domain.bills.CreateBillOutput;
+import com.kaua.finances.domain.bills.UpdateBillOutput;
 import com.kaua.finances.domain.utils.GenerateRandomTextsUtils;
 import com.kaua.finances.domain.validate.Error;
-import com.kaua.finances.infrastructure.account.models.CreateAccountRequest;
-import com.kaua.finances.infrastructure.account.persistence.AccountJpaFactory;
-import com.kaua.finances.infrastructure.account.persistence.AccountRepository;
 import com.kaua.finances.infrastructure.api.BillAPI;
 import com.kaua.finances.infrastructure.bill.models.CreateBillRequest;
+import com.kaua.finances.infrastructure.bill.models.UpdateBillRequest;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -32,7 +31,6 @@ import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
 import java.util.List;
 
 import static org.hamcrest.Matchers.*;
-import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
@@ -54,6 +52,9 @@ public class BillAPITest {
 
     @MockBean
     private GetBillByIdUseCase getBillByIdUseCase;
+
+    @MockBean
+    private UpdateBillUseCase updateBillUseCase;
 
     @Test
     public void givenAValidParams_whenCallsCreateBill_shouldReturnBillId() throws Exception {
@@ -190,5 +191,75 @@ public class BillAPITest {
                 .andDo(MockMvcResultHandlers.print())
                 .andExpect(status().isNotFound())
                 .andExpect(jsonPath("$.message", equalTo(expectedErrorMessage)));
+    }
+
+    @Test
+    public void givenAValidParams_whenCallsUpdateBill_shouldReturnBillId() throws Exception {
+        final var expectedTitle = "fatura 01";
+        final String expectedDescription = null;
+        final var expectedPending = true;
+        final var expectedId = "123";
+
+        when(updateBillUseCase.execute(
+                expectedId,
+                expectedTitle,
+                expectedDescription,
+                expectedPending
+        )).thenReturn(Either.right(UpdateBillOutput.from(expectedId)));
+
+        final var input = new UpdateBillRequest(
+                expectedTitle,
+                expectedDescription,
+                expectedPending
+        );
+
+        final var request = MockMvcRequestBuilders.put("/bills/{id}", expectedId)
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(this.mapper.writeValueAsString(input));
+
+        this.mvc.perform(request)
+                .andDo(MockMvcResultHandlers.print())
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.id", equalTo(expectedId)));
+    }
+
+    @Test
+    public void givenAnInvalidParams_whenCallsUpdateBill_shouldReturnDomainException() throws Exception {
+        final String expectedTitle = null;
+        final var expectedDescription = GenerateRandomTextsUtils.generate3000Characters();
+        final var expectedPending = true;
+        final var expectedId = "123";
+
+        final var expectedErrorsMessage = List.of(
+                new Error("'title' should not be empty or null"),
+                new Error("'description' must be between 3000 characters")
+        );
+
+        final var expectedErrorOne = expectedErrorsMessage.get(0).message();
+        final var expectedErrorTwo = expectedErrorsMessage.get(1).message();
+
+        final var input = new UpdateBillRequest(
+                expectedTitle,
+                expectedDescription,
+                expectedPending
+        );
+
+        when(updateBillUseCase.execute(
+                expectedId,
+                input.title(),
+                input.description(),
+                input.pending()
+        )).thenReturn(Either.left(DomainException.with(expectedErrorsMessage)));
+
+        final var request = MockMvcRequestBuilders.put("/bills/{id}", expectedId)
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(this.mapper.writeValueAsString(input));
+
+        this.mvc.perform(request)
+                .andDo(MockMvcResultHandlers.print())
+                .andExpect(status().isUnprocessableEntity())
+                .andExpect(jsonPath("$.errors", hasSize(2)))
+                .andExpect(jsonPath("$.errors[0].message").value(expectedErrorOne))
+                .andExpect(jsonPath("$.errors[1].message").value(expectedErrorTwo));
     }
 }

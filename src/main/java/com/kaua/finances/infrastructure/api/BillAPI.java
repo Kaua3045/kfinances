@@ -1,6 +1,7 @@
 package com.kaua.finances.infrastructure.api;
 
 import com.kaua.finances.infrastructure.bill.models.CreateBillRequest;
+import com.kaua.finances.infrastructure.bill.models.UpdateBillRequest;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
@@ -37,4 +38,18 @@ public interface BillAPI {
             @ApiResponse(responseCode = "500", description = "An internal server error was thrown")
     })
     ResponseEntity<?> getById(@PathVariable String id);
+
+    @PutMapping(
+            value = "{id}",
+            produces = MediaType.APPLICATION_JSON_VALUE,
+            consumes = MediaType.APPLICATION_JSON_VALUE
+    )
+    @Operation(summary = "Update bill by it's identifier")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Bill updated successfully"),
+            @ApiResponse(responseCode = "422", description = "A validation error was thrown"),
+            @ApiResponse(responseCode = "404", description = "Bill was not found"),
+            @ApiResponse(responseCode = "500", description = "An internal server error was thrown")
+    })
+    ResponseEntity<?> updateById(@PathVariable String id, @RequestBody UpdateBillRequest input);
 }

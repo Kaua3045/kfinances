@@ -2,8 +2,10 @@ package com.kaua.finances.infrastructure.api.controllers;
 
 import com.kaua.finances.application.usecases.bill.CreateBillUseCase;
 import com.kaua.finances.application.usecases.bill.GetBillByIdUseCase;
+import com.kaua.finances.application.usecases.bill.UpdateBillUseCase;
 import com.kaua.finances.infrastructure.api.BillAPI;
 import com.kaua.finances.infrastructure.bill.models.CreateBillRequest;
+import com.kaua.finances.infrastructure.bill.models.UpdateBillRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
@@ -15,13 +17,16 @@ public class BillController implements BillAPI {
 
     private final CreateBillUseCase createBillUseCase;
     private final GetBillByIdUseCase getBillByIdUseCase;
+    private final UpdateBillUseCase updateBillUseCase;
 
     public BillController(
             final CreateBillUseCase createBillUseCase,
-            final GetBillByIdUseCase getBillByIdUseCase
+            final GetBillByIdUseCase getBillByIdUseCase,
+            final UpdateBillUseCase updateBillUseCase
     ) {
         this.createBillUseCase = Objects.requireNonNull(createBillUseCase);
         this.getBillByIdUseCase = Objects.requireNonNull(getBillByIdUseCase);
+        this.updateBillUseCase = Objects.requireNonNull(updateBillUseCase);
     }
 
     @Override
@@ -45,5 +50,21 @@ public class BillController implements BillAPI {
         final var aBill = this.getBillByIdUseCase.execute(id);
 
         return ResponseEntity.ok().body(aBill);
+    }
+
+    @Override
+    public ResponseEntity<?> updateById(String id, UpdateBillRequest input) {
+        final var aBill = this.updateBillUseCase.execute(
+                id,
+                input.title(),
+                input.description(),
+                input.pending()
+        );
+
+        if (aBill.isLeft()) {
+            throw aBill.getLeft();
+        }
+
+        return ResponseEntity.ok().body(aBill.getRight());
     }
 }

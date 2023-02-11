@@ -37,6 +37,7 @@ public class BillMySQLGateway implements BillGateway {
 
     @Override
     public Bill update(Bill aBill) {
-        return null;
+        final var entity = this.billRepository.save(BillJpaFactory.from(aBill));
+        return BillJpaFactory.toDomain(entity);
     }
 }
