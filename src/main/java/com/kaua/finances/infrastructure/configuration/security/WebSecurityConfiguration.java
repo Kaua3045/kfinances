@@ -32,7 +32,7 @@ public class WebSecurityConfiguration {
     }
 
     @Bean
-    public SecurityFilterChain configure(
+    public SecurityFilterChain securityFilterChain(
             HttpSecurity http
     ) throws Exception {
         return http
