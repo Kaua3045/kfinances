@@ -12,6 +12,10 @@ server:
       io: 4
 
 spring:
+  config:
+    import: optional:file:.env[.properties]
+  jwt:
+    secret: ${JWT_KEY}
   datasource:
     url: jdbc:mysql://${mysql.url}/${mysql.schema}
     username: ${mysql.username}
