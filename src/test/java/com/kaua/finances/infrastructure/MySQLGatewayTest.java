@@ -16,8 +16,10 @@ import java.lang.annotation.*;
 @DataJpaTest
 @ComponentScan(
         basePackages = "com.kaua.finances",
+        // fez os testes funcionar, tirou os filtros do security
+        useDefaultFilters = false,
         includeFilters = {
-                @ComponentScan.Filter(type = FilterType.REGEX, pattern = ".[MySQLGateway]")
+                @ComponentScan.Filter(type = FilterType.REGEX, pattern = ".*MySQLGateway")
         }
 )
 @ExtendWith(MySQLCleanUpExtension.class)
