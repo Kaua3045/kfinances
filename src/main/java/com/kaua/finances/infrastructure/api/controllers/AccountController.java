@@ -9,6 +9,7 @@ import com.kaua.finances.infrastructure.account.models.UpdateAccountRequest;
 import com.kaua.finances.infrastructure.api.AccountAPI;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.Objects;
@@ -21,15 +22,19 @@ public class AccountController implements AccountAPI {
     private final GetAccountByIdUseCase getAccountByIdUseCase;
     private final DeleteAccountByIdUseCase deleteAccountByIdUseCase;
 
+    private final BCryptPasswordEncoder bCryptPasswordEncoder;
+
     public AccountController(
             final CreateAccountUseCase createAccountUseCase,
             final UpdateAccountUseCase updateAccountUseCase,
             final GetAccountByIdUseCase getAccountByIdUseCase,
-            final DeleteAccountByIdUseCase deleteAccountByIdUseCase) {
+            final DeleteAccountByIdUseCase deleteAccountByIdUseCase,
+            final BCryptPasswordEncoder bCryptPasswordEncoder) {
         this.createAccountUseCase = Objects.requireNonNull(createAccountUseCase);
         this.updateAccountUseCase = Objects.requireNonNull(updateAccountUseCase);
         this.getAccountByIdUseCase = Objects.requireNonNull(getAccountByIdUseCase);
         this.deleteAccountByIdUseCase = Objects.requireNonNull(deleteAccountByIdUseCase);
+        this.bCryptPasswordEncoder = Objects.requireNonNull(bCryptPasswordEncoder);
     }
 
     @Override
@@ -37,7 +42,7 @@ public class AccountController implements AccountAPI {
         final var aAccount = this.createAccountUseCase.execute(
                 input.name(),
                 input.email(),
-                input.password()
+                bCryptPasswordEncoder.encode(input.password())
         );
 
         if (aAccount.isLeft()) {
@@ -59,7 +64,7 @@ public class AccountController implements AccountAPI {
         final var aAccount = this.updateAccountUseCase.execute(
                 id,
                 input.name(),
-                input.password()
+                bCryptPasswordEncoder.encode(input.password())
         );
 
         if (aAccount.isLeft()) {
