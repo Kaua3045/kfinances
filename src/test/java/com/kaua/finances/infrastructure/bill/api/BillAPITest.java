@@ -294,6 +294,29 @@ public class BillAPITest {
     }
 
     @Test
+    public void givenAnInvalidId_whenCallsUpdatePendingBill_shouldReturnNotFoundException() throws Exception {
+        final var expectedErrorMessage = "Bill with ID 123 was not found";
+        final var expectedPending = true;
+        final var expectedId = "123";
+
+        when(updatePendingBillUseCase.execute(expectedId, expectedPending))
+                .thenThrow(NotFoundException.with(Bill.class, expectedId));
+
+        final var input = new UpdatePendingBillRequest(
+                expectedPending
+        );
+
+        final var request = MockMvcRequestBuilders.patch("/bills/{id}", expectedId)
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(this.mapper.writeValueAsString(input));
+
+        this.mvc.perform(request)
+                .andDo(MockMvcResultHandlers.print())
+                .andExpect(status().isNotFound())
+                .andExpect(jsonPath("$.message", equalTo(expectedErrorMessage)));
+    }
+
+    @Test
     public void givenAValidId_whenCallsDeleteBill_shouldReturnOk() throws Exception {
         final var expectedId = "123";
 
