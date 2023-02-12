@@ -4,10 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.kaua.finances.application.either.Either;
 import com.kaua.finances.application.exceptions.DomainException;
 import com.kaua.finances.application.exceptions.NotFoundException;
-import com.kaua.finances.application.usecases.bill.CreateBillUseCase;
-import com.kaua.finances.application.usecases.bill.DeleteBillByIdUseCase;
-import com.kaua.finances.application.usecases.bill.GetBillByIdUseCase;
-import com.kaua.finances.application.usecases.bill.UpdateBillUseCase;
+import com.kaua.finances.application.usecases.bill.*;
 import com.kaua.finances.domain.account.Account;
 import com.kaua.finances.domain.bills.Bill;
 import com.kaua.finances.domain.bills.BillOutput;
@@ -18,6 +15,7 @@ import com.kaua.finances.domain.validate.Error;
 import com.kaua.finances.infrastructure.api.BillAPI;
 import com.kaua.finances.infrastructure.bill.models.CreateBillRequest;
 import com.kaua.finances.infrastructure.bill.models.UpdateBillRequest;
+import com.kaua.finances.infrastructure.bill.models.UpdatePendingBillRequest;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -57,6 +55,9 @@ public class BillAPITest {
 
     @MockBean
     private UpdateBillUseCase updateBillUseCase;
+
+    @MockBean
+    private UpdatePendingBillUseCase updatePendingBillUseCase;
 
     @MockBean
     private DeleteBillByIdUseCase deleteBillByIdUseCase;
@@ -266,6 +267,30 @@ public class BillAPITest {
                 .andExpect(jsonPath("$.errors", hasSize(2)))
                 .andExpect(jsonPath("$.errors[0].message").value(expectedErrorOne))
                 .andExpect(jsonPath("$.errors[1].message").value(expectedErrorTwo));
+    }
+
+    @Test
+    public void givenAValidParams_whenCallsUpdatePendingBill_shouldReturnBillId() throws Exception {
+        final var expectedPending = true;
+        final var expectedId = "123";
+
+        when(updatePendingBillUseCase.execute(
+                expectedId,
+                expectedPending
+        )).thenReturn(Either.right(UpdateBillOutput.from(expectedId)));
+
+        final var input = new UpdatePendingBillRequest(
+                expectedPending
+        );
+
+        final var request = MockMvcRequestBuilders.patch("/bills/{id}", expectedId)
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(this.mapper.writeValueAsString(input));
+
+        this.mvc.perform(request)
+                .andDo(MockMvcResultHandlers.print())
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.id", equalTo(expectedId)));
     }
 
     @Test

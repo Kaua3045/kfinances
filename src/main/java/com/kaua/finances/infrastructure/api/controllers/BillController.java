@@ -1,12 +1,10 @@
 package com.kaua.finances.infrastructure.api.controllers;
 
-import com.kaua.finances.application.usecases.bill.CreateBillUseCase;
-import com.kaua.finances.application.usecases.bill.DeleteBillByIdUseCase;
-import com.kaua.finances.application.usecases.bill.GetBillByIdUseCase;
-import com.kaua.finances.application.usecases.bill.UpdateBillUseCase;
+import com.kaua.finances.application.usecases.bill.*;
 import com.kaua.finances.infrastructure.api.BillAPI;
 import com.kaua.finances.infrastructure.bill.models.CreateBillRequest;
 import com.kaua.finances.infrastructure.bill.models.UpdateBillRequest;
+import com.kaua.finances.infrastructure.bill.models.UpdatePendingBillRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
@@ -19,17 +17,20 @@ public class BillController implements BillAPI {
     private final CreateBillUseCase createBillUseCase;
     private final GetBillByIdUseCase getBillByIdUseCase;
     private final UpdateBillUseCase updateBillUseCase;
+    private final UpdatePendingBillUseCase updatePendingBillUseCase;
     private final DeleteBillByIdUseCase deleteBillByIdUseCase;
 
     public BillController(
             final CreateBillUseCase createBillUseCase,
             final GetBillByIdUseCase getBillByIdUseCase,
             final UpdateBillUseCase updateBillUseCase,
+            final UpdatePendingBillUseCase updatePendingBillUseCase,
             final DeleteBillByIdUseCase deleteBillByIdUseCase
     ) {
         this.createBillUseCase = Objects.requireNonNull(createBillUseCase);
         this.getBillByIdUseCase = Objects.requireNonNull(getBillByIdUseCase);
         this.updateBillUseCase = Objects.requireNonNull(updateBillUseCase);
+        this.updatePendingBillUseCase = Objects.requireNonNull(updatePendingBillUseCase);
         this.deleteBillByIdUseCase = Objects.requireNonNull(deleteBillByIdUseCase);
     }
 
@@ -64,6 +65,17 @@ public class BillController implements BillAPI {
                 input.description(),
                 input.pending()
         );
+
+        if (aBill.isLeft()) {
+            throw aBill.getLeft();
+        }
+
+        return ResponseEntity.ok().body(aBill.getRight());
+    }
+
+    @Override
+    public ResponseEntity<?> updatePendingById(String id, UpdatePendingBillRequest input) {
+        final var aBill = this.updatePendingBillUseCase.execute(id, input.pending());
 
         if (aBill.isLeft()) {
             throw aBill.getLeft();

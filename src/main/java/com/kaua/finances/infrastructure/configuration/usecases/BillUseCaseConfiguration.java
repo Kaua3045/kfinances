@@ -35,6 +35,11 @@ public class BillUseCaseConfiguration {
     }
 
     @Bean
+    public UpdatePendingBillUseCase updatePendingBillUseCase() {
+        return new DefaultUpdatePendingBillUseCase(billGateway);
+    }
+
+    @Bean
     public DeleteBillByIdUseCase deleteBillByIdUseCase() {
         return new DefaultDeleteBillByIdUseCase(billGateway);
     }
