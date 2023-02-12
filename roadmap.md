@@ -1,0 +1,6 @@
+- [ ] Adicionar o OAuth2 
+- [ ] Mover o gateway de auth para application layer
+- [ ] Criar um UseCase para autenticação e adicionar no controller
+- [ ] Adicionar os testes para o UseCase de autenticação
+- [ ] Talvez tirar throw EmailAlreadyExists e adicionar no Either no CreateAccountUseCase
+- [ ] Adicionar uma paginação para os Bills do usuário especifico
