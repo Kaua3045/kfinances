@@ -13,6 +13,7 @@ plugins {
 	id 'org.springframework.boot' version '3.0.2'
 	id 'io.spring.dependency-management' version '1.1.0'
 	id 'org.flywaydb.flyway' version '9.8.1'
+	id 'jacoco-report-aggregation'
 }
 
 group = 'com.kaua.finances'
@@ -54,6 +55,20 @@ flyway {
 	cleanDisabled = false
 }
 
+testCodeCoverageReport {
+	reports {
+		xml.required = true
+		xml.outputLocation = file("$rootDir/build/reports/jacoco/test/jacocoTestReport.xml")
+
+		html.required = true
+		html.outputLocation = file("$rootDir/build/reports/jacoco/test/")
+	}
+}
+
 tasks.named('test') {
 	useJUnitPlatform()
+}
+
+tasks.named("jacocoTestReport") {
+	dependsOn tasks.named("testCodeCoverageReport", JacocoReport)
 }
