@@ -5,7 +5,7 @@ import com.kaua.finances.application.either.Either;
 import com.kaua.finances.application.exceptions.NotFoundException;
 import com.kaua.finances.application.usecases.security.CreateAuthenticateUseCase;
 import com.kaua.finances.domain.account.Account;
-import com.kaua.finances.domain.authenticate.AuthenticateTokenOutput;
+import com.kaua.finances.application.usecases.security.output.AuthenticateTokenOutput;
 import com.kaua.finances.infrastructure.account.models.AuthenticateRequest;
 import com.kaua.finances.infrastructure.api.AuthAPI;
 import org.hamcrest.Matchers;

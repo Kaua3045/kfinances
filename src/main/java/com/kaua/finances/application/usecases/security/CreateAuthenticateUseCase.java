@@ -2,7 +2,7 @@ package com.kaua.finances.application.usecases.security;
 
 import com.kaua.finances.application.either.Either;
 import com.kaua.finances.application.exceptions.NotFoundException;
-import com.kaua.finances.domain.authenticate.AuthenticateTokenOutput;
+import com.kaua.finances.application.usecases.security.output.AuthenticateTokenOutput;
 
 public interface CreateAuthenticateUseCase {
 
