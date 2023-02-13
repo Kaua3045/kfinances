@@ -7,4 +7,6 @@ public interface SecurityGateway {
     String generateToken(String subject);
 
     boolean isTokenValid(String token, String id);
+
+    boolean isTokenExpired(String token);
 }

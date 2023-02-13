@@ -44,7 +44,8 @@ public class JwtServiceGateway implements SecurityGateway {
         return accountId.equals(id) && !isTokenExpired(token);
     }
 
-    private boolean isTokenExpired(String token) {
+    @Override
+    public boolean isTokenExpired(String token) {
         return extractAllClaims(token).getExpiration().before(new Date());
     }
 
