@@ -16,6 +16,7 @@ spring:
     import: optional:file:.env[.properties]
   jwt:
     secret: ${JWT_KEY}
+    expire: ${JWT_EXPIRE_TIME}
   datasource:
     url: jdbc:mysql://${mysql.url}/${mysql.schema}
     username: ${mysql.username}

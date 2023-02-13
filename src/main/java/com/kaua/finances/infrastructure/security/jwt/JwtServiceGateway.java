@@ -15,11 +15,15 @@ import java.util.Date;
 public class JwtServiceGateway implements SecurityGateway {
 
     private final String SECRET_KEY_JWT;
-    private int JWT_EXPIRATION_TIME = 24;
+    private final String JWT_EXPIRATION_TIME;
     private ChronoUnit JWT_EXPIRATION_UNIT_SPECIFIC = ChronoUnit.HOURS;
 
-    public JwtServiceGateway(String SECRET_KEY_JWT) {
+    public JwtServiceGateway(
+            String SECRET_KEY_JWT,
+            String JWT_EXPIRATION_TIME
+    ) {
         this.SECRET_KEY_JWT = SECRET_KEY_JWT;
+        this.JWT_EXPIRATION_TIME = JWT_EXPIRATION_TIME;
     }
 
     @Override
@@ -33,7 +37,9 @@ public class JwtServiceGateway implements SecurityGateway {
                 .builder()
                 .setSubject(id)
                 .setIssuedAt(Date.from(InstantUtils.now()))
-                .setExpiration(Date.from(InstantUtils.now().plus(JWT_EXPIRATION_TIME, JWT_EXPIRATION_UNIT_SPECIFIC)))
+                .setExpiration(Date.from(InstantUtils.now().plus(
+                        Integer.parseInt(JWT_EXPIRATION_TIME),
+                        JWT_EXPIRATION_UNIT_SPECIFIC)))
                 .signWith(getSignKey(), SignatureAlgorithm.HS256)
                 .compact();
     }

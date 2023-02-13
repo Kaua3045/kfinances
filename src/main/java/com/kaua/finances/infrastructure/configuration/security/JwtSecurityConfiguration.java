@@ -15,9 +15,12 @@ public class JwtSecurityConfiguration {
     @Value("${spring.jwt.secret}")
     private String SECRET;
 
+    @Value("${spring.jwt.expire}")
+    private String EXPIRATION;
+
     @Bean
     public SecurityGateway jwtServiceGateway() {
-        return new JwtServiceGateway(SECRET);
+        return new JwtServiceGateway(SECRET, EXPIRATION);
     }
 
     @Bean
