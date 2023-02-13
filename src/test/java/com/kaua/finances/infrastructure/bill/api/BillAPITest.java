@@ -5,6 +5,10 @@ import com.kaua.finances.application.either.Either;
 import com.kaua.finances.application.exceptions.DomainException;
 import com.kaua.finances.application.exceptions.NotFoundException;
 import com.kaua.finances.application.usecases.bill.*;
+import com.kaua.finances.application.usecases.bill.output.BillListOutput;
+import com.kaua.finances.application.usecases.bill.output.BillOutput;
+import com.kaua.finances.application.usecases.bill.output.CreateBillOutput;
+import com.kaua.finances.application.usecases.bill.output.UpdateBillOutput;
 import com.kaua.finances.domain.account.Account;
 import com.kaua.finances.domain.bills.*;
 import com.kaua.finances.domain.pagination.Pagination;
@@ -28,7 +32,6 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
 
 import java.util.List;
-import java.util.Objects;
 
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.hasSize;

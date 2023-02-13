@@ -1,4 +1,6 @@
-package com.kaua.finances.domain.bills;
+package com.kaua.finances.application.usecases.bill.output;
+
+import com.kaua.finances.domain.bills.Bill;
 
 import java.time.Instant;
 

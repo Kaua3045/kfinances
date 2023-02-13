@@ -1,6 +1,6 @@
 package com.kaua.finances.application.usecases.bill;
 
-import com.kaua.finances.domain.bills.BillOutput;
+import com.kaua.finances.application.usecases.bill.output.BillOutput;
 
 public interface GetBillByIdUseCase {
 

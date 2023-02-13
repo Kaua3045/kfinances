@@ -1,4 +1,4 @@
-package com.kaua.finances.domain.bills;
+package com.kaua.finances.application.usecases.bill.output;
 
 public record CreateBillOutput(String id) {
 

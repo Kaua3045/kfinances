@@ -3,7 +3,7 @@ package com.kaua.finances.application.usecases.bill;
 import com.kaua.finances.application.exceptions.NotFoundException;
 import com.kaua.finances.domain.bills.Bill;
 import com.kaua.finances.domain.bills.BillGateway;
-import com.kaua.finances.domain.bills.BillOutput;
+import com.kaua.finances.application.usecases.bill.output.BillOutput;
 
 import java.util.Objects;
 

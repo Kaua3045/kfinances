@@ -2,7 +2,7 @@ package com.kaua.finances.application.usecases.bill;
 
 import com.kaua.finances.application.either.Either;
 import com.kaua.finances.application.exceptions.DomainException;
-import com.kaua.finances.domain.bills.CreateBillOutput;
+import com.kaua.finances.application.usecases.bill.output.CreateBillOutput;
 
 public interface CreateBillUseCase {
 

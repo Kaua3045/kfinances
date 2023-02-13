@@ -4,7 +4,7 @@ import com.kaua.finances.application.exceptions.NotFoundException;
 import com.kaua.finances.domain.account.Account;
 import com.kaua.finances.domain.account.AccountGateway;
 import com.kaua.finances.domain.bills.BillGateway;
-import com.kaua.finances.domain.bills.BillListOutput;
+import com.kaua.finances.application.usecases.bill.output.BillListOutput;
 import com.kaua.finances.domain.pagination.Pagination;
 import com.kaua.finances.domain.pagination.SearchQuery;
 

@@ -7,7 +7,7 @@ import com.kaua.finances.domain.account.Account;
 import com.kaua.finances.domain.account.AccountGateway;
 import com.kaua.finances.domain.bills.Bill;
 import com.kaua.finances.domain.bills.BillGateway;
-import com.kaua.finances.domain.bills.CreateBillOutput;
+import com.kaua.finances.application.usecases.bill.output.CreateBillOutput;
 
 import java.util.Objects;
 
