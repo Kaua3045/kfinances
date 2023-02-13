@@ -31,7 +31,7 @@ public class BillUseCaseConfiguration {
 
     @Bean
     public ListBillByAccountIdUseCase listBillByAccountIdUseCase() {
-        return new DefaultListBillByAccountIdUseCase(billGateway);
+        return new DefaultListBillByAccountIdUseCase(billGateway, accountGateway);
     }
 
     @Bean
