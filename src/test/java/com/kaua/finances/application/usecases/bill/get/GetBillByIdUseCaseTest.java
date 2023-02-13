@@ -1,7 +1,7 @@
 package com.kaua.finances.application.usecases.bill.get;
 
 import com.kaua.finances.application.exceptions.NotFoundException;
-import com.kaua.finances.application.usecases.bill.DefaultGetBillByIdUseCase;
+import com.kaua.finances.application.usecases.bill.retrieve.get.DefaultGetBillByIdUseCase;
 import com.kaua.finances.domain.account.Account;
 import com.kaua.finances.domain.bills.Bill;
 import com.kaua.finances.domain.bills.BillGateway;
@@ -10,7 +10,6 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.Optional;

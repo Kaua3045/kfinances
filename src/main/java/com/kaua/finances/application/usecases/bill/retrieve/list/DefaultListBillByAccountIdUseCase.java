@@ -1,4 +1,4 @@
-package com.kaua.finances.application.usecases.bill;
+package com.kaua.finances.application.usecases.bill.retrieve.list;
 
 import com.kaua.finances.application.exceptions.NotFoundException;
 import com.kaua.finances.domain.account.Account;

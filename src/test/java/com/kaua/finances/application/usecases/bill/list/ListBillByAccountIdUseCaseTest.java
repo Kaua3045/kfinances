@@ -1,6 +1,6 @@
 package com.kaua.finances.application.usecases.bill.list;
 
-import com.kaua.finances.application.usecases.bill.DefaultListBillByAccountIdUseCase;
+import com.kaua.finances.application.usecases.bill.retrieve.list.DefaultListBillByAccountIdUseCase;
 import com.kaua.finances.domain.account.Account;
 import com.kaua.finances.domain.account.AccountGateway;
 import com.kaua.finances.domain.bills.Bill;

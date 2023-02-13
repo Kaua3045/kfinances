@@ -1,4 +1,4 @@
-package com.kaua.finances.application.usecases.bill;
+package com.kaua.finances.application.usecases.bill.retrieve.list;
 
 import com.kaua.finances.application.usecases.bill.output.BillListOutput;
 import com.kaua.finances.domain.pagination.Pagination;

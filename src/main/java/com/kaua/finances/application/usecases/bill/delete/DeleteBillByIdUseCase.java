@@ -1,4 +1,4 @@
-package com.kaua.finances.application.usecases.bill;
+package com.kaua.finances.application.usecases.bill.delete;
 
 public interface DeleteBillByIdUseCase {
 

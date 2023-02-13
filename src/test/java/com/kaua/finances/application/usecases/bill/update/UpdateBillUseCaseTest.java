@@ -1,6 +1,5 @@
 package com.kaua.finances.application.usecases.bill.update;
 
-import com.kaua.finances.application.usecases.bill.DefaultUpdateBillUseCase;
 import com.kaua.finances.domain.account.Account;
 import com.kaua.finances.domain.bills.Bill;
 import com.kaua.finances.domain.bills.BillGateway;

@@ -1,6 +1,11 @@
 package com.kaua.finances.infrastructure.api.controllers;
 
-import com.kaua.finances.application.usecases.bill.*;
+import com.kaua.finances.application.usecases.bill.create.CreateBillUseCase;
+import com.kaua.finances.application.usecases.bill.delete.DeleteBillByIdUseCase;
+import com.kaua.finances.application.usecases.bill.retrieve.get.GetBillByIdUseCase;
+import com.kaua.finances.application.usecases.bill.retrieve.list.ListBillByAccountIdUseCase;
+import com.kaua.finances.application.usecases.bill.update.UpdateBillUseCase;
+import com.kaua.finances.application.usecases.bill.update.UpdatePendingBillUseCase;
 import com.kaua.finances.domain.pagination.Pagination;
 import com.kaua.finances.domain.pagination.SearchQuery;
 import com.kaua.finances.infrastructure.api.BillAPI;

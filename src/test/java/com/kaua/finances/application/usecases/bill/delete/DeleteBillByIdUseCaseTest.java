@@ -1,6 +1,5 @@
 package com.kaua.finances.application.usecases.bill.delete;
 
-import com.kaua.finances.application.usecases.bill.DefaultDeleteBillByIdUseCase;
 import com.kaua.finances.domain.account.Account;
 import com.kaua.finances.domain.bills.Bill;
 import com.kaua.finances.domain.bills.BillGateway;

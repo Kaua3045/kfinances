@@ -1,4 +1,4 @@
-package com.kaua.finances.application.usecases.bill;
+package com.kaua.finances.application.usecases.bill.retrieve.get;
 
 import com.kaua.finances.application.usecases.bill.output.BillOutput;
 

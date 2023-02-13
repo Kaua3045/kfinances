@@ -1,6 +1,17 @@
 package com.kaua.finances.infrastructure.configuration.usecases;
 
-import com.kaua.finances.application.usecases.bill.*;
+import com.kaua.finances.application.usecases.bill.create.CreateBillUseCase;
+import com.kaua.finances.application.usecases.bill.create.DefaultCreateBillUseCase;
+import com.kaua.finances.application.usecases.bill.delete.DefaultDeleteBillByIdUseCase;
+import com.kaua.finances.application.usecases.bill.delete.DeleteBillByIdUseCase;
+import com.kaua.finances.application.usecases.bill.retrieve.get.DefaultGetBillByIdUseCase;
+import com.kaua.finances.application.usecases.bill.retrieve.get.GetBillByIdUseCase;
+import com.kaua.finances.application.usecases.bill.retrieve.list.DefaultListBillByAccountIdUseCase;
+import com.kaua.finances.application.usecases.bill.retrieve.list.ListBillByAccountIdUseCase;
+import com.kaua.finances.application.usecases.bill.update.DefaultUpdateBillUseCase;
+import com.kaua.finances.application.usecases.bill.update.DefaultUpdatePendingBillUseCase;
+import com.kaua.finances.application.usecases.bill.update.UpdateBillUseCase;
+import com.kaua.finances.application.usecases.bill.update.UpdatePendingBillUseCase;
 import com.kaua.finances.domain.account.AccountGateway;
 import com.kaua.finances.domain.bills.BillGateway;
 import org.springframework.context.annotation.Bean;
