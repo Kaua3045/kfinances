@@ -1,6 +1,5 @@
 package com.kaua.finances.application.usecases.account.update;
 
-import com.kaua.finances.application.usecases.account.DefaultUpdateAccountUseCase;
 import com.kaua.finances.domain.account.Account;
 import com.kaua.finances.domain.account.AccountGateway;
 import org.junit.jupiter.api.Assertions;

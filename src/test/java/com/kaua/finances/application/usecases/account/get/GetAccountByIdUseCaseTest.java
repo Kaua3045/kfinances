@@ -1,7 +1,7 @@
 package com.kaua.finances.application.usecases.account.get;
 
 import com.kaua.finances.application.exceptions.NotFoundException;
-import com.kaua.finances.application.usecases.account.DefaultGetAccountByIdUseCase;
+import com.kaua.finances.application.usecases.account.retrieve.DefaultGetAccountByIdUseCase;
 import com.kaua.finances.domain.account.Account;
 import com.kaua.finances.domain.account.AccountGateway;
 import org.junit.jupiter.api.Assertions;

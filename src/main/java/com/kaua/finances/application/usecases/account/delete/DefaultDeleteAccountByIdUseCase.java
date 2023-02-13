@@ -1,4 +1,4 @@
-package com.kaua.finances.application.usecases.account;
+package com.kaua.finances.application.usecases.account.delete;
 
 import com.kaua.finances.domain.account.AccountGateway;
 

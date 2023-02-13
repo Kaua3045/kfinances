@@ -1,6 +1,5 @@
 package com.kaua.finances.application.usecases.account.create;
 
-import com.kaua.finances.application.usecases.account.DefaultCreateAccountUseCase;
 import com.kaua.finances.domain.account.AccountGateway;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;

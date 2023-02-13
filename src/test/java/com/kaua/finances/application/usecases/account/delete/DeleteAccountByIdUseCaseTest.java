@@ -1,6 +1,5 @@
 package com.kaua.finances.application.usecases.account.delete;
 
-import com.kaua.finances.application.usecases.account.DefaultDeleteAccountByIdUseCase;
 import com.kaua.finances.domain.account.Account;
 import com.kaua.finances.domain.account.AccountGateway;
 import org.junit.jupiter.api.Assertions;
