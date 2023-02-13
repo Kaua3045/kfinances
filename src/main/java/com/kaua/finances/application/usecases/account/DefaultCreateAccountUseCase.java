@@ -22,7 +22,7 @@ public class DefaultCreateAccountUseCase implements CreateAccountUseCase {
         final var aAccountExists = this.accountGateway.findByEmail(aEmail);
 
         if (aAccountExists.isPresent()) {
-            throw EmailAlreadyExistsException.with();
+            return Either.left(DomainException.with(EmailAlreadyExistsException.with()));
         }
 
         final var aAccount = Account.newAccount(aName, aEmail, aPassword);
