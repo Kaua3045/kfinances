@@ -6,36 +6,33 @@ import com.kaua.finances.application.exceptions.DomainException;
 import com.kaua.finances.application.exceptions.NotFoundException;
 import com.kaua.finances.application.usecases.account.create.CreateAccountUseCase;
 import com.kaua.finances.application.usecases.account.delete.DeleteAccountByIdUseCase;
-import com.kaua.finances.application.usecases.account.retrieve.GetAccountByIdUseCase;
-import com.kaua.finances.application.usecases.account.update.UpdateAccountUseCase;
-import com.kaua.finances.domain.account.Account;
 import com.kaua.finances.application.usecases.account.output.AccountOutput;
 import com.kaua.finances.application.usecases.account.output.CreateAccountOutput;
 import com.kaua.finances.application.usecases.account.output.UpdateAccountOutput;
+import com.kaua.finances.application.usecases.account.retrieve.GetAccountByIdUseCase;
+import com.kaua.finances.application.usecases.account.update.UpdateAccountUseCase;
+import com.kaua.finances.domain.account.Account;
 import com.kaua.finances.domain.validate.Error;
+import com.kaua.finances.infrastructure.ControllerTest;
 import com.kaua.finances.infrastructure.account.models.CreateAccountRequest;
-import com.kaua.finances.infrastructure.api.AccountAPI;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
-import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
 
 import java.util.List;
 
-import static org.hamcrest.Matchers.*;
+import static org.hamcrest.Matchers.equalTo;
+import static org.hamcrest.Matchers.hasSize;
 import static org.mockito.Mockito.*;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-@ActiveProfiles("test-integration")
-@WebMvcTest(controllers = AccountAPI.class)
-@AutoConfigureMockMvc(addFilters = false)
+@ControllerTest(controllers = AccountAPI.class)
 public class AccountAPITest {
 
     @Autowired

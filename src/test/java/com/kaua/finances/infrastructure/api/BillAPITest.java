@@ -15,23 +15,20 @@ import com.kaua.finances.application.usecases.bill.retrieve.list.ListBillByAccou
 import com.kaua.finances.application.usecases.bill.update.UpdateBillUseCase;
 import com.kaua.finances.application.usecases.bill.update.UpdatePendingBillUseCase;
 import com.kaua.finances.domain.account.Account;
-import com.kaua.finances.domain.bills.*;
+import com.kaua.finances.domain.bills.Bill;
 import com.kaua.finances.domain.pagination.Pagination;
 import com.kaua.finances.domain.pagination.SearchQuery;
 import com.kaua.finances.domain.utils.GenerateRandomTextsUtils;
 import com.kaua.finances.domain.validate.Error;
-import com.kaua.finances.infrastructure.api.BillAPI;
+import com.kaua.finances.infrastructure.ControllerTest;
 import com.kaua.finances.infrastructure.bill.models.CreateBillRequest;
 import com.kaua.finances.infrastructure.bill.models.UpdateBillRequest;
 import com.kaua.finances.infrastructure.bill.models.UpdatePendingBillRequest;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
-import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
-import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
@@ -40,15 +37,13 @@ import java.util.List;
 
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.hasSize;
-import static org.mockito.ArgumentMatchers.*;
+import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-@ActiveProfiles("test-integration")
-@WebMvcTest(controllers = BillAPI.class)
-@AutoConfigureMockMvc(addFilters = false)
+@ControllerTest(controllers = BillAPI.class)
 public class BillAPITest {
 
     @Autowired

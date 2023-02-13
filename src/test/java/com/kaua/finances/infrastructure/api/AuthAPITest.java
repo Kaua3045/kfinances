@@ -6,17 +6,14 @@ import com.kaua.finances.application.exceptions.NotFoundException;
 import com.kaua.finances.application.usecases.security.CreateAuthenticateUseCase;
 import com.kaua.finances.domain.account.Account;
 import com.kaua.finances.application.usecases.security.output.AuthenticateTokenOutput;
+import com.kaua.finances.infrastructure.ControllerTest;
 import com.kaua.finances.infrastructure.account.models.AuthenticateRequest;
-import com.kaua.finances.infrastructure.api.AuthAPI;
 import org.hamcrest.Matchers;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
-import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
@@ -25,9 +22,7 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 import static org.hamcrest.Matchers.equalTo;
 import static org.mockito.Mockito.*;
 
-@ActiveProfiles("test-integration")
-@WebMvcTest(controllers = AuthAPI.class)
-@AutoConfigureMockMvc(addFilters = false)
+@ControllerTest(controllers = AuthAPI.class)
 public class AuthAPITest {
 
     @Autowired
