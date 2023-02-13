@@ -2,6 +2,7 @@ package com.kaua.finances.application.usecases.bill.list;
 
 import com.kaua.finances.application.usecases.bill.DefaultListBillByAccountIdUseCase;
 import com.kaua.finances.domain.account.Account;
+import com.kaua.finances.domain.account.AccountGateway;
 import com.kaua.finances.domain.bills.Bill;
 import com.kaua.finances.domain.bills.BillGateway;
 import com.kaua.finances.domain.bills.BillListOutput;
@@ -16,6 +17,7 @@ import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.List;
+import java.util.Optional;
 
 import static org.mockito.Mockito.*;
 
@@ -27,6 +29,9 @@ public class ListBillByAccountIdUseCaseTest {
 
     @Mock
     private BillGateway billGateway;
+
+    @Mock
+    private AccountGateway accountGateway;
 
     @Test
     public void givenAValidParams_whenCallsListBill_shouldReturnBills() {
@@ -63,6 +68,9 @@ public class ListBillByAccountIdUseCaseTest {
                 expectedDirection
         );
 
+        when(accountGateway.findById(aAccount.getId()))
+                .thenReturn(Optional.of(Account.with(aAccount)));
+
         when(billGateway.findAllByAccountId(aAccount.getId(), aQuery))
                 .thenReturn(expectedPagination);
 
@@ -78,8 +86,10 @@ public class ListBillByAccountIdUseCaseTest {
 
     @Test
     public void givenAValidParams_whenCallsListBillAndResultIsEmpty_shouldReturnBills() {
+        final var aAccount = Account.newAccount("a", "a", "123456789");
+
         final var bills = List.<Bill>of();
-        final var expectedAccountId = "123";
+        final var expectedAccountId = aAccount.getId();
 
         final var expectedPage = 0;
         final var expectedPerPage = 10;
@@ -104,6 +114,9 @@ public class ListBillByAccountIdUseCaseTest {
                 expectedSort,
                 expectedDirection
         );
+
+        when(accountGateway.findById(expectedAccountId))
+                .thenReturn(Optional.of(Account.with(aAccount)));
 
         when(billGateway.findAllByAccountId(expectedAccountId, aQuery))
                 .thenReturn(expectedPagination);
