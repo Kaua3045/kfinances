@@ -6,10 +6,9 @@ import com.kaua.finances.application.exceptions.DomainException;
 import com.kaua.finances.application.exceptions.NotFoundException;
 import com.kaua.finances.application.usecases.bill.*;
 import com.kaua.finances.domain.account.Account;
-import com.kaua.finances.domain.bills.Bill;
-import com.kaua.finances.domain.bills.BillOutput;
-import com.kaua.finances.domain.bills.CreateBillOutput;
-import com.kaua.finances.domain.bills.UpdateBillOutput;
+import com.kaua.finances.domain.bills.*;
+import com.kaua.finances.domain.pagination.Pagination;
+import com.kaua.finances.domain.pagination.SearchQuery;
 import com.kaua.finances.domain.utils.GenerateRandomTextsUtils;
 import com.kaua.finances.domain.validate.Error;
 import com.kaua.finances.infrastructure.api.BillAPI;
@@ -17,6 +16,7 @@ import com.kaua.finances.infrastructure.bill.models.CreateBillRequest;
 import com.kaua.finances.infrastructure.bill.models.UpdateBillRequest;
 import com.kaua.finances.infrastructure.bill.models.UpdatePendingBillRequest;
 import org.junit.jupiter.api.Test;
+import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
@@ -28,9 +28,11 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
 
 import java.util.List;
+import java.util.Objects;
 
-import static org.hamcrest.Matchers.*;
-import static org.mockito.ArgumentMatchers.eq;
+import static org.hamcrest.Matchers.equalTo;
+import static org.hamcrest.Matchers.hasSize;
+import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
@@ -52,6 +54,9 @@ public class BillAPITest {
 
     @MockBean
     private GetBillByIdUseCase getBillByIdUseCase;
+
+    @MockBean
+    private ListBillByAccountIdUseCase listBillByAccountIdUseCase;
 
     @MockBean
     private UpdateBillUseCase updateBillUseCase;
@@ -330,5 +335,58 @@ public class BillAPITest {
         this.mvc.perform(request)
                 .andDo(MockMvcResultHandlers.print())
                 .andExpect(status().isNoContent());
+    }
+
+    @Test
+    public void givenAValidParams_whenCallsListBillsByAccountId_shouldReturnBills() throws Exception {
+        final var aAccount = Account.newAccount("kaua", "kaua@mail.com", "123456890");
+        final var aBill = Bill.newBill(aAccount, "fatura", null, true);
+
+        final var expectedPage = 0;
+        final var expectedPerPage = 10;
+        final var expectedTerms = "";
+        final var expectedSort = "title";
+        final var expectedDirection = "asc";
+
+        final var expectedItemsCount = 1;
+        final var expectedTotal = 1;
+
+        final var expectedItems = List.of(BillListOutput.from(aBill));
+
+        final var aQuery = new SearchQuery(
+                expectedPage,
+                expectedPerPage,
+                expectedTerms,
+                expectedSort,
+                expectedDirection
+        );
+
+        when(listBillByAccountIdUseCase.execute(aAccount.getId(), aQuery))
+                .thenReturn(new Pagination<>(expectedPage, expectedPerPage, expectedTotal, expectedItems));
+
+        final var request = MockMvcRequestBuilders.get("/bills/list/{accountId}", aAccount.getId())
+                .queryParam("page", String.valueOf(expectedPage))
+                .queryParam("perPage", String.valueOf(expectedPerPage))
+                .queryParam("sort", expectedSort)
+                .queryParam("dir", expectedDirection)
+                .queryParam("search", expectedTerms)
+                .accept(MediaType.APPLICATION_JSON);
+
+        final var response = this.mvc.perform(request)
+                .andDo(MockMvcResultHandlers.print());
+
+        response.andExpect(status().isOk())
+                .andExpect(jsonPath("$.currentPage", equalTo(expectedPage)))
+                .andExpect(jsonPath("$.perPage", equalTo(expectedPerPage)))
+                .andExpect(jsonPath("$.total", equalTo(expectedTotal)))
+                .andExpect(jsonPath("$.items", hasSize(expectedItemsCount)))
+                .andExpect(jsonPath("$.items[0].id", equalTo(aBill.getId())))
+                .andExpect(jsonPath("$.items[0].title", equalTo(aBill.getTitle())))
+                .andExpect(jsonPath("$.items[0].description", equalTo(aBill.getDescription())))
+                .andExpect(jsonPath("$.items[0].pending", equalTo(aBill.isPending())))
+                .andExpect(jsonPath("$.items[0].createdAt", equalTo(aBill.getCreatedAt().toString())))
+                .andExpect(jsonPath("$.items[0].finishedDate", equalTo(aBill.getFinishedDate())));
+
+        Mockito.verify(listBillByAccountIdUseCase).execute(aAccount.getId(), aQuery);
     }
 }

@@ -43,7 +43,10 @@ public interface BillAPI {
     })
     ResponseEntity<?> getById(@PathVariable String id);
 
-    @GetMapping(value = "{accountId}")
+    @GetMapping(
+            value = "list/{accountId}",
+            produces = MediaType.APPLICATION_JSON_VALUE
+    )
     @Operation(summary = "List all bill by account id")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Listed successfully"),
