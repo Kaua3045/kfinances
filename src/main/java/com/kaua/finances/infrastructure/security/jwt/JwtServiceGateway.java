@@ -1,5 +1,6 @@
 package com.kaua.finances.infrastructure.security.jwt;
 
+import com.kaua.finances.domain.authenticate.SecurityGateway;
 import com.kaua.finances.domain.utils.InstantUtils;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
@@ -11,7 +12,7 @@ import java.security.Key;
 import java.time.temporal.ChronoUnit;
 import java.util.Date;
 
-public class JwtServiceGateway implements JwtGateway {
+public class JwtServiceGateway implements SecurityGateway {
 
     private final String SECRET_KEY_JWT;
     private int JWT_EXPIRATION_TIME = 24;
@@ -22,7 +23,7 @@ public class JwtServiceGateway implements JwtGateway {
     }
 
     @Override
-    public String extractId(String token) {
+    public String extractSubject(String token) {
         return extractAllClaims(token).getSubject();
     }
 
@@ -39,7 +40,7 @@ public class JwtServiceGateway implements JwtGateway {
 
     @Override
     public boolean isTokenValid(String token, String id) {
-        final var accountId = extractId(token);
+        final var accountId = extractSubject(token);
         return accountId.equals(id) && !isTokenExpired(token);
     }
 

@@ -1,6 +1,7 @@
 package com.kaua.finances.infrastructure.security.jwt;
 
 import com.kaua.finances.domain.account.AccountGateway;
+import com.kaua.finances.domain.authenticate.SecurityGateway;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -15,10 +16,10 @@ import java.util.ArrayList;
 
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
-    private final JwtGateway jwtGateway;
+    private final SecurityGateway jwtGateway;
     private final AccountGateway accountGateway;
 
-    public JwtAuthenticationFilter(JwtGateway jwtGateway, AccountGateway accountGateway) {
+    public JwtAuthenticationFilter(SecurityGateway jwtGateway, AccountGateway accountGateway) {
         this.jwtGateway = jwtGateway;
         this.accountGateway = accountGateway;
     }
@@ -37,7 +38,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         }
 
         final var jwtToken = authHeader.substring(7);
-        final var accountId = jwtGateway.extractId(jwtToken);
+        final var accountId = jwtGateway.extractSubject(jwtToken);
 
         if (accountId != null && SecurityContextHolder.getContext().getAuthentication() == null) {
             final var aAccount = accountGateway.findById(accountId);

@@ -1,8 +1,8 @@
 package com.kaua.finances.infrastructure.configuration.security;
 
 import com.kaua.finances.domain.account.AccountGateway;
+import com.kaua.finances.domain.authenticate.SecurityGateway;
 import com.kaua.finances.infrastructure.security.jwt.JwtAuthenticationFilter;
-import com.kaua.finances.infrastructure.security.jwt.JwtGateway;
 import com.kaua.finances.infrastructure.security.jwt.JwtServiceGateway;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
@@ -15,7 +15,7 @@ public class JwtSecurityConfiguration {
     private String SECRET;
 
     @Bean
-    public JwtGateway jwtServiceGateway() {
+    public SecurityGateway jwtServiceGateway() {
         return new JwtServiceGateway(SECRET);
     }
 
