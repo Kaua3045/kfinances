@@ -1,4 +1,4 @@
-package com.kaua.finances.infrastructure.bill.api;
+package com.kaua.finances.infrastructure.api;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.kaua.finances.application.either.Either;
