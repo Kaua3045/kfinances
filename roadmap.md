@@ -1,4 +1,3 @@
-- [ ] Adicionar o OAuth2 
 - [X] Mover o gateway de auth para domain layer
 - [X] Criar um UseCase para autenticação e adicionar no controller
 - [X] Adicionar os testes para o UseCase de autenticação
