@@ -30,6 +30,11 @@ public class BillUseCaseConfiguration {
     }
 
     @Bean
+    public ListBillByAccountIdUseCase listBillByAccountIdUseCase() {
+        return new DefaultListBillByAccountIdUseCase(billGateway);
+    }
+
+    @Bean
     public UpdateBillUseCase updateBillUseCase() {
         return new DefaultUpdateBillUseCase(billGateway);
     }

@@ -1,10 +1,14 @@
 package com.kaua.finances.infrastructure.api.controllers;
 
 import com.kaua.finances.application.usecases.bill.*;
+import com.kaua.finances.domain.pagination.Pagination;
+import com.kaua.finances.domain.pagination.SearchQuery;
 import com.kaua.finances.infrastructure.api.BillAPI;
+import com.kaua.finances.infrastructure.bill.models.BillListResponse;
 import com.kaua.finances.infrastructure.bill.models.CreateBillRequest;
 import com.kaua.finances.infrastructure.bill.models.UpdateBillRequest;
 import com.kaua.finances.infrastructure.bill.models.UpdatePendingBillRequest;
+import com.kaua.finances.infrastructure.bill.presenters.BillApiPresenter;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
@@ -16,6 +20,7 @@ public class BillController implements BillAPI {
 
     private final CreateBillUseCase createBillUseCase;
     private final GetBillByIdUseCase getBillByIdUseCase;
+    private final ListBillByAccountIdUseCase listBillByAccountIdUseCase;
     private final UpdateBillUseCase updateBillUseCase;
     private final UpdatePendingBillUseCase updatePendingBillUseCase;
     private final DeleteBillByIdUseCase deleteBillByIdUseCase;
@@ -23,12 +28,14 @@ public class BillController implements BillAPI {
     public BillController(
             final CreateBillUseCase createBillUseCase,
             final GetBillByIdUseCase getBillByIdUseCase,
+            final ListBillByAccountIdUseCase listBillByAccountIdUseCase,
             final UpdateBillUseCase updateBillUseCase,
             final UpdatePendingBillUseCase updatePendingBillUseCase,
             final DeleteBillByIdUseCase deleteBillByIdUseCase
     ) {
         this.createBillUseCase = Objects.requireNonNull(createBillUseCase);
         this.getBillByIdUseCase = Objects.requireNonNull(getBillByIdUseCase);
+        this.listBillByAccountIdUseCase = Objects.requireNonNull(listBillByAccountIdUseCase);
         this.updateBillUseCase = Objects.requireNonNull(updateBillUseCase);
         this.updatePendingBillUseCase = Objects.requireNonNull(updatePendingBillUseCase);
         this.deleteBillByIdUseCase = Objects.requireNonNull(deleteBillByIdUseCase);
@@ -55,6 +62,20 @@ public class BillController implements BillAPI {
         final var aBill = this.getBillByIdUseCase.execute(id);
 
         return ResponseEntity.ok().body(aBill);
+    }
+
+    @Override
+    public Pagination<BillListResponse> listBillsByAccountId(
+            String accountId,
+            String search,
+            int page,
+            int perPage,
+            String sort,
+            String direction
+    ) {
+        return this.listBillByAccountIdUseCase
+                .execute(accountId, new SearchQuery(page, perPage, search, sort, direction))
+                .map(BillApiPresenter::present);
     }
 
     @Override

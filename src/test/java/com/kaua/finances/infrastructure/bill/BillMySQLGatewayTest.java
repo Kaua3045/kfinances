@@ -2,13 +2,19 @@ package com.kaua.finances.infrastructure.bill;
 
 import com.kaua.finances.domain.account.Account;
 import com.kaua.finances.domain.bills.Bill;
+import com.kaua.finances.domain.pagination.SearchQuery;
 import com.kaua.finances.infrastructure.MySQLGatewayTest;
 import com.kaua.finances.infrastructure.account.AccountMySQLGateway;
+import com.kaua.finances.infrastructure.account.persistence.AccountJpaFactory;
+import com.kaua.finances.infrastructure.account.persistence.AccountRepository;
 import com.kaua.finances.infrastructure.bill.persistence.BillJpaFactory;
 import com.kaua.finances.infrastructure.bill.persistence.BillRepository;
-import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.*;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.CsvSource;
 import org.springframework.beans.factory.annotation.Autowired;
+
+import java.util.List;
 
 @MySQLGatewayTest
 public class BillMySQLGatewayTest {
@@ -22,13 +28,25 @@ public class BillMySQLGatewayTest {
     @Autowired
     private AccountMySQLGateway accountGateway;
 
+    @Autowired
+    private AccountRepository accountRepository;
+
+    @BeforeEach
+    public void setUp() {
+        final var aAccount = Account.newAccount("kaua", "kaua@mail.com", "1234567890");
+        accountRepository.findByEmail("kaua@mail.com").orElse(
+                accountRepository.saveAndFlush(AccountJpaFactory.from(aAccount))
+        );
+    }
+
+
     @Test
     public void givenAValidParams_whenCallsCreate_shouldReturnANewBill() {
         final var expectedTitle = "fatura 01";
         final String expectedDescription = null;
         final var expectedPending = true;
 
-        final var aAccount = Account.newAccount("kaua", "kaua@mail.com", "12345678");
+        final var aAccount = Account.newAccount("kaua", "kaua3@mail.com", "12345678");
 
         accountGateway.create(aAccount);
 
@@ -294,5 +312,124 @@ public class BillMySQLGatewayTest {
         billGateway.deleteById(aBill.getId());
 
         Assertions.assertEquals(0, billRepository.count());
+    }
+
+    @Test
+    public void givenEmptyBills_whenCallsFindAllByAccountId_shouldReturnEmptyList() {
+        final var aAccount = Account.newAccount("kaua", "kaua3@mail.com", "12345678");
+        accountGateway.create(aAccount);
+
+        final var expectedAccountId = aAccount.getId();
+
+        final var expectedPage = 0;
+        final var expectedPerPage = 1;
+        final var expectedTerms = "";
+        final var expectedSort = "title";
+        final var expectedDirection = "asc";
+        final var expectedTotal = 0;
+
+        final var aQuery = new SearchQuery(
+                expectedPage,
+                expectedPerPage,
+                expectedTerms,
+                expectedSort,
+                expectedDirection
+        );
+
+        final var actualPage = billGateway.findAllByAccountId(expectedAccountId, aQuery);
+
+        Assertions.assertEquals(expectedPage, actualPage.currentPage());
+        Assertions.assertEquals(expectedPerPage, actualPage.perPage());
+        Assertions.assertEquals(expectedTotal, actualPage.total());
+        Assertions.assertEquals(expectedTotal, actualPage.items().size());
+    }
+
+    @ParameterizedTest
+    @CsvSource({
+            "title,asc,0,10,4,4,Carro Financiamento",
+            "title,desc,0,10,4,4,Mercado mês",
+            "pending,asc,0,10,4,4,Financiamento casa",
+            "pending,desc,0,10,4,4,Carro Financiamento",
+    })
+    public void givenAValidSortAndDirection_whenCallsFindAllByAccountId_shouldReturnFiltered(
+            final String expectedSort,
+            final String expectedDirection,
+            final int expectedPage,
+            final int expectedPerPage,
+            final int expectedItemsCount,
+            final long expectedTotal,
+            final String expectedBillTitle
+    ) {
+        final var aAccount = AccountJpaFactory.toDomain(accountRepository.findByEmail("kaua@mail.com").get());
+
+        makeBills(aAccount);
+        final var expectedTerms = "";
+
+        final var aQuery = new SearchQuery(
+                expectedPage,
+                expectedPerPage,
+                expectedTerms,
+                expectedSort,
+                expectedDirection
+        );
+
+        final var actualPage = billGateway.findAllByAccountId(aAccount.getId(), aQuery);
+
+        Assertions.assertEquals(expectedPage, actualPage.currentPage());
+        Assertions.assertEquals(expectedPerPage, actualPage.perPage());
+        Assertions.assertEquals(expectedTotal, actualPage.total());
+        Assertions.assertEquals(expectedItemsCount, actualPage.items().size());
+        Assertions.assertEquals(expectedBillTitle, actualPage.items().get(0).getTitle());
+    }
+
+    @ParameterizedTest
+    @CsvSource({
+            "0,2,2,4,Carro Financiamento;Debito mês",
+            "1,2,2,4,Financiamento casa;Mercado mês"
+    })
+    public void givenAValidDefaultSortAndDirection_whenCallsFindAllByAccountId_shouldReturnFiltered(
+            final int expectedPage,
+            final int expectedPerPage,
+            final int expectedItemsCount,
+            final long expectedTotal,
+            final String expectedBills
+    ) {
+        final var aAccount = AccountJpaFactory.toDomain(accountRepository.findByEmail("kaua@mail.com").get());
+
+        makeBills(aAccount);
+        final var expectedTerms = "";
+        final var expectedSort = "title";
+        final var expectedDirection = "asc";
+
+        final var aQuery = new SearchQuery(
+                expectedPage,
+                expectedPerPage,
+                expectedTerms,
+                expectedSort,
+                expectedDirection
+        );
+
+        final var actualPage = billGateway.findAllByAccountId(aAccount.getId(), aQuery);
+
+        Assertions.assertEquals(expectedPage, actualPage.currentPage());
+        Assertions.assertEquals(expectedPerPage, actualPage.perPage());
+        Assertions.assertEquals(expectedTotal, actualPage.total());
+        Assertions.assertEquals(expectedItemsCount, actualPage.items().size());
+
+        int index = 0;
+        for (final var expectedTitle : expectedBills.split(";")) {
+            final var actualTitle = actualPage.items().get(index).getTitle();
+            Assertions.assertEquals(expectedTitle, actualTitle);
+            index++;
+        }
+    }
+
+    private void makeBills(final Account aAccount) {
+        billRepository.saveAllAndFlush(List.of(
+                BillJpaFactory.from(Bill.newBill(aAccount, "Carro Financiamento", null, true)),
+                BillJpaFactory.from(Bill.newBill(aAccount, "Mercado mês", null, true)),
+                BillJpaFactory.from(Bill.newBill(aAccount, "Debito mês", null, true)),
+                BillJpaFactory.from(Bill.newBill(aAccount, "Financiamento casa", null, false))
+        ));
     }
 }

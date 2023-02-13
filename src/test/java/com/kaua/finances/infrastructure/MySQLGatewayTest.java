@@ -1,5 +1,6 @@
 package com.kaua.finances.infrastructure;
 
+import org.junit.jupiter.api.TestInstance;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.context.annotation.ComponentScan;
@@ -24,5 +25,6 @@ import java.lang.annotation.*;
 )
 @ExtendWith(MySQLCleanUpExtension.class)
 @DirtiesContext(classMode = DirtiesContext.ClassMode.BEFORE_CLASS)
+@TestInstance(TestInstance.Lifecycle.PER_CLASS)
 public @interface MySQLGatewayTest {
 }

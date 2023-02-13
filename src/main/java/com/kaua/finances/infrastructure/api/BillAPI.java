@@ -1,5 +1,7 @@
 package com.kaua.finances.infrastructure.api;
 
+import com.kaua.finances.domain.pagination.Pagination;
+import com.kaua.finances.infrastructure.bill.models.BillListResponse;
 import com.kaua.finances.infrastructure.bill.models.CreateBillRequest;
 import com.kaua.finances.infrastructure.bill.models.UpdateBillRequest;
 import com.kaua.finances.infrastructure.bill.models.UpdatePendingBillRequest;
@@ -40,6 +42,22 @@ public interface BillAPI {
             @ApiResponse(responseCode = "500", description = "An internal server error was thrown")
     })
     ResponseEntity<?> getById(@PathVariable String id);
+
+    @GetMapping(value = "{accountId}")
+    @Operation(summary = "List all bill by account id")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Listed successfully"),
+            @ApiResponse(responseCode = "422", description = "A invalid parameter was received"),
+            @ApiResponse(responseCode = "500", description = "An internal server error was thrown"),
+    })
+    Pagination<BillListResponse> listBillsByAccountId(
+            @PathVariable String accountId,
+            @RequestParam(name = "search", required = false, defaultValue = "") final String search,
+            @RequestParam(name = "page", required = false, defaultValue = "0") final int page,
+            @RequestParam(name = "perPage", required = false, defaultValue = "10") final int perPage,
+            @RequestParam(name = "sort", required = false, defaultValue = "name") final String sort,
+            @RequestParam(name = "dir", required = false, defaultValue = "asc") final String direction
+    );
 
     @PutMapping(
             value = "{id}",
