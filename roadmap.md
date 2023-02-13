@@ -4,4 +4,5 @@
 - [X] Adicionar uma paginação para os Bills do usuário especifico
 - [X] Talvez tirar throw EmailAlreadyExists e adicionar no Either no CreateAccountUseCase
 - [X] Refactor nos request e response methods (output e input)
+- [X] Refactor nos usecases (separar em pastas, create, delete, etc)
 - [X] Fix: JWT expirou lança uma exception chamada ExpiredJwtException
