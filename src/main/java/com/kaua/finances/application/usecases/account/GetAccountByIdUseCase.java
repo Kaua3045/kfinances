@@ -1,6 +1,6 @@
 package com.kaua.finances.application.usecases.account;
 
-import com.kaua.finances.domain.account.AccountOutput;
+import com.kaua.finances.application.usecases.account.output.AccountOutput;
 
 public interface GetAccountByIdUseCase {
 

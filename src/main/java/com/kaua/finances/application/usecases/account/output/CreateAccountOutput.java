@@ -1,4 +1,4 @@
-package com.kaua.finances.domain.account;
+package com.kaua.finances.application.usecases.account.output;
 
 public record CreateAccountOutput(String id) {
 

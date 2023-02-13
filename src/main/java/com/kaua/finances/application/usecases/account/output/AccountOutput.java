@@ -1,4 +1,6 @@
-package com.kaua.finances.domain.account;
+package com.kaua.finances.application.usecases.account.output;
+
+import com.kaua.finances.domain.account.Account;
 
 public record AccountOutput(
         String id,

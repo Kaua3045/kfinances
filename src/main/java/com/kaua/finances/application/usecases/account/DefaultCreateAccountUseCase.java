@@ -5,7 +5,7 @@ import com.kaua.finances.application.exceptions.DomainException;
 import com.kaua.finances.application.exceptions.EmailAlreadyExistsException;
 import com.kaua.finances.domain.account.Account;
 import com.kaua.finances.domain.account.AccountGateway;
-import com.kaua.finances.domain.account.CreateAccountOutput;
+import com.kaua.finances.application.usecases.account.output.CreateAccountOutput;
 
 import java.util.Objects;
 
