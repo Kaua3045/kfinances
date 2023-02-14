@@ -4,6 +4,7 @@ import com.kaua.finances.application.exceptions.NotFoundException;
 import com.kaua.finances.application.usecases.account.retrieve.DefaultGetAccountByIdUseCase;
 import com.kaua.finances.domain.account.Account;
 import com.kaua.finances.domain.account.AccountGateway;
+import com.kaua.finances.domain.account.AccountRedisGateway;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -25,12 +26,14 @@ public class GetAccountByIdUseCaseTest {
     @Mock
     private AccountGateway accountGateway;
 
+    @Mock
+    private AccountRedisGateway accountRedisGateway;
+
     @Test
     public void givenAValidId_whenCallsGetById_shouldReturnAccount() {
         final var expectedName = "kauã";
         final var expectedEmail = "kaua@mail.com";
         final var expectedPassword = "12345678";
-        final var expectedBills = List.<String>of();
 
         final var aAccount = Account.newAccount(expectedName, expectedEmail, expectedPassword);
 

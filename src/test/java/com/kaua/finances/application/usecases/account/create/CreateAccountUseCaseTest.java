@@ -1,6 +1,7 @@
 package com.kaua.finances.application.usecases.account.create;
 
 import com.kaua.finances.domain.account.AccountGateway;
+import com.kaua.finances.domain.account.AccountRedisGateway;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -22,6 +23,9 @@ public class CreateAccountUseCaseTest {
 
     @Mock
     private AccountGateway accountGateway;
+
+    @Mock
+    private AccountRedisGateway accountRedisGateway;
 
 
     @Test
