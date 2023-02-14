@@ -7,5 +7,5 @@
 - [X] Refactor nos usecases (separar em pastas, create, delete, etc)
 - [X] Fix: JWT expirou lança uma exception chamada ExpiredJwtException
 - [ ] Passar o Unit do expire JWT para o .env, (criar uma classe que vai pegar o nome da .env e verificar se for igual retorna um ChronoUnit)
-- [ ] Criar Exception handle para internal server error
+- [X] Criar Exception handle para internal server error
 - [ ] Adicionar alguns LOGS
