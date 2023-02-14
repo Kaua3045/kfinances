@@ -14,5 +14,13 @@ services:
     networks:
       - kaua_finances_network
 
+  redis:
+    container_name: kaua_finances_redis
+    image: redis:alpine
+    ports:
+      - 6379:6379
+    networks:
+      - kaua_finances_network
+
 networks:
   kaua_finances_network:
