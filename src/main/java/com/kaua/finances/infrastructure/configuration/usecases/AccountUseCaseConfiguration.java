@@ -9,6 +9,7 @@ import com.kaua.finances.application.usecases.account.retrieve.GetAccountByIdUse
 import com.kaua.finances.application.usecases.account.update.DefaultUpdateAccountUseCase;
 import com.kaua.finances.application.usecases.account.update.UpdateAccountUseCase;
 import com.kaua.finances.domain.account.AccountGateway;
+import com.kaua.finances.domain.account.AccountRedisGateway;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -16,14 +17,19 @@ import org.springframework.context.annotation.Configuration;
 public class AccountUseCaseConfiguration {
 
     private final AccountGateway accountGateway;
+    private final AccountRedisGateway accountRedisGateway;
 
-    public AccountUseCaseConfiguration(final AccountGateway accountGateway) {
+    public AccountUseCaseConfiguration(
+            final AccountGateway accountGateway,
+            final AccountRedisGateway accountRedisGateway
+    ) {
         this.accountGateway = accountGateway;
+        this.accountRedisGateway = accountRedisGateway;
     }
 
     @Bean
     public CreateAccountUseCase createAccountUseCase() {
-        return new DefaultCreateAccountUseCase(accountGateway);
+        return new DefaultCreateAccountUseCase(accountGateway, accountRedisGateway);
     }
 
     @Bean
@@ -33,7 +39,7 @@ public class AccountUseCaseConfiguration {
 
     @Bean
     public GetAccountByIdUseCase getAccountByIdUseCase() {
-        return new DefaultGetAccountByIdUseCase(accountGateway);
+        return new DefaultGetAccountByIdUseCase(accountGateway, accountRedisGateway);
     }
 
     @Bean
