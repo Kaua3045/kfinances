@@ -9,5 +9,5 @@
 - [ ] Passar o Unit do expire JWT para o .env, (criar uma classe que vai pegar o nome da .env e verificar se for igual retorna um ChronoUnit)
 - [X] Criar Exception handle para internal server error
 - [X] Adicionar alguns LOGS
-- [ ] Adicionar o Redis
+- [X] Adicionar o Redis
 - [ ] Adicionar Cache para as Account (vai ter também uma forma de saber quando foi a ultima vez que solicitaram essa conta, para dai poder remover do cache)
