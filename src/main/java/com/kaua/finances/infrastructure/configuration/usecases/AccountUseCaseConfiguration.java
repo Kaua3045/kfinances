@@ -34,7 +34,7 @@ public class AccountUseCaseConfiguration {
 
     @Bean
     public UpdateAccountUseCase updateAccountUseCase() {
-        return new DefaultUpdateAccountUseCase(accountGateway);
+        return new DefaultUpdateAccountUseCase(accountGateway, accountCacheGateway);
     }
 
     @Bean
@@ -44,6 +44,6 @@ public class AccountUseCaseConfiguration {
 
     @Bean
     public DeleteAccountByIdUseCase deleteAccountByIdUseCase() {
-        return new DefaultDeleteAccountByIdUseCase(accountGateway);
+        return new DefaultDeleteAccountByIdUseCase(accountGateway, accountCacheGateway);
     }
 }

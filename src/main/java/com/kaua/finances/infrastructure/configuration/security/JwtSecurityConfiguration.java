@@ -1,5 +1,6 @@
 package com.kaua.finances.infrastructure.configuration.security;
 
+import com.kaua.finances.domain.account.AccountCacheGateway;
 import com.kaua.finances.domain.account.AccountGateway;
 import com.kaua.finances.domain.authenticate.SecurityGateway;
 import com.kaua.finances.infrastructure.security.jwt.JwtAuthenticationFilter;
@@ -23,7 +24,7 @@ public class JwtSecurityConfiguration {
     }
 
     @Bean
-    public JwtAuthenticationFilter jwtAuthenticationFilter(AccountGateway accountGateway) {
-        return new JwtAuthenticationFilter(jwtServiceGateway(), accountGateway);
+    public JwtAuthenticationFilter jwtAuthenticationFilter(AccountGateway accountGateway, AccountCacheGateway accountCacheGateway) {
+        return new JwtAuthenticationFilter(jwtServiceGateway(), accountGateway, accountCacheGateway);
     }
 }

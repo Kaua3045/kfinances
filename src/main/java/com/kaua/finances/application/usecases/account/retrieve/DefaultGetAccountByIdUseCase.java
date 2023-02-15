@@ -21,12 +21,18 @@ public class DefaultGetAccountByIdUseCase implements GetAccountByIdUseCase {
 
     @Override
     public AccountOutput execute(String id) {
-        final var aAccount = this.accountCacheGateway.findById(id)
-                .orElseGet(() -> AccountOutput.from(this.accountGateway.findById(id)
-                                .orElseThrow(notFound(id))
-                ));
+        final var aAccountCache = this.accountCacheGateway.findById(id);
 
-        return aAccount;
+        if (aAccountCache.isEmpty()) {
+            final var aAccountDatabase = this.accountGateway.findById(id).orElseThrow(notFound(id));
+
+            this.accountCacheGateway.create(aAccountDatabase);
+
+            return AccountOutput.from(aAccountDatabase);
+        }
+
+        return aAccountCache.map((account) ->
+                AccountOutput.from(account.id(), account.name(), account.email())).get();
     }
 
     private static Supplier<NotFoundException> notFound(final String id) {

@@ -5,6 +5,7 @@ import com.kaua.finances.application.exceptions.DomainException;
 import com.kaua.finances.application.exceptions.NoStackTraceException;
 import com.kaua.finances.application.exceptions.NotFoundException;
 import com.kaua.finances.domain.account.Account;
+import com.kaua.finances.domain.account.AccountCacheGateway;
 import com.kaua.finances.domain.account.AccountGateway;
 import com.kaua.finances.application.usecases.account.output.UpdateAccountOutput;
 
@@ -14,9 +15,14 @@ import java.util.function.Supplier;
 public class DefaultUpdateAccountUseCase implements UpdateAccountUseCase {
 
     private final AccountGateway accountGateway;
+    private final AccountCacheGateway accountCacheGateway;
 
-    public DefaultUpdateAccountUseCase(final AccountGateway accountGateway) {
+    public DefaultUpdateAccountUseCase(
+            final AccountGateway accountGateway,
+            final AccountCacheGateway accountCacheGateway
+    ) {
         this.accountGateway = Objects.requireNonNull(accountGateway);
+        this.accountCacheGateway = accountCacheGateway;
     }
 
     @Override
@@ -35,6 +41,8 @@ public class DefaultUpdateAccountUseCase implements UpdateAccountUseCase {
         if (!aAccountValidate.isEmpty()) {
             return Either.left(DomainException.with(aAccountValidate));
         }
+
+        this.accountCacheGateway.update(aAccount);
 
         return Either.right(UpdateAccountOutput.from(this.accountGateway.update(aAccount).getId()));
     }

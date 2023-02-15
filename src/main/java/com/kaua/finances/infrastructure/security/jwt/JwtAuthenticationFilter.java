@@ -1,5 +1,9 @@
 package com.kaua.finances.infrastructure.security.jwt;
 
+import com.kaua.finances.application.exceptions.NotFoundException;
+import com.kaua.finances.application.usecases.account.output.AccountOutput;
+import com.kaua.finances.domain.account.Account;
+import com.kaua.finances.domain.account.AccountCacheGateway;
 import com.kaua.finances.domain.account.AccountGateway;
 import com.kaua.finances.domain.authenticate.SecurityGateway;
 import jakarta.servlet.FilterChain;
@@ -13,15 +17,18 @@ import org.springframework.web.filter.OncePerRequestFilter;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Objects;
 
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
     private final SecurityGateway jwtGateway;
     private final AccountGateway accountGateway;
+    private final AccountCacheGateway accountCacheGateway;
 
-    public JwtAuthenticationFilter(SecurityGateway jwtGateway, AccountGateway accountGateway) {
+    public JwtAuthenticationFilter(SecurityGateway jwtGateway, AccountGateway accountGateway, AccountCacheGateway accountCacheGateway) {
         this.jwtGateway = jwtGateway;
         this.accountGateway = accountGateway;
+        this.accountCacheGateway = accountCacheGateway;
     }
 
     @Override
@@ -42,15 +49,16 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         final var accountId = jwtGateway.extractSubject(jwtToken);
 
         if (accountId != null && SecurityContextHolder.getContext().getAuthentication() == null) {
-            // TODO: pegar do cache primeiro
-            final var aAccount = accountGateway.findById(accountId);
 
-            if (aAccount.isEmpty()) {
+            if (this.accountCacheGateway.findById(accountId).isEmpty() && this.accountGateway.findById(accountId).isEmpty()) {
                 filterChain.doFilter(request, response);
                 return;
             }
 
-            if (jwtGateway.isTokenValid(jwtToken, aAccount.get().getId())) {
+            final var aAccount = this.accountCacheGateway.findById(accountId)
+                    .orElseGet(() -> AccountOutput.from(this.accountGateway.findById(accountId).get()));
+
+            if (jwtGateway.isTokenValid(jwtToken, aAccount.id())) {
                 final var accountAuthenticated = new UsernamePasswordAuthenticationToken(
                         aAccount,
                         null,
