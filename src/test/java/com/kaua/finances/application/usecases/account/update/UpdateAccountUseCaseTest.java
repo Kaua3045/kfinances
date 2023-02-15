@@ -1,6 +1,7 @@
 package com.kaua.finances.application.usecases.account.update;
 
 import com.kaua.finances.domain.account.Account;
+import com.kaua.finances.domain.account.AccountCacheGateway;
 import com.kaua.finances.domain.account.AccountGateway;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -26,6 +27,9 @@ public class UpdateAccountUseCaseTest {
 
     @Mock
     private AccountGateway accountGateway;
+
+    @Mock
+    private AccountCacheGateway accountCacheGateway;
 
     @Test
     public void givenAValidParams_whenCallsUpdateAccount_shouldReturnAccountId() {

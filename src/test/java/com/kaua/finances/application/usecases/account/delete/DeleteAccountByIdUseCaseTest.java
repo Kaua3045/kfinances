@@ -1,6 +1,7 @@
 package com.kaua.finances.application.usecases.account.delete;
 
 import com.kaua.finances.domain.account.Account;
+import com.kaua.finances.domain.account.AccountCacheGateway;
 import com.kaua.finances.domain.account.AccountGateway;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -20,6 +21,9 @@ public class DeleteAccountByIdUseCaseTest {
 
     @Mock
     private AccountGateway accountGateway;
+
+    @Mock
+    private AccountCacheGateway accountCacheGateway;
 
     @Test
     public void givenAValidId_whenCallsDeleteAccount_shouldBeOk() {
