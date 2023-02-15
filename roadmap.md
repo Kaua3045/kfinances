@@ -5,7 +5,7 @@
 - [X] Talvez tirar throw EmailAlreadyExists e adicionar no Either no CreateAccountUseCase
 - [X] Refactor nos request e response methods (output e input)
 - [X] Refactor nos usecases (separar em pastas, create, delete, etc)
-- [ ] Fix: JWT expirou lança uma exception chamada ExpiredJwtException
+- [X] Fix: JWT expirou lança uma exception chamada ExpiredJwtException
 - [ ] Passar o Unit do expire JWT para o .env, (criar uma classe que vai pegar o nome da .env e verificar se for igual retorna um ChronoUnit)
 - [X] Criar Exception handle para internal server error
 - [X] Adicionar alguns LOGS
