@@ -34,6 +34,9 @@ dependencies {
 	implementation("org.springdoc:springdoc-openapi-starter-webmvc-api:2.0.2")
 	implementation("org.springdoc:springdoc-openapi-starter-webmvc-ui:2.0.2")
 
+	implementation 'io.sentry:sentry-spring-boot-starter:6.14.0'
+	implementation 'io.sentry:sentry-spring-boot-starter-jakarta:6.14.0'
+
 	implementation 'mysql:mysql-connector-java'
 	implementation 'redis.clients:jedis'
 	implementation 'org.slf4j:slf4j-api:2.0.6'

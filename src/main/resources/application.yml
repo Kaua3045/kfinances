@@ -11,6 +11,10 @@ server:
       worker: 64
       io: 4
 
+sentry:
+  dsn: ${SENTRY_DSN}
+  traces-sample-rate: 1.0
+
 spring:
   config:
     import: optional:file:.env[.properties]

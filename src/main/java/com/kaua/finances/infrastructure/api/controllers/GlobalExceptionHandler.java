@@ -4,6 +4,7 @@ import com.kaua.finances.application.exceptions.DomainException;
 import com.kaua.finances.application.exceptions.NotFoundException;
 import com.kaua.finances.infrastructure.utils.ApiError;
 import io.jsonwebtoken.ExpiredJwtException;
+import io.sentry.Sentry;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
@@ -39,6 +40,7 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(Exception.class)
     public ResponseEntity<?> handleInternalServerError(final Exception ex) {
         logger.error("Internal server error: ", ex);
+        Sentry.captureException(ex);
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
                 .body(new ApiError("Erro inesperado", Collections.emptyList()));
     }
