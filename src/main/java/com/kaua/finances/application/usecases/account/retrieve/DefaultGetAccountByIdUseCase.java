@@ -4,7 +4,7 @@ import com.kaua.finances.application.exceptions.NotFoundException;
 import com.kaua.finances.domain.account.Account;
 import com.kaua.finances.domain.account.AccountGateway;
 import com.kaua.finances.application.usecases.account.output.AccountOutput;
-import com.kaua.finances.domain.account.AccountRedisGateway;
+import com.kaua.finances.domain.account.AccountCacheGateway;
 
 import java.util.Objects;
 import java.util.function.Supplier;
@@ -12,16 +12,16 @@ import java.util.function.Supplier;
 public class DefaultGetAccountByIdUseCase implements GetAccountByIdUseCase {
 
     private final AccountGateway accountGateway;
-    private final AccountRedisGateway accountRedisGateway;
+    private final AccountCacheGateway accountCacheGateway;
 
-    public DefaultGetAccountByIdUseCase(final AccountGateway accountGateway, final AccountRedisGateway accountRedisGateway) {
+    public DefaultGetAccountByIdUseCase(final AccountGateway accountGateway, final AccountCacheGateway accountCacheGateway) {
         this.accountGateway = Objects.requireNonNull(accountGateway);
-        this.accountRedisGateway = Objects.requireNonNull(accountRedisGateway);
+        this.accountCacheGateway = Objects.requireNonNull(accountCacheGateway);
     }
 
     @Override
     public AccountOutput execute(String id) {
-        final var aAccount = this.accountRedisGateway.findById(id)
+        final var aAccount = this.accountCacheGateway.findById(id)
                 .orElseGet(() -> this.accountGateway.findById(id).orElseThrow(notFound(id)));
 
         return AccountOutput.from(aAccount);

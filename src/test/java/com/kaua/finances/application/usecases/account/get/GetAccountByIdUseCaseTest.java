@@ -4,7 +4,7 @@ import com.kaua.finances.application.exceptions.NotFoundException;
 import com.kaua.finances.application.usecases.account.retrieve.DefaultGetAccountByIdUseCase;
 import com.kaua.finances.domain.account.Account;
 import com.kaua.finances.domain.account.AccountGateway;
-import com.kaua.finances.domain.account.AccountRedisGateway;
+import com.kaua.finances.domain.account.AccountCacheGateway;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -12,7 +12,6 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import java.util.List;
 import java.util.Optional;
 
 import static org.mockito.Mockito.*;
@@ -27,7 +26,7 @@ public class GetAccountByIdUseCaseTest {
     private AccountGateway accountGateway;
 
     @Mock
-    private AccountRedisGateway accountRedisGateway;
+    private AccountCacheGateway accountCacheGateway;
 
     @Test
     public void givenAValidId_whenCallsGetById_shouldReturnAccount() {

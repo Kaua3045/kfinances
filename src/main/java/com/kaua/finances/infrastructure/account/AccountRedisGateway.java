@@ -1,7 +1,7 @@
 package com.kaua.finances.infrastructure.account;
 
 import com.kaua.finances.domain.account.Account;
-import com.kaua.finances.domain.account.AccountRedisGateway;
+import com.kaua.finances.domain.account.AccountCacheGateway;
 import com.kaua.finances.infrastructure.account.persistence.cache.AccountRedisFactory;
 import com.kaua.finances.infrastructure.account.persistence.cache.AccountRedisRepository;
 import org.springframework.stereotype.Component;
@@ -9,11 +9,11 @@ import org.springframework.stereotype.Component;
 import java.util.Optional;
 
 @Component
-public class AccountRedisGatewayImpl implements AccountRedisGateway {
+public class AccountRedisGateway implements AccountCacheGateway {
 
     private final AccountRedisRepository accountRedisRepository;
 
-    public AccountRedisGatewayImpl(AccountRedisRepository accountRedisRepository) {
+    public AccountRedisGateway(AccountRedisRepository accountRedisRepository) {
         this.accountRedisRepository = accountRedisRepository;
     }
 

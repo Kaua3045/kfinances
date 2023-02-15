@@ -2,7 +2,7 @@ package com.kaua.finances.domain.account;
 
 import java.util.Optional;
 
-public interface AccountRedisGateway {
+public interface AccountCacheGateway {
 
     Account create(Account aAccount);
 

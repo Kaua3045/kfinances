@@ -6,18 +6,18 @@ import com.kaua.finances.application.exceptions.EmailAlreadyExistsException;
 import com.kaua.finances.domain.account.Account;
 import com.kaua.finances.domain.account.AccountGateway;
 import com.kaua.finances.application.usecases.account.output.CreateAccountOutput;
-import com.kaua.finances.domain.account.AccountRedisGateway;
+import com.kaua.finances.domain.account.AccountCacheGateway;
 
 import java.util.Objects;
 
 public class DefaultCreateAccountUseCase implements CreateAccountUseCase {
 
     private final AccountGateway accountGateway;
-    private final AccountRedisGateway accountRedisGateway;
+    private final AccountCacheGateway accountCacheGateway;
 
-    public DefaultCreateAccountUseCase(final AccountGateway accountGateway, AccountRedisGateway accountRedisGateway) {
+    public DefaultCreateAccountUseCase(final AccountGateway accountGateway, AccountCacheGateway accountCacheGateway) {
         this.accountGateway = Objects.requireNonNull(accountGateway);
-        this.accountRedisGateway = Objects.requireNonNull(accountRedisGateway);
+        this.accountCacheGateway = Objects.requireNonNull(accountCacheGateway);
     }
 
     @Override
@@ -35,7 +35,7 @@ public class DefaultCreateAccountUseCase implements CreateAccountUseCase {
             return Either.left(DomainException.with(aAccountValidated));
         }
 
-        this.accountRedisGateway.create(aAccount);
+        this.accountCacheGateway.create(aAccount);
 
         return Either.right(CreateAccountOutput.from(this.accountGateway.create(aAccount).getId()));
     }
