@@ -12,3 +12,4 @@
 - [X] Adicionar o Redis
 - [X] Adicionar Cache para as Account (vai ter também uma forma de saber quando foi a ultima vez que solicitaram essa conta, para dai poder remover do cache)
 - [ ] Verificar a performance do método create account
+- [X] Adicionar o Sentry ou outro método para monitorar e salvar os errors
