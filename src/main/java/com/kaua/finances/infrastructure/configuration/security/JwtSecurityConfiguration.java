@@ -7,7 +7,6 @@ import com.kaua.finances.infrastructure.security.jwt.JwtServiceGateway;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.web.servlet.HandlerExceptionResolver;
 
 @Configuration
 public class JwtSecurityConfiguration {
@@ -24,10 +23,7 @@ public class JwtSecurityConfiguration {
     }
 
     @Bean
-    public JwtAuthenticationFilter jwtAuthenticationFilter(
-            AccountGateway accountGateway,
-            HandlerExceptionResolver handlerExceptionResolver
-    ) {
-        return new JwtAuthenticationFilter(jwtServiceGateway(), accountGateway, handlerExceptionResolver);
+    public JwtAuthenticationFilter jwtAuthenticationFilter(AccountGateway accountGateway) {
+        return new JwtAuthenticationFilter(jwtServiceGateway(), accountGateway);
     }
 }

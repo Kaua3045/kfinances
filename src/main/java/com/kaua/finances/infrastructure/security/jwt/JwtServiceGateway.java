@@ -3,6 +3,7 @@ package com.kaua.finances.infrastructure.security.jwt;
 import com.kaua.finances.domain.authenticate.SecurityGateway;
 import com.kaua.finances.domain.utils.InstantUtils;
 import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.io.Decoders;
@@ -56,12 +57,16 @@ public class JwtServiceGateway implements SecurityGateway {
     }
 
     private Claims extractAllClaims(String token) {
-        return Jwts
-                .parserBuilder()
-                .setSigningKey(getSignKey())
-                .build()
-                .parseClaimsJws(token)
-                .getBody();
+        try {
+            return Jwts
+                    .parserBuilder()
+                    .setSigningKey(getSignKey())
+                    .build()
+                    .parseClaimsJws(token)
+                    .getBody();
+        }catch (ExpiredJwtException ex) {
+            return ex.getClaims();
+        }
     }
 
     private Key getSignKey() {

@@ -2,6 +2,7 @@ package com.kaua.finances.infrastructure.configuration.security;
 
 import com.kaua.finances.domain.account.AccountGateway;
 import com.kaua.finances.infrastructure.security.jwt.JwtAuthenticationFilter;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -14,8 +15,10 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.web.servlet.HandlerExceptionResolver;
 
 import java.util.ArrayList;
 
@@ -86,5 +89,10 @@ public class WebSecurityConfiguration {
     @Bean
     public BCryptPasswordEncoder bCryptPasswordEncoder() {
         return new BCryptPasswordEncoder();
+    }
+
+    @Bean(name = "restAuthenticationEntryPoint")
+    public AuthenticationEntryPoint authenticationEntryPoint(@Qualifier("handlerExceptionResolver") HandlerExceptionResolver resolver) {
+        return (request, response, exception) -> resolver.resolveException(request, response, null, exception);
     }
 }
