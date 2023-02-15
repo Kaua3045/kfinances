@@ -10,5 +10,5 @@
 - [X] Criar Exception handle para internal server error
 - [X] Adicionar alguns LOGS
 - [X] Adicionar o Redis
-- [ ] Adicionar Cache para as Account (vai ter também uma forma de saber quando foi a ultima vez que solicitaram essa conta, para dai poder remover do cache)
+- [X] Adicionar Cache para as Account (vai ter também uma forma de saber quando foi a ultima vez que solicitaram essa conta, para dai poder remover do cache)
 - [ ] Verificar a performance do método create account
