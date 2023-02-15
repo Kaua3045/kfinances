@@ -42,6 +42,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         final var accountId = jwtGateway.extractSubject(jwtToken);
 
         if (accountId != null && SecurityContextHolder.getContext().getAuthentication() == null) {
+            // TODO: pegar do cache primeiro
             final var aAccount = accountGateway.findById(accountId);
 
             if (aAccount.isEmpty()) {
