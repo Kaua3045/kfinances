@@ -1,5 +1,6 @@
 package com.kaua.finances.infrastructure.account;
 
+import com.kaua.finances.application.usecases.account.output.AccountOutput;
 import com.kaua.finances.domain.account.Account;
 import com.kaua.finances.domain.account.AccountCacheGateway;
 import com.kaua.finances.domain.utils.InstantUtils;
@@ -19,7 +20,7 @@ public class AccountRedisGateway implements AccountCacheGateway {
     }
 
     @Override
-    public Account create(Account aAccount) {
+    public AccountOutput create(Account aAccount) {
         final var accountRedis = this.accountCacheRepository.save(AccountRedisFactory.from(aAccount));
         return AccountRedisFactory.toDomain(accountRedis);
     }
@@ -32,21 +33,17 @@ public class AccountRedisGateway implements AccountCacheGateway {
     }
 
     @Override
-    public Optional<Account> findById(String anId) {
-        final var accountRedis = this.accountCacheRepository.findById(anId);
-
-        if (accountRedis.isPresent()) {
-            accountRedis.get().setLastGetDate(InstantUtils.now());
-            this.accountCacheRepository.save(accountRedis.get());
-
-            return accountRedis.map(AccountRedisFactory::toDomain);
-        }
-
-        return accountRedis.map(AccountRedisFactory::toDomain);
+    public Optional<AccountOutput> findById(String anId) {
+        return this.accountCacheRepository.findById(anId)
+                .map((account) -> AccountOutput.from(
+                        account.getId(),
+                        account.getName(),
+                        account.getEmail()
+                ));
     }
 
     @Override
-    public Account update(Account aAccount) {
+    public AccountOutput update(Account aAccount) {
         final var accountRedis = this.accountCacheRepository.save(AccountRedisFactory.from(aAccount));
         return AccountRedisFactory.toDomain(accountRedis);
     }

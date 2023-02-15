@@ -15,4 +15,12 @@ public record AccountOutput(
                 aAccount.getEmail()
         );
     }
+
+    public static AccountOutput from(final String id, final String name, final String email) {
+        return new AccountOutput(
+                id,
+                name,
+                email
+        );
+    }
 }

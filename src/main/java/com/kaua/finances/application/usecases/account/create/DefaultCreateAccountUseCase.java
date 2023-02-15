@@ -35,8 +35,9 @@ public class DefaultCreateAccountUseCase implements CreateAccountUseCase {
             return Either.left(DomainException.with(aAccountValidated));
         }
 
-        this.accountCacheGateway.create(aAccount);
+//        this.accountCacheGateway.create(aAccount);
+        this.accountGateway.create(aAccount);
 
-        return Either.right(CreateAccountOutput.from(this.accountGateway.create(aAccount).getId()));
+        return Either.right(CreateAccountOutput.from(this.accountCacheGateway.create(aAccount).id()));
     }
 }
