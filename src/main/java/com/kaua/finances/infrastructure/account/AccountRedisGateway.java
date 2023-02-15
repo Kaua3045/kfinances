@@ -3,9 +3,8 @@ package com.kaua.finances.infrastructure.account;
 import com.kaua.finances.application.usecases.account.output.AccountOutput;
 import com.kaua.finances.domain.account.Account;
 import com.kaua.finances.domain.account.AccountCacheGateway;
-import com.kaua.finances.domain.utils.InstantUtils;
-import com.kaua.finances.infrastructure.account.persistence.cache.AccountRedisFactory;
 import com.kaua.finances.infrastructure.account.persistence.cache.AccountCacheRepository;
+import com.kaua.finances.infrastructure.account.persistence.cache.AccountRedisFactory;
 import org.springframework.stereotype.Component;
 
 import java.util.Optional;
