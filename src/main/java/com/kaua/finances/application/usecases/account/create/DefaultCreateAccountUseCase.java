@@ -22,9 +22,7 @@ public class DefaultCreateAccountUseCase implements CreateAccountUseCase {
 
     @Override
     public Either<DomainException, CreateAccountOutput> execute(String aName, String aEmail, String aPassword) {
-        final var aAccountExists = this.accountGateway.findByEmail(aEmail);
-
-        if (aAccountExists.isPresent()) {
+        if (this.accountGateway.findByEmail(aEmail).isPresent()) {
             return Either.left(DomainException.with(EmailAlreadyExistsException.with()));
         }
 
@@ -37,7 +35,8 @@ public class DefaultCreateAccountUseCase implements CreateAccountUseCase {
 
 
         this.accountCacheGateway.create(aAccount);
+        this.accountGateway.create(aAccount);
 
-        return Either.right(CreateAccountOutput.from(this.accountGateway.create(aAccount).getId()));
+        return Either.right(CreateAccountOutput.from(aAccount.getId()));
     }
 }
