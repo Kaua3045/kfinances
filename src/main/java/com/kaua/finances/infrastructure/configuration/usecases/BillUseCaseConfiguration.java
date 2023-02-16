@@ -1,5 +1,6 @@
 package com.kaua.finances.infrastructure.configuration.usecases;
 
+import com.kaua.finances.application.usecases.account.retrieve.GetAccountByIdUseCase;
 import com.kaua.finances.application.usecases.bill.create.CreateBillUseCase;
 import com.kaua.finances.application.usecases.bill.create.DefaultCreateBillUseCase;
 import com.kaua.finances.application.usecases.bill.delete.DefaultDeleteBillByIdUseCase;
@@ -26,15 +27,17 @@ public class BillUseCaseConfiguration {
     private final BillGateway billGateway;
     private final BillCacheGateway billCacheGateway;
     private final AccountGateway accountGateway;
+    private final GetAccountByIdUseCase getAccountByIdUseCase;
 
     public BillUseCaseConfiguration(
             final BillGateway billGateway,
             final BillCacheGateway billCacheGateway,
-            final AccountGateway accountGateway
-    ) {
+            final AccountGateway accountGateway,
+            final GetAccountByIdUseCase getAccountByIdUseCase) {
         this.billGateway = Objects.requireNonNull(billGateway);
         this.billCacheGateway = Objects.requireNonNull(billCacheGateway);
         this.accountGateway = Objects.requireNonNull(accountGateway);
+        this.getAccountByIdUseCase = Objects.requireNonNull(getAccountByIdUseCase);
     }
 
     @Bean
@@ -49,7 +52,7 @@ public class BillUseCaseConfiguration {
 
     @Bean
     public ListBillByAccountIdUseCase listBillByAccountIdUseCase() {
-        return new DefaultListBillByAccountIdUseCase(billGateway, accountGateway);
+        return new DefaultListBillByAccountIdUseCase(billGateway, billCacheGateway, getAccountByIdUseCase);
     }
 
     @Bean
