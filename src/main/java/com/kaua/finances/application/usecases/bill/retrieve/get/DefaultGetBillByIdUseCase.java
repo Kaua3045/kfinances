@@ -30,8 +30,6 @@ public class DefaultGetBillByIdUseCase implements GetBillByIdUseCase {
 
             return BillOutput.from(aBillDatabase);
         }
-//        final var aBill = this.billGateway.findById(id)
-//                .orElseThrow(() -> NotFoundException.with(Bill.class, id));
 
         return aBillCache.map((bill) -> BillOutput.from(
                 bill.id(),
