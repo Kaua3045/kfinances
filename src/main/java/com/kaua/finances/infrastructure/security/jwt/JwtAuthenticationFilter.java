@@ -55,8 +55,15 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                 return;
             }
 
+            // TODO: mover talvez para um método especifico, privado nessa classe ou talvez usar um usecase pra isso
             final var aAccount = this.accountCacheGateway.findById(accountId)
-                    .orElseGet(() -> AccountOutput.from(this.accountGateway.findById(accountId).get()));
+                    .orElseGet(() -> {
+                        final var accountFindDb = this.accountGateway.findById(accountId).get();
+
+                        this.accountCacheGateway.create(accountFindDb);
+
+                       return AccountOutput.from(accountFindDb);
+                    });
 
             if (jwtGateway.isTokenValid(jwtToken, aAccount.id())) {
                 final var accountAuthenticated = new UsernamePasswordAuthenticationToken(
