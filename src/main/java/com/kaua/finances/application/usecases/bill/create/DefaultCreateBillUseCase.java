@@ -3,14 +3,12 @@ package com.kaua.finances.application.usecases.bill.create;
 import com.kaua.finances.application.either.Either;
 import com.kaua.finances.application.exceptions.DomainException;
 import com.kaua.finances.application.exceptions.NotFoundException;
+import com.kaua.finances.application.usecases.bill.output.CreateBillOutput;
 import com.kaua.finances.domain.account.Account;
 import com.kaua.finances.domain.account.AccountGateway;
 import com.kaua.finances.domain.bills.Bill;
 import com.kaua.finances.domain.bills.BillCacheGateway;
 import com.kaua.finances.domain.bills.BillGateway;
-import com.kaua.finances.application.usecases.bill.output.CreateBillOutput;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.scheduling.concurrent.CustomizableThreadFactory;
 
 import java.util.Objects;
@@ -28,8 +26,6 @@ public class DefaultCreateBillUseCase implements CreateBillUseCase {
     private static final ThreadFactory THREAD_FACTORY = new CustomizableThreadFactory(
             "cache-bill-");
     private static final ExecutorService EXECUTOR = Executors.newFixedThreadPool(4, THREAD_FACTORY);
-
-    private static final Logger logger = LoggerFactory.getLogger(DefaultCreateBillUseCase.class);
 
     public DefaultCreateBillUseCase(
             final BillGateway billGateway,
@@ -58,10 +54,7 @@ public class DefaultCreateBillUseCase implements CreateBillUseCase {
             return Either.left(DomainException.with(aBillValidate));
         }
 
-        CompletableFuture.supplyAsync(() -> {
-            logger.info("Set bill: {} in redis cache", aBill.getId());
-            return this.billCacheGateway.create(aBill);
-        }, EXECUTOR);
+        CompletableFuture.supplyAsync(() -> this.billCacheGateway.create(aBill), EXECUTOR);
 
         return Either.right(CreateBillOutput.from(this.billGateway.create(aBill).getId()));
     }
