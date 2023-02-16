@@ -11,6 +11,6 @@
 - [X] Adicionar alguns LOGS
 - [X] Adicionar o Redis
 - [X] Adicionar Cache para as Account
-- [X] Verificar a performance do método create account (adicionar o sout de tempo antes do insert e depois)
+- [X] Verificar a performance do método create account
 - [X] Adicionar o Sentry ou outro método para monitorar e salvar os errors
 - [ ] Adicionar um output exclusivo na camada de dominio, no momento esta infringindo a regra do clen arch, por a domain layer estar acessando a application layer
