@@ -53,21 +53,11 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
             if (accountId != null && SecurityContextHolder.getContext().getAuthentication() == null) {
 
-                if (this.accountCacheGateway.findById(accountId).isEmpty() && this.accountGateway.findById(accountId).isEmpty()) {
-                    filterChain.doFilter(request, response);
+                final var aAccount = checkAccount(request, response, filterChain, accountId);
+
+                if (aAccount == null) {
                     return;
                 }
-
-                // TODO: esse código precisa de um refactor urgente
-                // TODO: mover talvez para um método especifico, privado nessa classe ou talvez usar um usecase pra isso
-                final var aAccount = this.accountCacheGateway.findById(accountId)
-                        .orElseGet(() -> {
-                            final var accountFindDb = this.accountGateway.findById(accountId).get();
-
-                            this.accountCacheGateway.create(accountFindDb);
-
-                            return AccountOutput.from(accountFindDb);
-                        });
 
                 if (jwtGateway.isTokenValid(jwtToken, aAccount.id())) {
                     final var accountAuthenticated = new UsernamePasswordAuthenticationToken(
@@ -88,5 +78,26 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             response.setStatus(HttpStatus.FORBIDDEN.value());
             return;
         }
+    }
+
+    private AccountOutput checkAccount(
+            final HttpServletRequest request,
+            final HttpServletResponse response,
+            final FilterChain filterChain,
+            final String accountId
+    ) throws ServletException, IOException {
+        if (this.accountCacheGateway.findById(accountId).isEmpty() && this.accountGateway.findById(accountId).isEmpty()) {
+            filterChain.doFilter(request, response);
+            return null;
+        }
+
+        return this.accountCacheGateway.findById(accountId)
+                .orElseGet(() -> {
+                    final var accountFindDb = this.accountGateway.findById(accountId).get();
+
+                    this.accountCacheGateway.create(accountFindDb);
+
+                    return AccountOutput.from(accountFindDb);
+                });
     }
 }
