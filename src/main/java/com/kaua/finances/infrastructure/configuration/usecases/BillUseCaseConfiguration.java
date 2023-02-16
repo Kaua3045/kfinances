@@ -13,6 +13,7 @@ import com.kaua.finances.application.usecases.bill.update.DefaultUpdatePendingBi
 import com.kaua.finances.application.usecases.bill.update.UpdateBillUseCase;
 import com.kaua.finances.application.usecases.bill.update.UpdatePendingBillUseCase;
 import com.kaua.finances.domain.account.AccountGateway;
+import com.kaua.finances.domain.bills.BillCacheGateway;
 import com.kaua.finances.domain.bills.BillGateway;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -23,21 +24,27 @@ import java.util.Objects;
 public class BillUseCaseConfiguration {
 
     private final BillGateway billGateway;
+    private final BillCacheGateway billCacheGateway;
     private final AccountGateway accountGateway;
 
-    public BillUseCaseConfiguration(final BillGateway billGateway, final AccountGateway accountGateway) {
+    public BillUseCaseConfiguration(
+            final BillGateway billGateway,
+            final BillCacheGateway billCacheGateway,
+            final AccountGateway accountGateway
+    ) {
         this.billGateway = Objects.requireNonNull(billGateway);
+        this.billCacheGateway = Objects.requireNonNull(billCacheGateway);
         this.accountGateway = Objects.requireNonNull(accountGateway);
     }
 
     @Bean
     public CreateBillUseCase createBillUseCase() {
-        return new DefaultCreateBillUseCase(billGateway, accountGateway);
+        return new DefaultCreateBillUseCase(billGateway, billCacheGateway, accountGateway);
     }
 
     @Bean
     public GetBillByIdUseCase getBillByIdUseCase() {
-        return new DefaultGetBillByIdUseCase(billGateway);
+        return new DefaultGetBillByIdUseCase(billGateway, billCacheGateway);
     }
 
     @Bean
