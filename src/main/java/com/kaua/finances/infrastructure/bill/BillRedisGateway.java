@@ -5,9 +5,11 @@ import com.kaua.finances.domain.bills.Bill;
 import com.kaua.finances.domain.bills.BillCacheGateway;
 import com.kaua.finances.infrastructure.bill.persistence.cache.BillCacheRepository;
 import com.kaua.finances.infrastructure.bill.persistence.cache.BillRedisFactory;
+import org.springframework.stereotype.Component;
 
 import java.util.Optional;
 
+@Component
 public class BillRedisGateway implements BillCacheGateway {
 
     private final BillCacheRepository billCacheRepository;
