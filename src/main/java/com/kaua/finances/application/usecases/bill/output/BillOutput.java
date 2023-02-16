@@ -23,4 +23,22 @@ public record BillOutput(
                 aBill.getAccountId().getId()
         );
     }
+
+    public static BillOutput from(
+            final String id,
+            final String title,
+            final String description,
+            final boolean pending,
+            final Instant finishedDate,
+            final String accountId
+    ) {
+        return new BillOutput(
+                id,
+                title,
+                description,
+                pending,
+                finishedDate,
+                accountId
+        );
+    }
 }
