@@ -7,8 +7,6 @@ import com.kaua.finances.application.usecases.account.output.CreateAccountOutput
 import com.kaua.finances.domain.account.Account;
 import com.kaua.finances.domain.account.AccountCacheGateway;
 import com.kaua.finances.domain.account.AccountGateway;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.scheduling.concurrent.CustomizableThreadFactory;
 
 import java.util.Objects;
@@ -21,8 +19,6 @@ public class DefaultCreateAccountUseCase implements CreateAccountUseCase {
 
     private final AccountGateway accountGateway;
     private final AccountCacheGateway accountCacheGateway;
-
-    private final Logger logger = LoggerFactory.getLogger(DefaultCreateAccountUseCase.class);
 
     private static final ThreadFactory THREAD_FACTORY = new CustomizableThreadFactory(
             "cache-account-");
@@ -46,10 +42,7 @@ public class DefaultCreateAccountUseCase implements CreateAccountUseCase {
             return Either.left(DomainException.with(aAccountValidated));
         }
 
-        CompletableFuture.supplyAsync(() -> {
-            logger.info("CompletableFuture set account: {} in redis cache", aAccount.getId());
-            return this.accountCacheGateway.create(aAccount);
-        }, EXECUTORS);
+        CompletableFuture.supplyAsync(() -> this.accountCacheGateway.create(aAccount), EXECUTORS);
 
         this.accountGateway.create(aAccount);
 
