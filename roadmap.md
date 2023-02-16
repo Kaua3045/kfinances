@@ -13,3 +13,4 @@
 - [X] Adicionar Cache para as Account (vai ter também uma forma de saber quando foi a ultima vez que solicitaram essa conta, para dai poder remover do cache)
 - [X] Verificar a performance do método create account (adicionar o sout de tempo antes do insert e depois)
 - [X] Adicionar o Sentry ou outro método para monitorar e salvar os errors
+- [ ] Adicionar um output exclusivo na camada de dominio, no momento esta infringindo a regra do clen arch, por a domain layer estar acessando a application layer
