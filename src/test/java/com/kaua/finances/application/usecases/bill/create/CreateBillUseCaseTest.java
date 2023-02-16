@@ -3,6 +3,7 @@ package com.kaua.finances.application.usecases.bill.create;
 import com.kaua.finances.application.exceptions.NotFoundException;
 import com.kaua.finances.domain.account.Account;
 import com.kaua.finances.domain.account.AccountGateway;
+import com.kaua.finances.domain.bills.BillCacheGateway;
 import com.kaua.finances.domain.bills.BillGateway;
 import com.kaua.finances.domain.utils.GenerateRandomTextsUtils;
 import org.junit.jupiter.api.Assertions;
@@ -27,6 +28,9 @@ public class CreateBillUseCaseTest {
 
     @Mock
     private BillGateway billGateway;
+
+    @Mock
+    private BillCacheGateway billCacheGateway;
 
     @Mock
     private AccountGateway accountGateway;

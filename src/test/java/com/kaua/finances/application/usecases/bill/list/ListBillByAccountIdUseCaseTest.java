@@ -1,9 +1,12 @@
 package com.kaua.finances.application.usecases.bill.list;
 
+import com.kaua.finances.application.usecases.account.output.AccountOutput;
+import com.kaua.finances.application.usecases.account.retrieve.GetAccountByIdUseCase;
 import com.kaua.finances.application.usecases.bill.retrieve.list.DefaultListBillByAccountIdUseCase;
 import com.kaua.finances.domain.account.Account;
 import com.kaua.finances.domain.account.AccountGateway;
 import com.kaua.finances.domain.bills.Bill;
+import com.kaua.finances.domain.bills.BillCacheGateway;
 import com.kaua.finances.domain.bills.BillGateway;
 import com.kaua.finances.application.usecases.bill.output.BillListOutput;
 import com.kaua.finances.domain.pagination.Pagination;
@@ -31,7 +34,10 @@ public class ListBillByAccountIdUseCaseTest {
     private BillGateway billGateway;
 
     @Mock
-    private AccountGateway accountGateway;
+    private BillCacheGateway billCacheGateway;
+
+    @Mock
+    private GetAccountByIdUseCase accountGateway;
 
     @Test
     public void givenAValidParams_whenCallsListBill_shouldReturnBills() {
@@ -68,8 +74,8 @@ public class ListBillByAccountIdUseCaseTest {
                 expectedDirection
         );
 
-        when(accountGateway.findById(aAccount.getId()))
-                .thenReturn(Optional.of(Account.with(aAccount)));
+        when(accountGateway.execute(aAccount.getId()))
+                .thenReturn(AccountOutput.from(Account.with(aAccount)));
 
         when(billGateway.findAllByAccountId(aAccount.getId(), aQuery))
                 .thenReturn(expectedPagination);
@@ -115,8 +121,8 @@ public class ListBillByAccountIdUseCaseTest {
                 expectedDirection
         );
 
-        when(accountGateway.findById(expectedAccountId))
-                .thenReturn(Optional.of(Account.with(aAccount)));
+        when(accountGateway.execute(expectedAccountId))
+                .thenReturn(AccountOutput.from(Account.with(aAccount)));
 
         when(billGateway.findAllByAccountId(expectedAccountId, aQuery))
                 .thenReturn(expectedPagination);

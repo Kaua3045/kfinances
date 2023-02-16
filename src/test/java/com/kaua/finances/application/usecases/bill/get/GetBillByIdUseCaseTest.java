@@ -4,6 +4,7 @@ import com.kaua.finances.application.exceptions.NotFoundException;
 import com.kaua.finances.application.usecases.bill.retrieve.get.DefaultGetBillByIdUseCase;
 import com.kaua.finances.domain.account.Account;
 import com.kaua.finances.domain.bills.Bill;
+import com.kaua.finances.domain.bills.BillCacheGateway;
 import com.kaua.finances.domain.bills.BillGateway;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -24,6 +25,9 @@ public class GetBillByIdUseCaseTest {
 
     @Mock
     private BillGateway billGateway;
+
+    @Mock
+    private BillCacheGateway billCacheGateway;
 
     @Test
     public void givenAValidId_whenCallsGetById_shouldReturnBill() {

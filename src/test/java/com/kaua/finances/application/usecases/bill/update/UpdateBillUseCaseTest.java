@@ -2,6 +2,7 @@ package com.kaua.finances.application.usecases.bill.update;
 
 import com.kaua.finances.domain.account.Account;
 import com.kaua.finances.domain.bills.Bill;
+import com.kaua.finances.domain.bills.BillCacheGateway;
 import com.kaua.finances.domain.bills.BillGateway;
 import com.kaua.finances.domain.utils.GenerateRandomTextsUtils;
 import org.junit.jupiter.api.Assertions;
@@ -28,6 +29,9 @@ public class UpdateBillUseCaseTest {
 
     @Mock
     private BillGateway billGateway;
+
+    @Mock
+    private BillCacheGateway billCacheGateway;
 
     @Test
     public void givenAValidParams_whenCallsUpdateBill_shouldReturnBillId() {

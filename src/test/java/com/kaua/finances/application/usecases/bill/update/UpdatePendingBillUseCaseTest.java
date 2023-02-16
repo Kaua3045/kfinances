@@ -3,6 +3,7 @@ package com.kaua.finances.application.usecases.bill.update;
 import com.kaua.finances.application.exceptions.NotFoundException;
 import com.kaua.finances.domain.account.Account;
 import com.kaua.finances.domain.bills.Bill;
+import com.kaua.finances.domain.bills.BillCacheGateway;
 import com.kaua.finances.domain.bills.BillGateway;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -26,6 +27,9 @@ public class UpdatePendingBillUseCaseTest {
 
     @Mock
     private BillGateway billGateway;
+
+    @Mock
+    private BillCacheGateway billCacheGateway;
 
     @Test
     public void givenAValidIdAndPendingToDisable_whenCallsUpdatePendingEnable_shouldReturnBillId() {
