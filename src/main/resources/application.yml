@@ -15,6 +15,18 @@ sentry:
   dsn: ${SENTRY_DSN}
   traces-sample-rate: 1.0
 
+management:
+  endpoints:
+    enabled-by-default: false
+    web:
+      exposure:
+        include: health,prometheus
+  endpoint:
+    health:
+      enabled: true
+    prometheus:
+      enabled: true
+
 spring:
   config:
     import: optional:file:.env[.properties]
