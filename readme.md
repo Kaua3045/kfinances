@@ -1,6 +1,20 @@
 # KFinances
 
-Um projeto feito para você anotar as suas despesas, lembra aquela fatura do cartão que você sempre esquece ou acha que não pagou ? simples salve ela no sistema logo após pagar, atualize ela, quando precisar saber se já pagou basta olhar as suas despesas pendente
+## Ferramentas utilizadas
+![Java](https://img.shields.io/badge/java-%23ED8B00.svg?style=for-the-badge&logo=java&logoColor=white)
+![Spring](https://img.shields.io/badge/spring-%236DB33F.svg?style=for-the-badge&logo=spring&logoColor=white)
+![Swagger](https://img.shields.io/badge/-Swagger-%23Clojure?style=for-the-badge&logo=swagger&logoColor=white)
+![Grafana](https://img.shields.io/badge/grafana-%23F46800.svg?style=for-the-badge&logo=grafana&logoColor=white)
+![Prometheus](https://img.shields.io/badge/Prometheus-E6522C?style=for-the-badge&logo=Prometheus&logoColor=white)
+![Gradle](https://img.shields.io/badge/Gradle-02303A.svg?style=for-the-badge&logo=Gradle&logoColor=white)
+![Docker](https://img.shields.io/badge/docker-%230db7ed.svg?style=for-the-badge&logo=docker&logoColor=white)
+![MySQL](https://img.shields.io/badge/mysql-%2300f.svg?style=for-the-badge&logo=mysql&logoColor=white)
+![Redis](https://img.shields.io/badge/redis-%23DD0031.svg?style=for-the-badge&logo=redis&logoColor=white)
+![GitHub Actions](https://img.shields.io/badge/github%20actions-%232671E5.svg?style=for-the-badge&logo=githubactions&logoColor=white)
+
+## Sobre
+
+Um projeto feito para você anotar as suas despesas, lembra aquela fatura do cartão que você sempre esquece ou acha que não pagou? simples salve ela no sistema logo após pagar, atualize ela, quando precisar saber se já pagou basta olhar as suas despesas pendente
 
 - Porquê decidiu fazer esse projeto?
   - Para aplicar o que eu estudava, aprender novas coisas e aplicar elas também em um projeto prático
@@ -18,6 +32,7 @@ Um projeto feito para você anotar as suas despesas, lembra aquela fatura do car
 - [Instruções para executar o projeto](#instruções-para-executar-o-projeto)
 - [Contribua com o projeto](#contribuindo-com-o-projeto)
 - [Changelog](#changelog)
+
 ## Arquitetura
 
 ![Circulo da clean architecture](doc/imagens/clean-arch-circle)
@@ -62,10 +77,10 @@ git clone https://github.com/Kaua3045/kfinances.git cd kfinances
 ```bash
 # Cria a imagem da aplicação e sobe os containers
 docker-compose up --build -d
-
-# Para acessar a aplicação entre na url localhost:8080
-# Para acessar o grafana entre na url localhost:3333
 ```
+
+3. Para acessar a api, basta usar a url: *localhost:8080/api*
+4. Para acessar o grafana com as métricas, basta usar a url: *localhost:3333*
 
 ## Contribuindo com o projeto
 
@@ -74,15 +89,3 @@ Para contribuir com o projeto, veja mais informações em [CONTRIBUTING](doc/CON
 ## Changelog
 
 Para ver as últimas alterações do projeto, acesse [AQUI](doc/changelog.md)
-
-## Ferramentas utilizadas
-![Java](https://img.shields.io/badge/java-%23ED8B00.svg?style=for-the-badge&logo=java&logoColor=white)
-![Spring](https://img.shields.io/badge/spring-%236DB33F.svg?style=for-the-badge&logo=spring&logoColor=white)
-![Swagger](https://img.shields.io/badge/-Swagger-%23Clojure?style=for-the-badge&logo=swagger&logoColor=white)
-![Grafana](https://img.shields.io/badge/grafana-%23F46800.svg?style=for-the-badge&logo=grafana&logoColor=white)
-![Prometheus](https://img.shields.io/badge/Prometheus-E6522C?style=for-the-badge&logo=Prometheus&logoColor=white)
-![Gradle](https://img.shields.io/badge/Gradle-02303A.svg?style=for-the-badge&logo=Gradle&logoColor=white)
-![Docker](https://img.shields.io/badge/docker-%230db7ed.svg?style=for-the-badge&logo=docker&logoColor=white)
-![MySQL](https://img.shields.io/badge/mysql-%2300f.svg?style=for-the-badge&logo=mysql&logoColor=white)
-![Redis](https://img.shields.io/badge/redis-%23DD0031.svg?style=for-the-badge&logo=redis&logoColor=white)
-![GitHub Actions](https://img.shields.io/badge/github%20actions-%232671E5.svg?style=for-the-badge&logo=githubactions&logoColor=white)
