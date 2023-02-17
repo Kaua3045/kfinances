@@ -119,6 +119,30 @@ public class AccountMySQLGatewayTest {
     }
 
     @Test
+    public void givenAValidEmail_whenCallsGetByEmail_shouldReturnAccount() {
+        final var expectedName = "kauã";
+        final var expectedEmail = "kaua@mail.com";
+        final var expectedPassword = "123456789";
+
+        final var aAccount = Account.newAccount(expectedName, expectedEmail, expectedPassword);
+
+        Assertions.assertEquals(0, accountRepository.count());
+
+        accountRepository.saveAndFlush(AccountJpaFactory.from(aAccount));
+
+        Assertions.assertEquals(1, accountRepository.count());
+
+        final var actualAccount = accountGateway.findByEmail(aAccount.getEmail()).get();
+
+        Assertions.assertEquals(aAccount.getId(), actualAccount.getId());
+        Assertions.assertEquals(expectedName, actualAccount.getName());
+        Assertions.assertEquals(expectedEmail, actualAccount.getEmail());
+        Assertions.assertEquals(expectedPassword, actualAccount.getPassword());
+        Assertions.assertEquals(aAccount.getCreatedAt(), actualAccount.getCreatedAt());
+        Assertions.assertEquals(aAccount.getUpdatedAt(), actualAccount.getUpdatedAt());
+    }
+
+    @Test
     public void givenAValidId_whenCallsDeleteById_shouldBeOk() {
         final var aAccount = Account.newAccount("kauã", "kaua@mail.com", "12345678");
 
