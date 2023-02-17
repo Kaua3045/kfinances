@@ -3,16 +3,13 @@
 Um projeto feito para você anotar as suas despesas, lembra aquela fatura do cartão que você sempre esquece ou acha que não pagou ? simples salve ela no sistema e logo após pagar, atualize ela, quando precisar saber se já pagou basta olhar as suas despesas pendente
 
 - Porquê decidiu fazer esse projeto?
-<br>
-Para aplicar o que eu estudava, aprender novas coisas e aplicar elas também em um projeto prático
+  - Para aplicar o que eu estudava, aprender novas coisas e aplicar elas também em um projeto prático
 
 - Quais foram os desafios de implementá-lo?
-<br>
-Seguir um padrão de testes, configurar o spring security e otimizar o hibernate / spring data jpa
+  - Seguir um padrão de testes, configurar o spring security e otimizar o hibernate / spring data jpa
 
 - O que eu aprendi com ele?
-<br>
-Padrões de teste, como configurar e executar os testes com perfil especifíco, otimizar o hibernate, métricas com micrometer e prometheus, spring security e tratar os erros lançado e cache com spring data
+  - Padrões de teste, como configurar e executar os testes com perfil especifíco, otimizar o hibernate, métricas com micrometer e prometheus, spring security e tratar os erros lançado e cache com spring data
 
 ## Tabela de conteúdos
 
