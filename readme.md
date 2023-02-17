@@ -1,6 +1,6 @@
 # KFinances
 
-Um projeto feito para você anotar as suas despesas, lembra aquela fatura do cartão que você sempre esquece ou acha que não pagou ? simples salve ela no sistema e logo após pagar, atualize ela, quando precisar saber se já pagou basta olhar as suas despesas pendente
+Um projeto feito para você anotar as suas despesas, lembra aquela fatura do cartão que você sempre esquece ou acha que não pagou ? simples salve ela no sistema logo após pagar, atualize ela, quando precisar saber se já pagou basta olhar as suas despesas pendente
 
 - Porquê decidiu fazer esse projeto?
   - Para aplicar o que eu estudava, aprender novas coisas e aplicar elas também em um projeto prático

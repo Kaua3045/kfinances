@@ -14,3 +14,4 @@
 - [X] Verificar a performance do método create account
 - [X] Adicionar o Sentry ou outro método para monitorar e salvar os errors
 - [ ] Adicionar um output exclusivo na camada de dominio, no momento esta infringindo a regra do clen arch, por a domain layer estar acessando a application layer ou então só mudar o retorno para account e adicionar o retorno do createdat e updatedat
+- [ ] Revisar a arquitetura toda, algumas coias estão errada
