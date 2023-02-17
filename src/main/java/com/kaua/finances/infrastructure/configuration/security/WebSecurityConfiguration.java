@@ -42,7 +42,7 @@ public class WebSecurityConfiguration {
                 .csrf()
                 .disable()
                 .authorizeHttpRequests()
-                .requestMatchers("/auth", "/accounts", "/error", "/swagger-ui/**", "/v3/api-docs/**")
+                .requestMatchers("/auth", "/accounts", "/error", "/swagger-ui/**", "/v3/api-docs/**", "/actuator/**")
                 .permitAll()
                 .anyRequest()
                 .authenticated()
