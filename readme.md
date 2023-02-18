@@ -77,6 +77,9 @@ git clone https://github.com/Kaua3045/kfinances.git cd kfinances
 
 # Baixando as dependências
 ./gradlew --refresh-dependencies  
+
+# Gerando o .jar da aplicação
+./gradlew build
 ```
 
 2. Suba o container da aplicação e suas dependências:
