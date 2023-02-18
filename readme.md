@@ -29,6 +29,7 @@ Um projeto feito para você anotar as suas despesas, lembra aquela fatura do car
 
 - [Arquitetura](#arquitetura)
 - [Features](#features)
+- [Requsitos para rodar o projeto](#requisitos)
 - [Instruções para executar o projeto](#instruções-para-executar-o-projeto)
 - [Contribua com o projeto](#contribuindo-com-o-projeto)
 - [Changelog](#changelog)
@@ -61,6 +62,11 @@ Principais rotas e features do sistema
 
 3. Criar uma despesa para a sua conta:
 ![Criar uma despesa feature 3](doc/imagens/create-bill-route.png)
+
+## Requisitos para rodar o projeto
+
+1. Docker e docker-compose
+2. Java e JDK 19 (caso não queira rodar atráves de containers)
 
 ## Instruções para executar o projeto
 
