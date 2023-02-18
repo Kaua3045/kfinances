@@ -1,4 +1,3 @@
-# 0.9.8
-- Versão estável, sem o docker funcional
-  - CRUD de account
-  - CRUD de bill
+# 1.0.0
+- Versão estável
+  - Aplicação conteinerizada
