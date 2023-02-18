@@ -82,14 +82,16 @@ git clone https://github.com/Kaua3045/kfinances.git cd kfinances
 ./gradlew build
 ```
 
-2. Suba o container da aplicação e suas dependências:
+2. Antes de executar o container, você precisa configurar o arquivo .env.example, depois renomeie ele para .env
+
+3. Suba o container da aplicação e suas dependências:
 ```bash
 # Cria a imagem da aplicação e sobe os containers
 docker-compose up --build -d
 ```
 
-3. Para acessar a api, basta usar a url: *localhost:8080/api*
-4. Para acessar o grafana com as métricas, basta usar a url: *localhost:3333*
+4. Para acessar a api, basta usar a url: *localhost:8080/api*
+5. Para acessar o grafana com as métricas, basta usar a url: *localhost:3333*
 
 ## Contribuindo com o projeto
 
