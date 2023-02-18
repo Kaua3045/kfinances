@@ -38,5 +38,3 @@ out/
 
 ### My Files ###
 .env
-/config
-docker-compose-metrics.yml

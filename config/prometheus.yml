@@ -1,0 +1,9 @@
+global:
+  scrape_interval: 15s
+  evaluation_interval: 15s
+
+scrape_configs:
+  - job_name: kaua_finances_api
+    metrics_path: "/api/actuator/prometheus"
+    static_configs:
+      - targets: ["kaua_finances_api:8080"]

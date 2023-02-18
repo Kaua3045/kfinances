@@ -1,6 +1,30 @@
 version: '3.7'
 
 services:
+  api:
+    container_name: kaua_finances_api
+    build: .
+    env_file:
+      - .env
+    environment:
+      - SENTRY_DSN=${SENTRY_DSN}
+      - JWT_KEY=${JWT_KEY}
+      - JWT_EXPIRE_TIME=${JWT_EXPIRE_TIME}
+      - REDIS_HOST=${REDIS_HOST}
+      - REDIS_PORT=${REDIS_PORT}
+      - MYSQL_URL=${MYSQL_URL}
+      - MYSQL_SCHEMA=${MYSQL_DATABASE}
+      - MYSQL_USERNAME=${MYSQL_USERNAME}
+      - MYSQL_PASSWORD=${MYSQL_PASSWORD}
+      - SPRING_PROFILES_ACTIVE=${SPRING_PROFILE_ACTIVE}
+    ports:
+      - 8080:8080
+    networks:
+      - kaua_finances_network
+    depends_on:
+      - mysql
+      - redis
+
   mysql:
     container_name: kaua_finances_mysql
     image: mysql:latest
@@ -19,6 +43,30 @@ services:
     image: redis:alpine
     ports:
       - 6379:6379
+    networks:
+      - kaua_finances_network
+
+  prometheus:
+    container_name: kaua_finances_prometheus
+    image: prom/prometheus
+    volumes:
+      - ./config/prometheus.yml:/etc/prometheus/prometheus.yml
+    ports:
+      - 9090:9090
+    networks:
+      - kaua_finances_network
+
+  grafana:
+    container_name: kaua_finances_grafana
+    image: grafana/grafana
+    environment:
+      - GF_AUTH_ANONYMOUS_ORG_ROLE=Admin
+      - GF_AUTH_ANONYMOUS_ENABLED=true
+      - GF_AUTH_BASIC_ENABLED=false
+    volumes:
+      - ./config/grafana-datasource.yaml:/etc/grafana/provisioning/datasources/datasource.yaml
+    ports:
+      - 3333:3000
     networks:
       - kaua_finances_network
 
