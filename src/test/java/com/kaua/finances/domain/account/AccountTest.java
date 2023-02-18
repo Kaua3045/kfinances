@@ -3,8 +3,6 @@ package com.kaua.finances.domain.account;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
-import java.util.List;
-
 public class AccountTest {
 
     @Test
@@ -20,26 +18,6 @@ public class AccountTest {
         Assertions.assertEquals(expectedName, aAccount.getName());
         Assertions.assertEquals(expectedEmail, aAccount.getEmail());
         Assertions.assertEquals(expectedPassword, aAccount.getPassword());
-        Assertions.assertNotNull(aAccount.getCreatedAt());
-        Assertions.assertNotNull(aAccount.getUpdatedAt());
-    }
-
-    @Test
-    public void givenAValidParams_whenCallsNewAccountWithBills_thenInstantiateAccount() {
-        final var expectedName = "kaua";
-        final var expectedEmail = "kaua@mail.com";
-        final var expectedPassword = "123";
-        final var expectedBills = List.of("456", "789");
-
-        final var aAccount = Account.newAccount(expectedName, expectedEmail, expectedPassword)
-                .addBills(expectedBills);
-
-        Assertions.assertNotNull(aAccount);
-        Assertions.assertNotNull(aAccount.getId());
-        Assertions.assertEquals(expectedName, aAccount.getName());
-        Assertions.assertEquals(expectedEmail, aAccount.getEmail());
-        Assertions.assertEquals(expectedPassword, aAccount.getPassword());
-        Assertions.assertEquals(expectedBills, aAccount.getBills());
         Assertions.assertNotNull(aAccount.getCreatedAt());
         Assertions.assertNotNull(aAccount.getUpdatedAt());
     }
@@ -70,7 +48,6 @@ public class AccountTest {
         final var expectedName = "Kauã";
         final var expectedEmail = "kaua@mail.com";
         final var expectedPassword = "123";
-        final var expectedBills = List.<String>of();
 
         final var aAccount = Account.newAccount("kau", expectedEmail, "456");
 
@@ -78,7 +55,7 @@ public class AccountTest {
 
         final var aAccountUpdatedAt = aAccount.getUpdatedAt();
 
-        final var actualAccount = aAccount.update(expectedName, expectedPassword, expectedBills);
+        final var actualAccount = aAccount.update(expectedName, expectedPassword);
 
         Assertions.assertDoesNotThrow(actualAccount::validate);
 
@@ -86,33 +63,6 @@ public class AccountTest {
         Assertions.assertEquals(expectedName, actualAccount.getName());
         Assertions.assertEquals(expectedEmail, actualAccount.getEmail());
         Assertions.assertEquals(expectedPassword, actualAccount.getPassword());
-        Assertions.assertEquals(expectedBills, actualAccount.getBills());
-        Assertions.assertEquals(aAccount.getCreatedAt(), actualAccount.getCreatedAt());
-        Assertions.assertTrue(actualAccount.getUpdatedAt().isAfter(aAccountUpdatedAt));
-    }
-
-    @Test
-    public void givenAnValidAccount_whenCallsUpdateWithBills_thenReturnAccountUpdated() {
-        final var expectedName = "Kauã";
-        final var expectedEmail = "kaua@mail.com";
-        final var expectedPassword = "123";
-        final var expectedBills = List.of("456", "789");
-
-        final var aAccount = Account.newAccount("kau", expectedEmail, "456");
-
-        Assertions.assertDoesNotThrow(aAccount::validate);
-
-        final var aAccountUpdatedAt = aAccount.getUpdatedAt();
-
-        final var actualAccount = aAccount.update(expectedName, expectedPassword, expectedBills);
-
-        Assertions.assertDoesNotThrow(actualAccount::validate);
-
-        Assertions.assertEquals(aAccount.getId(), actualAccount.getId());
-        Assertions.assertEquals(expectedName, actualAccount.getName());
-        Assertions.assertEquals(expectedEmail, actualAccount.getEmail());
-        Assertions.assertEquals(expectedPassword, actualAccount.getPassword());
-        Assertions.assertEquals(expectedBills, actualAccount.getBills());
         Assertions.assertEquals(aAccount.getCreatedAt(), actualAccount.getCreatedAt());
         Assertions.assertTrue(actualAccount.getUpdatedAt().isAfter(aAccountUpdatedAt));
     }
@@ -122,7 +72,6 @@ public class AccountTest {
         final var expectedName = " ";
         final var expectedEmail = "kaua@mail.com";
         final var expectedPassword = " ";
-        final var expectedBills = List.<String>of();
 
         final var expectedErrorMessageOne = "'name' should not be empty or null";
         final var expectedErrorMessageTwo = "'password' should not be empty or null";
@@ -132,7 +81,7 @@ public class AccountTest {
 
         Assertions.assertDoesNotThrow(aAccount::validate);
 
-        final var actualAccount = aAccount.update(expectedName, expectedPassword, expectedBills);
+        final var actualAccount = aAccount.update(expectedName, expectedPassword);
 
         final var actualException = actualAccount.validate();
 

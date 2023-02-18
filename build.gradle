@@ -1,7 +1,19 @@
+buildscript {
+	repositories {
+		mavenCentral()
+	}
+
+	dependencies {
+		classpath 'org.flywaydb:flyway-mysql:9.8.3'
+	}
+}
+
 plugins {
 	id 'java'
 	id 'org.springframework.boot' version '3.0.2'
 	id 'io.spring.dependency-management' version '1.1.0'
+	id 'org.flywaydb.flyway' version '9.8.1'
+	id 'jacoco-report-aggregation'
 }
 
 group = 'com.kaua.finances'
@@ -14,16 +26,62 @@ repositories {
 
 dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+	implementation 'org.springframework.boot:spring-boot-starter-data-redis'
 	implementation 'org.springframework.boot:spring-boot-starter-security'
-	implementation 'org.springframework.boot:spring-boot-starter-web'
 
-	runtimeOnly 'com.mysql:mysql-connector-j'
+	implementation('org.springframework.boot:spring-boot-starter-web') {
+		exclude module: 'spring-boot-starter-tomcat'
+	}
+	implementation('org.springframework.boot:spring-boot-starter-undertow:3.0.2')
 
-	testImplementation 'com.h2database:h2'
+	implementation('org.springframework.boot:spring-boot-starter-validation')
+
+	implementation 'org.springframework.boot:spring-boot-starter-actuator'
+	implementation 'io.micrometer:micrometer-registry-prometheus:latest.release'
+
+	implementation("org.springdoc:springdoc-openapi-starter-webmvc-api:2.0.2")
+	implementation("org.springdoc:springdoc-openapi-starter-webmvc-ui:2.0.2")
+
+	implementation 'io.sentry:sentry-spring-boot-starter:6.14.0'
+	implementation 'io.sentry:sentry-spring-boot-starter-jakarta:6.14.0'
+
+	implementation 'mysql:mysql-connector-java'
+	implementation 'redis.clients:jedis'
+	implementation 'org.slf4j:slf4j-api:2.0.6'
+
+	implementation("io.jsonwebtoken:jjwt-api:0.11.5")
+	implementation("io.jsonwebtoken:jjwt-impl:0.11.5")
+	implementation("io.jsonwebtoken:jjwt-jackson:0.11.5")
+
+	implementation('org.flywaydb:flyway-core')
+	implementation('org.flywaydb:flyway-mysql')
+
+	testRuntimeOnly 'com.h2database:h2'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 	testImplementation 'org.springframework.security:spring-security-test'
 }
 
+flyway {
+	url = System.getenv('FLYWAY_DB') ?: 'jdbc:mysql://localhost:3306/kaua_finances'
+	user = System.getenv('FLYWAY_USER') ?: 'root'
+	password = System.getenv('FLYWAY_PASS') ?: '123456'
+	cleanDisabled = false
+}
+
+testCodeCoverageReport {
+	reports {
+		xml.required = true
+		xml.outputLocation = file("$rootDir/build/reports/jacoco/test/jacocoTestReport.xml")
+
+		html.required = true
+		html.outputLocation = file("$rootDir/build/reports/jacoco/test/")
+	}
+}
+
 tasks.named('test') {
 	useJUnitPlatform()
+}
+
+tasks.named("jacocoTestReport") {
+	dependsOn tasks.named("testCodeCoverageReport", JacocoReport)
 }

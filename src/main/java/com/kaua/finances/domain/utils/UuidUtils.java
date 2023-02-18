@@ -7,6 +7,6 @@ public final class UuidUtils {
     private UuidUtils() {}
 
     public static String unique() {
-        return UUID.randomUUID().toString().toLowerCase().replace("-", "");
+        return UUID.randomUUID().toString().toLowerCase();
     }
 }
